@@ -1,0 +1,17 @@
+{
+  "id": 18,
+  "title": "H3 Compact Resolution",
+  "diff": "Hard",
+  "topic": "H3 Grid",
+  "tags": [
+    "h3_compact_cells",
+    "H3"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>H3 Compact Resolution</strong> is coming soon.</p><p>This problem will cover <code>h3_compact_cells, H3</code> in the <strong>H3 Grid</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

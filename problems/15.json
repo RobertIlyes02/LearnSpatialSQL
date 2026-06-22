@@ -1,0 +1,17 @@
+{
+  "id": 15,
+  "title": "GeoJSON to Parquet",
+  "diff": "Easy",
+  "topic": "I/O",
+  "tags": [
+    "ST_Read",
+    "COPY TO"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>GeoJSON to Parquet</strong> is coming soon.</p><p>This problem will cover <code>ST_Read, COPY TO</code> in the <strong>I/O</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

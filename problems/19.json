@@ -1,0 +1,17 @@
+{
+  "id": 19,
+  "title": "Spatial Window Function",
+  "diff": "Hard",
+  "topic": "Analytics",
+  "tags": [
+    "PARTITION BY",
+    "ST_Within"
+  ],
+  "premium": true,
+  "description": "<p>Full problem statement for <strong>Spatial Window Function</strong> is coming soon.</p><p>This problem will cover <code>PARTITION BY, ST_Within</code> in the <strong>Analytics</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

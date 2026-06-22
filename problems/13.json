@@ -1,0 +1,17 @@
+{
+  "id": 13,
+  "title": "Snap Points to Line",
+  "diff": "Medium",
+  "topic": "Snapping",
+  "tags": [
+    "ST_ClosestPoint",
+    "ST_Line"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>Snap Points to Line</strong> is coming soon.</p><p>This problem will cover <code>ST_ClosestPoint, ST_Line</code> in the <strong>Snapping</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

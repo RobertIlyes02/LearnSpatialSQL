@@ -1,0 +1,16 @@
+{
+  "id": 11,
+  "title": "Voronoi Tessellation",
+  "diff": "Hard",
+  "topic": "Geometry",
+  "tags": [
+    "ST_VoronoiPolygons"
+  ],
+  "premium": true,
+  "description": "<p>Full problem statement for <strong>Voronoi Tessellation</strong> is coming soon.</p><p>This problem will cover <code>ST_VoronoiPolygons</code> in the <strong>Geometry</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

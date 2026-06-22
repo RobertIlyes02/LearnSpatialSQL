@@ -1,0 +1,17 @@
+{
+  "id": 16,
+  "title": "Simplify Dense Geometry",
+  "diff": "Medium",
+  "topic": "Geometry",
+  "tags": [
+    "ST_Simplify",
+    "tolerance"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>Simplify Dense Geometry</strong> is coming soon.</p><p>This problem will cover <code>ST_Simplify, tolerance</code> in the <strong>Geometry</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoSQL — Geospatial DuckDB Challenges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- WASM LOADING OVERLAY -->
+<div class="wasm-loading" id="wasm-overlay">
+  <div style="font-size:2rem">🌐</div>
+  <div class="wasm-title">Initializing DuckDB WASM…</div>
+  <div class="wasm-bar-wrap"><div class="wasm-bar" id="wasm-bar"></div></div>
+  <div class="wasm-sub" id="wasm-status">Loading runtime…</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" id="logo-home">
+    <div class="logo-icon">🌐</div>
+    Geo<em>SQL</em>
+  </div>
+  <div id="nav-center"></div>
+  <div class="nav-links">
+    <a href="#/problems">Problems</a>
+    <a href="#">Discuss</a>
+    <a href="#">Leaderboard</a>
+    <div id="nav-auth-slot"></div>
+  </div>
+</nav>
+
+<!-- ═══════════════ SCREEN: HOME ═══════════════ -->
+<div id="screen-home" class="screen active">
+
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow"><span class="pulse-dot"></span> Now in Beta · DuckDB WASM</div>
+      <h1>Master <em>Geospatial</em> Queries with DuckDB</h1>
+      <p>Level up your spatial SQL skills through curated challenges — from point-in-polygon lookups to H3 hexagonal aggregations and spatial joins at scale.</p>
+      <div class="hero-actions">
+        <a href="#problems" class="btn-primary">Browse Problems</a>
+        <a href="https://duckdb.org/docs/extensions/spatial/overview" target="_blank" class="btn-ghost">Learn DuckDB Spatial →</a>
+      </div>
+    </div>
+    <div class="hero-code">
+      <div class="code-header">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span class="code-label">solution.sql</span>
+      </div>
+      <div class="code-body"><span class="cm">-- #2 · Nearest Neighbor Search</span>
+<span class="kw">SELECT</span>
+  s.name,
+  <span class="fn">ST_Distance</span>(
+    <span class="fn">ST_Point</span>(u.lng, u.lat),
+    s.geom
+  ) / <span class="nm">1000</span> <span class="kw">AS</span> dist_km
+<span class="kw">FROM</span>   users u
+<span class="kw">JOIN</span>   shops s <span class="kw">ON TRUE</span>
+<span class="kw">WHERE</span>  u.id = <span class="nm">1</span>
+<span class="kw">ORDER</span> <span class="kw">BY</span> dist_km
+<span class="kw">LIMIT</span>  <span class="nm">5</span>;</div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat"><span class="stat-value" id="stat-total">—</span><span class="stat-label">Problems</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-value" id="stat-solved">0</span><span class="stat-label">Solved by You</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-value" id="stat-topics">—</span><span class="stat-label">Topic Areas</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-value">DuckDB WASM</span><span class="stat-label">Runtime</span></div>
+    </div>
+  </div>
+
+  <main class="main" id="problems">
+    <div class="filters">
+      <input class="filter-search" id="search-input" type="text" placeholder="Search problems…">
+      <button class="filter-btn active" data-diff="all">All</button>
+      <button class="filter-btn diff-easy" data-diff="Easy">Easy</button>
+      <button class="filter-btn diff-med" data-diff="Medium">Medium</button>
+      <button class="filter-btn diff-hard" data-diff="Hard">Hard</button>
+      <div class="spacer"></div>
+      <div class="solved-counter"><span id="solved-count">0</span> / <span id="total-count">—</span> Solved</div>
+    </div>
+    <div class="table-wrap">
+      <table id="problem-table">
+        <thead>
+          <tr>
+            <th class="td-status"></th>
+            <th class="td-id">#</th>
+            <th>Title</th>
+            <th class="td-diff">Difficulty</th>
+            <th class="td-topic">Topic</th>
+            <th class="td-premium">Lock</th>
+          </tr>
+        </thead>
+        <tbody id="problem-body"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="page-btn">‹</button>
+      <button class="page-btn current">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">…</button>
+      <button class="page-btn">›</button>
+    </div>
+  </main>
+
+  <footer>Built for spatial data engineers · Powered by <a href="https://duckdb.org/docs/api/wasm/overview" target="_blank">DuckDB WASM</a> · © 2025 GeoSQL</footer>
+</div>
+
+<!-- ═══════════════ SCREEN: PROBLEM DETAIL ═══════════════ -->
+<div id="screen-problem" class="screen">
+  <div class="problem-layout">
+
+    <!-- LEFT: description -->
+    <div class="prob-desc">
+      <div class="prob-desc-tabs">
+        <div class="desc-tab active" data-panel="tab-desc">Description</div>
+        <div class="desc-tab" data-panel="tab-schema">Schema</div>
+        <div class="desc-tab" data-panel="tab-hints">Hints</div>
+      </div>
+
+      <div id="tab-desc" class="desc-panel active">
+        <div class="prob-title-row">
+          <h2 id="prob-title">—</h2>
+          <span id="prob-diff-badge" class="diff-badge">—</span>
+        </div>
+        <div class="prob-meta">
+          <span class="prob-stat">Topic: <strong id="prob-topic">—</strong></span>
+        </div>
+        <div class="prob-body" id="prob-description"></div>
+      </div>
+
+      <div id="tab-schema" class="desc-panel">
+        <div class="prob-body" id="prob-schema"></div>
+      </div>
+
+      <div id="tab-hints" class="desc-panel">
+        <div class="prob-body" id="prob-hints"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: editor + results -->
+    <div class="prob-editor">
+      <div class="editor-topbar">
+        <div class="editor-lang">🦆 DuckDB SQL</div>
+        <div class="editor-spacer"></div>
+        <button class="run-btn" id="run-btn"><span>▶</span> Run</button>
+        <button class="submit-btn" id="submit-btn">✓ Submit</button>
+      </div>
+
+      <div class="editor-area" id="editor-mount"></div>
+
+      <div class="results-panel">
+        <div class="results-tabs">
+          <div class="results-tab active" data-panel="res-output">Output</div>
+          <div class="results-tab" data-panel="res-expected">Expected</div>
+          <div class="results-tab" data-panel="res-console">Console</div>
+        </div>
+        <div class="results-body">
+          <div id="res-output"><p class="results-placeholder">Run your query to see results here.</p></div>
+          <div id="res-expected" style="display:none"></div>
+          <div id="res-console" style="display:none"><p class="results-placeholder">No console output.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════ AUTH MODAL ═══════════════ -->
+<div id="auth-modal-overlay" style="display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+  <div class="auth-modal">
+    <button class="auth-close" id="auth-close-btn" aria-label="Close">✕</button>
+    <div class="auth-logo">🌐</div>
+    <h2 class="auth-title" id="auth-modal-title">Sign in</h2>
+    <p class="auth-sub">Track your progress across devices</p>
+
+    <div class="auth-oauth">
+      <button class="auth-oauth-btn" id="auth-github-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        Continue with GitHub
+      </button>
+      <button class="auth-oauth-btn" id="auth-google-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <div class="auth-divider"><span>or</span></div>
+
+    <form class="auth-form" id="auth-modal-form" data-mode="signin">
+      <input class="auth-input" id="auth-email"    type="email"    placeholder="Email address" required autocomplete="email">
+      <input class="auth-input" id="auth-password" type="password" placeholder="Password"      required autocomplete="current-password" minlength="6">
+      <div class="auth-error" id="auth-error"></div>
+      <button class="auth-submit" id="auth-submit-btn" type="submit">Sign in</button>
+    </form>
+
+    <p class="auth-switch" id="auth-switch-text">
+      No account? <a href="#" id="auth-switch-link">Create one</a>
+    </p>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

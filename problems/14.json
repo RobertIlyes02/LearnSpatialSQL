@@ -1,0 +1,17 @@
+{
+  "id": 14,
+  "title": "Area Weighted Average",
+  "diff": "Hard",
+  "topic": "Measurement",
+  "tags": [
+    "ST_Area",
+    "ST_Intersection"
+  ],
+  "premium": true,
+  "description": "<p>Full problem statement for <strong>Area Weighted Average</strong> is coming soon.</p><p>This problem will cover <code>ST_Area, ST_Intersection</code> in the <strong>Measurement</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}
