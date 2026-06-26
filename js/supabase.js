@@ -46,8 +46,14 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // ─── PASTE YOUR VALUES HERE ──────────────────────────────────────────────────
+<<<<<<< HEAD
 const SUPABASE_URL      = 'https://nosguilaomfrnuuhdwcd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_TmtiPwRxWSysirtzovWGcA_dvNX8Zho';
+// ─────────────────────────────────────────────────────────────────────────────
+=======
+const SUPABASE_URL      = 'https://nosguilaomfrnuuhdwcd.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_TmtiPwRxWSysirtzovWGcA_dvNX8Zho';
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 
 const CONFIGURED = (
   SUPABASE_URL      !== 'PASTE_YOUR_PROJECT_URL_HERE' &&
@@ -172,7 +178,11 @@ export async function loadSolvedFromSupabase() {
  * Record a submission. Called on every Submit click, pass or fail.
  * Silently swallows errors — a failed write shouldn't break the UX.
  */
+<<<<<<< HEAD
+export async function recordSubmission({ problemId, code, passed, runtimeMs }) {
+=======
 export async function recordSubmission({ problemId, code, passed }) {
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   if (!supabase) return;
   const session = await getSession();
   if (!session) return;
@@ -182,7 +192,56 @@ export async function recordSubmission({ problemId, code, passed }) {
     problem_id: problemId,
     code,
     passed,
+<<<<<<< HEAD
+    runtime_ms: runtimeMs ?? null,
+=======
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   });
 
   if (error) console.warn('[GeoSQL] Could not save submission:', error.message);
 }
+<<<<<<< HEAD
+
+/**
+ * Fetch leaderboard for a given problem.
+ * Returns the single fastest passing submission per user, sorted by runtime_ms.
+ * We use a Postgres view defined in Supabase for this — see SQL below.
+ *
+ * Run this once in the Supabase SQL editor to create the view:
+ *
+ *   CREATE VIEW leaderboard AS
+ *   SELECT DISTINCT ON (s.user_id, s.problem_id)
+ *     s.problem_id,
+ *     s.runtime_ms,
+ *     s.submitted_at,
+ *     COALESCE(u.raw_user_meta_data->>'full_name',
+ *              u.raw_user_meta_data->>'user_name',
+ *              u.email) AS display_name,
+ *     u.raw_user_meta_data->>'avatar_url' AS avatar_url
+ *   FROM submissions s
+ *   JOIN auth.users u ON u.id = s.user_id
+ *   WHERE s.passed = true
+ *     AND s.runtime_ms IS NOT NULL
+ *   ORDER BY s.user_id, s.problem_id, s.runtime_ms ASC;
+ *
+ *   -- Let anyone read the leaderboard view
+ *   GRANT SELECT ON leaderboard TO anon, authenticated;
+ */
+export async function fetchLeaderboard(problemId) {
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
+    .from('leaderboard')
+    .select('display_name, avatar_url, runtime_ms, submitted_at')
+    .eq('problem_id', problemId)
+    .order('runtime_ms', { ascending: true })
+    .limit(25);
+
+  if (error) {
+    console.warn('[GeoSQL] Leaderboard fetch error:', error.message);
+    return [];
+  }
+  return data ?? [];
+}
+=======
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
