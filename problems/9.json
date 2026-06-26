@@ -1,5 +1,6 @@
 {
   "id": 9,
+<<<<<<< HEAD
   "title": "Flood Risk Buffer",
   "diff": "Medium",
   "acc": 61,
@@ -18,4 +19,20 @@
     { "property_id": 3, "address": "7 Creek Ave" },
     { "property_id": 4, "address": "88 Lowland Dr" }
   ]
+=======
+  "title": "Count Points in Hexes",
+  "diff": "Medium",
+  "topic": "H3 Grid",
+  "tags": [
+    "H3",
+    "h3_latlng_to_cell"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>Count Points in Hexes</strong> is coming soon.</p><p>This problem will cover <code>H3, h3_latlng_to_cell</code> in the <strong>H3 Grid</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 }

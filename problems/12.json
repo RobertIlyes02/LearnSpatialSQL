@@ -1,5 +1,6 @@
 {
   "id": 12,
+<<<<<<< HEAD
   "title": "Simplify Dense Coastline",
   "diff": "Medium",
   "acc": 58,
@@ -16,4 +17,19 @@
     { "segment_name": "North Coast", "points_before": 6, "points_after": 2 },
     { "segment_name": "South Cove",  "points_before": 5, "points_after": 3 }
   ]
+=======
+  "title": "Cluster DBSCAN Points",
+  "diff": "Hard",
+  "topic": "Clustering",
+  "tags": [
+    "ST_ClusterDBSCAN"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>Cluster DBSCAN Points</strong> is coming soon.</p><p>This problem will cover <code>ST_ClusterDBSCAN</code> in the <strong>Clustering</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 }

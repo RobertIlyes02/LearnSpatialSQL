@@ -16,7 +16,10 @@ import {
   signOut,
   loadSolvedFromSupabase,
   recordSubmission,
+<<<<<<< HEAD
   fetchLeaderboard,
+=======
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 } from './supabase.js';
 
 // ─── CONFIG / GUARDRAILS ────────────────────────────────────────────────────
@@ -30,9 +33,13 @@ const CONFIG = {
   KNOWN_TABLES: [
     'parks', 'incidents', 'users', 'shops', 'airports',
     'zones', 'warehouses', 'routes', 'pings',
+<<<<<<< HEAD
     'zones_old', 'zones_new', 'sightings',
     'flood_zone', 'properties', 'towers',
     'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features'
+=======
+    'zones_old', 'zones_new', 'sightings'
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   ],
 };
 
@@ -233,7 +240,11 @@ async function runQuery(isSubmit) {
     const rowsToRender = truncated ? allRows.slice(0, CONFIG.MAX_RENDERED_ROWS) : allRows;
 
     showOutputTable(rowsToRender, cols, elapsed, allRows.length, truncated);
+<<<<<<< HEAD
     if (isSubmit && p.expected) validateAnswer(allRows, p.expected, parseFloat(elapsed));
+=======
+    if (isSubmit && p.expected) validateAnswer(allRows, p.expected);
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
     else if (isSubmit) showPartialSubmit(allRows);
 
   } catch (e) {
@@ -285,7 +296,11 @@ function showConsole(msg) {
   switchResTab(document.querySelector('.results-tab:nth-child(3)'), 'res-console');
 }
 
+<<<<<<< HEAD
 function validateAnswer(rows, expected, runtimeMs) {
+=======
+function validateAnswer(rows, expected) {
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   const normalize = arr => arr.map(r =>
     Object.fromEntries(Object.entries(r).map(([k, v]) => [k, String(v ?? '')]))
   );
@@ -306,7 +321,11 @@ function validateAnswer(rows, expected, runtimeMs) {
   // Record submission in Supabase (or localStorage fallback)
   const code = cmView ? cmView.state.doc.toString() : '';
   if (SUPABASE_CONFIGURED && currentUser) {
+<<<<<<< HEAD
     recordSubmission({ problemId: currentProblem.id, code, passed: pass, runtimeMs: pass ? runtimeMs : null });
+=======
+    recordSubmission({ problemId: currentProblem.id, code, passed: pass });
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   }
 
   if (pass) {
@@ -362,15 +381,28 @@ async function loadProblemDetail(id) {
 
 // ─── SCREEN NAVIGATION ───────────────────────────────────────────────────────
 function goHome() {
+<<<<<<< HEAD
   document.getElementById('nav-center').innerHTML = '';
   history.pushState({}, '', '#/problems');
   showScreen('screen-home');
+=======
+  document.getElementById('screen-home').classList.add('active');
+  document.getElementById('screen-problem').classList.remove('active');
+  document.getElementById('nav-center').innerHTML = '';
+  history.pushState({}, '', '#/problems');
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   renderTable();
 }
 
 async function openProblem(id) {
+<<<<<<< HEAD
   history.pushState({}, '', `#/problems/${id}`);
   showScreen('screen-problem');
+=======
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-problem').classList.add('active');
+  history.pushState({}, '', `#/problems/${id}`);
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 
   // Loading state in the editor area while we fetch
   document.getElementById('prob-title').textContent = 'Loading…';
@@ -497,6 +529,7 @@ function setDiff(btn, diff) {
 }
 
 // ─── ROUTING (basic hash-based, no framework needed) ────────────────────────
+<<<<<<< HEAD
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -518,6 +551,13 @@ function handleRoute() {
     document.getElementById('nav-center').innerHTML = '';
     showScreen('screen-leaderboard');
     initLeaderboard();
+=======
+function handleRoute() {
+  const hash = location.hash;
+  const match = hash.match(/^#\/problems\/(\d+)$/);
+  if (match) {
+    openProblem(Number(match[1]));
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   } else {
     goHome();
   }
@@ -666,6 +706,7 @@ async function handleOAuth(provider) {
   }
 }
 
+<<<<<<< HEAD
 
 // ─── LEADERBOARD ─────────────────────────────────────────────────────────────
 async function initLeaderboard() {
@@ -745,6 +786,8 @@ async function loadLeaderboard(problemId) {
   `;
 }
 
+=======
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 // ─── BOOT ────────────────────────────────────────────────────────────────────
 (async function boot() {
   wireStaticEvents();

@@ -106,6 +106,7 @@
   },
   {
     "id": 9,
+<<<<<<< HEAD
     "title": "Flood Risk Buffer",
     "diff": "Medium",
     "topic": "Buffering",
@@ -160,11 +161,65 @@
   {
     "id": 13,
     "title": "Snap Points to Road",
+=======
+    "title": "Count Points in Hexes",
+    "diff": "Medium",
+    "topic": "H3 Grid",
+    "icon": "⬡",
+    "tags": [
+      "H3",
+      "h3_latlng_to_cell"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 10,
+    "title": "H3 Ring Aggregation",
+    "diff": "Hard",
+    "topic": "H3 Grid",
+    "icon": "⬡",
+    "tags": [
+      "h3_grid_ring_unsafe",
+      "H3"
+    ],
+    "premium": true,
+    "hasExecution": false
+  },
+  {
+    "id": 11,
+    "title": "Voronoi Tessellation",
+    "diff": "Hard",
+    "topic": "Geometry",
+    "icon": "🔵",
+    "tags": [
+      "ST_VoronoiPolygons"
+    ],
+    "premium": true,
+    "hasExecution": false
+  },
+  {
+    "id": 12,
+    "title": "Cluster DBSCAN Points",
+    "diff": "Hard",
+    "topic": "Clustering",
+    "icon": "🌐",
+    "tags": [
+      "ST_ClusterDBSCAN"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 13,
+    "title": "Snap Points to Line",
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
     "diff": "Medium",
     "topic": "Snapping",
     "icon": "🧲",
     "tags": [
       "ST_ClosestPoint",
+<<<<<<< HEAD
       "ST_X",
       "ST_Y"
     ],
@@ -196,6 +251,38 @@
     ],
     "premium": false,
     "hasExecution": true
+=======
+      "ST_Line"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 14,
+    "title": "Area Weighted Average",
+    "diff": "Hard",
+    "topic": "Measurement",
+    "icon": "📐",
+    "tags": [
+      "ST_Area",
+      "ST_Intersection"
+    ],
+    "premium": true,
+    "hasExecution": false
+  },
+  {
+    "id": 15,
+    "title": "GeoJSON to Parquet",
+    "diff": "Easy",
+    "topic": "I/O",
+    "icon": "💾",
+    "tags": [
+      "ST_Read",
+      "COPY TO"
+    ],
+    "premium": false,
+    "hasExecution": false
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   },
   {
     "id": 16,

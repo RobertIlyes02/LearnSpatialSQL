@@ -599,6 +599,7 @@ footer a { color: var(--cyan); text-decoration: none; }
 }
 .auth-switch a { color: var(--cyan); text-decoration: none; }
 .auth-switch a:hover { text-decoration: underline; }
+<<<<<<< HEAD
 
 /* ─── ACTIVE NAV LINK ─── */
 .nav-link { transition: color 0.2s; }
@@ -756,3 +757,5 @@ footer a { color: var(--cyan); text-decoration: none; }
   .lb-th-date, .lb-td-date { display: none; }
   .page-container { padding: 2rem 1rem 3rem; }
 }
+=======
+>>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
