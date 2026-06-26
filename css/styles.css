@@ -299,6 +299,20 @@ td { padding: 13px 16px; font-size: 0.875rem; vertical-align: middle; }
   border-radius: 8px; font-size: 0.8rem; color: var(--amber);
 }
 .hint-block strong { display: block; margin-bottom: 4px; }
+.fn-refs {
+  margin-top: 1.25rem; padding: 0.85rem 1rem;
+  background: rgba(79,195,247,0.05); border: 1px solid rgba(79,195,247,0.15);
+  border-radius: 8px; font-size: 0.8rem;
+}
+.fn-refs strong { display: block; margin-bottom: 8px; color: var(--cyan); }
+.fn-ref-links { display: flex; flex-wrap: wrap; gap: 6px; }
+.fn-ref-link {
+  display: inline-block; padding: 3px 10px;
+  background: rgba(79,195,247,0.1); border: 1px solid rgba(79,195,247,0.25);
+  border-radius: 5px; color: var(--cyan); text-decoration: none;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; transition: background 0.15s;
+}
+.fn-ref-link:hover { background: rgba(79,195,247,0.2); }
 
 /* RIGHT PANEL — editor */
 .prob-editor {

@@ -37,6 +37,63 @@ const CONFIG = {
   ],
 };
 
+// ─── FUNCTION DOCUMENTATION LINKS ───────────────────────────────────────────
+const SPATIAL = 'https://duckdb.org/docs/current/core_extensions/spatial/functions';
+const SQL     = 'https://duckdb.org/docs/current/sql/query_syntax';
+const NUMERIC = 'https://duckdb.org/docs/current/sql/functions/numeric';
+const WINDOW  = 'https://duckdb.org/docs/current/sql/functions/window_functions';
+const H3_EXT  = 'https://duckdb.org/community_extensions/extensions/h3';
+
+const FUNCTION_DOCS = {
+  // Spatial predicates
+  ST_Within:        { url: `${SPATIAL}#st_within`,        label: 'ST_Within — DuckDB Spatial' },
+  ST_Intersects:    { url: `${SPATIAL}#st_intersects`,    label: 'ST_Intersects — DuckDB Spatial' },
+  ST_Contains:      { url: `${SPATIAL}#st_contains`,      label: 'ST_Contains — DuckDB Spatial' },
+  // Distance
+  ST_Distance:      { url: `${SPATIAL}#st_distance`,      label: 'ST_Distance — DuckDB Spatial' },
+  // Indexing / envelopes
+  ST_Envelope:      { url: `${SPATIAL}#st_envelope`,      label: 'ST_Envelope — DuckDB Spatial' },
+  // Measurement
+  ST_Length:        { url: `${SPATIAL}#st_length`,        label: 'ST_Length — DuckDB Spatial' },
+  ST_Area:          { url: `${SPATIAL}#st_area`,          label: 'ST_Area — DuckDB Spatial' },
+  ST_Boundary:      { url: `${SPATIAL}#st_boundary`,      label: 'ST_Boundary — DuckDB Spatial' },
+  // Geometry construction
+  ST_GeomFromText:  { url: `${SPATIAL}#st_geomfromtext`,  label: 'ST_GeomFromText — DuckDB Spatial' },
+  ST_Point:         { url: `${SPATIAL}#st_point`,         label: 'ST_Point — DuckDB Spatial' },
+  // Aggregation
+  ST_Collect:       { url: `${SPATIAL}#st_collect`,       label: 'ST_Collect — DuckDB Spatial' },
+  ST_ConvexHull:    { url: `${SPATIAL}#st_convexhull`,    label: 'ST_ConvexHull — DuckDB Spatial' },
+  ST_Union:         { url: `${SPATIAL}#st_union`,         label: 'ST_Union — DuckDB Spatial' },
+  ST_NumGeometries: { url: `${SPATIAL}#st_numgeometries`, label: 'ST_NumGeometries — DuckDB Spatial' },
+  // Set operations
+  ST_Difference:    { url: `${SPATIAL}#st_difference`,    label: 'ST_Difference — DuckDB Spatial' },
+  ST_Intersection:  { url: `${SPATIAL}#st_intersection`,  label: 'ST_Intersection — DuckDB Spatial' },
+  // Geometry access
+  ST_X:             { url: `${SPATIAL}#st_x`,             label: 'ST_X — DuckDB Spatial' },
+  ST_Y:             { url: `${SPATIAL}#st_y`,             label: 'ST_Y — DuckDB Spatial' },
+  ST_NPoints:       { url: `${SPATIAL}#st_npoints`,       label: 'ST_NPoints — DuckDB Spatial' },
+  ST_Centroid:      { url: `${SPATIAL}#st_centroid`,      label: 'ST_Centroid — DuckDB Spatial' },
+  // Transformation
+  ST_Buffer:        { url: `${SPATIAL}#st_buffer`,        label: 'ST_Buffer — DuckDB Spatial' },
+  ST_Simplify:      { url: `${SPATIAL}#st_simplify`,      label: 'ST_Simplify — DuckDB Spatial' },
+  ST_ClosestPoint:  { url: `${SPATIAL}#st_closestpoint`,  label: 'ST_ClosestPoint — DuckDB Spatial' },
+  // Data quality
+  ST_IsValid:       { url: `${SPATIAL}#st_isvalid`,       label: 'ST_IsValid — DuckDB Spatial' },
+  ST_IsValidReason: { url: `${SPATIAL}#st_isvalidreason`, label: 'ST_IsValidReason — DuckDB Spatial' },
+  // I/O
+  ST_Read:          { url: `${SPATIAL}#st_read`,          label: 'ST_Read — DuckDB Spatial' },
+  // H3
+  h3_latlng_to_cell:    { url: H3_EXT, label: 'h3_latlng_to_cell — DuckDB H3 Extension' },
+  h3_grid_ring_unsafe:  { url: H3_EXT, label: 'h3_grid_ring_unsafe — DuckDB H3 Extension' },
+  h3_compact_cells:     { url: H3_EXT, label: 'h3_compact_cells — DuckDB H3 Extension' },
+  // SQL constructs
+  'ORDER BY':    { url: `${SQL}/orderby`,    label: 'ORDER BY — DuckDB SQL' },
+  'JOIN':        { url: `${SQL}/from`,       label: 'JOIN — DuckDB SQL' },
+  'CTE':         { url: `${SQL}/with`,       label: 'CTEs (WITH) — DuckDB SQL' },
+  'FLOOR':       { url: NUMERIC,             label: 'Numeric Functions — DuckDB SQL' },
+  'PARTITION BY':{ url: WINDOW,              label: 'Window Functions — DuckDB SQL' },
+};
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let db = null;
 let dbReady = false;
@@ -341,6 +398,14 @@ function renderExpectedTab(expected) {
   `;
 }
 
+function buildFunctionRefs(tags) {
+  const links = tags
+    .filter(t => FUNCTION_DOCS[t])
+    .map(t => `<a href="${FUNCTION_DOCS[t].url}" target="_blank" rel="noopener" class="fn-ref-link">${escapeHtml(t)} ↗</a>`);
+  if (!links.length) return '';
+  return `<div class="fn-refs"><strong>📖 Documentation</strong><div class="fn-ref-links">${links.join('')}</div></div>`;
+}
+
 function escapeHtml(val) {
   return String(val)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -404,7 +469,9 @@ async function openProblem(id) {
   document.getElementById('prob-topic').textContent = p.topic;
   document.getElementById('prob-description').innerHTML = p.description || '<p class="results-placeholder">Full problem statement coming soon.</p>';
   document.getElementById('prob-schema').innerHTML = p.schema || '<p class="results-placeholder">Schema details coming soon.</p>';
-  document.getElementById('prob-hints').innerHTML = p.hints || '<p class="results-placeholder">Hints coming soon.</p>';
+  document.getElementById('prob-hints').innerHTML =
+    (p.hints || '<p class="results-placeholder">Hints coming soon.</p>') +
+    buildFunctionRefs(p.tags || []);
 
   renderExpectedTab(p.expected);
 
@@ -823,11 +890,13 @@ function initGraph() {
     .attr('fill', d => d.type === 'fn' ? '#94A3B8' : '#E2E8F0')
     .attr('pointer-events', 'none');
 
-  // Click: problem → open it; topic/fn → filter problem list
+  // Click: problem → open it; fn with docs → open doc URL; topic/unknown → filter list
   node.on('click', (e, d) => {
     e.stopPropagation();
     if (d.type === 'problem') {
       openProblem(d.pid);
+    } else if (d.type === 'fn' && FUNCTION_DOCS[d.label]) {
+      window.open(FUNCTION_DOCS[d.label].url, '_blank', 'noopener');
     } else {
       currentSearch = d.label;
       currentDiff   = 'all';
