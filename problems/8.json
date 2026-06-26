@@ -12,11 +12,7 @@
   "description": "<p>Instead of true reverse geocoding, this exercise snaps each <strong>sighting</strong> point to a coarse <code>1 x 1</code> degree grid cell, identified by its lower-left corner coordinates. This is a common first step before aggregating sparse geospatial data (e.g. for heatmaps).</p><h3>Goal</h3><p>Return <code>sighting_id</code>, <code>grid_x</code>, <code>grid_y</code> where <code>grid_x</code>/<code>grid_y</code> are the floored integer coordinates of the 1x1 cell containing the point. Order by <code>sighting_id</code>.</p><h3>Example Output</h3><pre>sighting_id  grid_x  grid_y\n-----------  ------  ------\n1            5       12\n2            5       12\n3            -3      8</pre>",
   "schema": "<h3>Table: sightings</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>sighting_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Point (lng, lat)</td></tr></table><p style=\"margin-top:0.75rem\">Use <code>ST_X(geom)</code> and <code>ST_Y(geom)</code> to pull out raw coordinates, then <code>FLOOR()</code> to snap to the grid.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> <code>ST_X(geom)</code> gives longitude, <code>ST_Y(geom)</code> gives latitude.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>FLOOR(ST_X(geom))::INTEGER</code> snaps to the cell's lower-left x-coordinate. Same idea for y.</div>",
-<<<<<<< HEAD
   "starterCode": "LOAD spatial;\n\n-- Snap each sighting to its 1x1 degree grid cell (lower-left corner).\n-- Return: sighting_id, grid_x, grid_y ordered by sighting_id\nSELECT\n  sighting_id,\n\nFROM sightings\nORDER BY sighting_id;",
-=======
-  "starterCode": "LOAD spatial;\n\nSELECT\n  sighting_id,\n  FLOOR(ST_X(geom))::INTEGER AS grid_x,\n  FLOOR(ST_Y(geom))::INTEGER AS grid_y\nFROM sightings\nORDER BY sighting_id;",
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   "setup": "CREATE TABLE sightings AS SELECT * FROM (VALUES\n  (1, ST_Point(5.3, 12.8)),\n  (2, ST_Point(5.9, 12.1)),\n  (3, ST_Point(-2.4, 8.6))\n) t(sighting_id, geom);",
   "expected": [
     {

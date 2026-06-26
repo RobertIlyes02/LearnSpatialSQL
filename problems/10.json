@@ -1,6 +1,5 @@
 {
   "id": 10,
-<<<<<<< HEAD
   "title": "Merge Coverage Areas",
   "diff": "Medium",
   "acc": 52,
@@ -16,20 +15,4 @@
   "expected": [
     { "coverage_blobs": 2 }
   ]
-=======
-  "title": "H3 Ring Aggregation",
-  "diff": "Hard",
-  "topic": "H3 Grid",
-  "tags": [
-    "h3_grid_ring_unsafe",
-    "H3"
-  ],
-  "premium": true,
-  "description": "<p>Full problem statement for <strong>H3 Ring Aggregation</strong> is coming soon.</p><p>This problem will cover <code>h3_grid_ring_unsafe, H3</code> in the <strong>H3 Grid</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
-  "expected": null
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 }

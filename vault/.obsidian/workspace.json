@@ -1,0 +1,196 @@
+{
+  "main": {
+    "id": "0935b03f3971675a",
+    "type": "split",
+    "children": [
+      {
+        "id": "da7adb3b83ed40b8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dc70608a31965bd0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "problems/Spatial Join Two Layers.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Spatial Join Two Layers"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f07c37a13c6b8226",
+    "type": "split",
+    "children": [
+      {
+        "id": "48302685f8402828",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "49e760e2908c26dc",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "0dc050d70196d15e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3898ed87939a7a16",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f44965ebfd1d21d5",
+    "type": "split",
+    "children": [
+      {
+        "id": "addc3db0507fe10b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d4a588c2bcefe58f",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "problems/Spatial Join Two Layers.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Spatial Join Two Layers"
+            }
+          },
+          {
+            "id": "125b1bfd0e8d989a",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "problems/Spatial Join Two Layers.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Spatial Join Two Layers"
+            }
+          },
+          {
+            "id": "a757e0ea6e56f992",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "89fd210ecaa60a7c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "ea83ef07193b1b55",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "problems/Spatial Join Two Layers.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Spatial Join Two Layers"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "dc70608a31965bd0",
+  "lastOpenFiles": [
+    "functions/ST_Intersects.md",
+    "topics/Predicates.md",
+    "EPSG 4326.md",
+    "functions/ST_Union.md",
+    "functions/ST_Within.md",
+    "functions/ST_IsValid.md",
+    "functions/ST_Buffer.md"
+  ]
+}

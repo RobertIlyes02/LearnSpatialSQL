@@ -10,16 +10,14 @@ import { oneDark } from 'https://esm.sh/@codemirror/theme-one-dark@6.1.2';
 import { keymap } from 'https://esm.sh/@codemirror/view@6.35.3';
 import { defaultKeymap } from 'https://esm.sh/@codemirror/commands@6.7.1';
 import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import {
   CONFIGURED as SUPABASE_CONFIGURED,
   onAuthChange,
   signOut,
   loadSolvedFromSupabase,
   recordSubmission,
-<<<<<<< HEAD
   fetchLeaderboard,
-=======
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 } from './supabase.js';
 
 // ─── CONFIG / GUARDRAILS ────────────────────────────────────────────────────
@@ -33,13 +31,9 @@ const CONFIG = {
   KNOWN_TABLES: [
     'parks', 'incidents', 'users', 'shops', 'airports',
     'zones', 'warehouses', 'routes', 'pings',
-<<<<<<< HEAD
     'zones_old', 'zones_new', 'sightings',
     'flood_zone', 'properties', 'towers',
     'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features'
-=======
-    'zones_old', 'zones_new', 'sightings'
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   ],
 };
 
@@ -240,11 +234,7 @@ async function runQuery(isSubmit) {
     const rowsToRender = truncated ? allRows.slice(0, CONFIG.MAX_RENDERED_ROWS) : allRows;
 
     showOutputTable(rowsToRender, cols, elapsed, allRows.length, truncated);
-<<<<<<< HEAD
     if (isSubmit && p.expected) validateAnswer(allRows, p.expected, parseFloat(elapsed));
-=======
-    if (isSubmit && p.expected) validateAnswer(allRows, p.expected);
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
     else if (isSubmit) showPartialSubmit(allRows);
 
   } catch (e) {
@@ -296,11 +286,7 @@ function showConsole(msg) {
   switchResTab(document.querySelector('.results-tab:nth-child(3)'), 'res-console');
 }
 
-<<<<<<< HEAD
 function validateAnswer(rows, expected, runtimeMs) {
-=======
-function validateAnswer(rows, expected) {
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   const normalize = arr => arr.map(r =>
     Object.fromEntries(Object.entries(r).map(([k, v]) => [k, String(v ?? '')]))
   );
@@ -321,11 +307,7 @@ function validateAnswer(rows, expected) {
   // Record submission in Supabase (or localStorage fallback)
   const code = cmView ? cmView.state.doc.toString() : '';
   if (SUPABASE_CONFIGURED && currentUser) {
-<<<<<<< HEAD
     recordSubmission({ problemId: currentProblem.id, code, passed: pass, runtimeMs: pass ? runtimeMs : null });
-=======
-    recordSubmission({ problemId: currentProblem.id, code, passed: pass });
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   }
 
   if (pass) {
@@ -381,28 +363,15 @@ async function loadProblemDetail(id) {
 
 // ─── SCREEN NAVIGATION ───────────────────────────────────────────────────────
 function goHome() {
-<<<<<<< HEAD
   document.getElementById('nav-center').innerHTML = '';
   history.pushState({}, '', '#/problems');
   showScreen('screen-home');
-=======
-  document.getElementById('screen-home').classList.add('active');
-  document.getElementById('screen-problem').classList.remove('active');
-  document.getElementById('nav-center').innerHTML = '';
-  history.pushState({}, '', '#/problems');
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   renderTable();
 }
 
 async function openProblem(id) {
-<<<<<<< HEAD
   history.pushState({}, '', `#/problems/${id}`);
   showScreen('screen-problem');
-=======
-  document.getElementById('screen-home').classList.remove('active');
-  document.getElementById('screen-problem').classList.add('active');
-  history.pushState({}, '', `#/problems/${id}`);
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 
   // Loading state in the editor area while we fetch
   document.getElementById('prob-title').textContent = 'Loading…';
@@ -529,11 +498,9 @@ function setDiff(btn, diff) {
 }
 
 // ─── ROUTING (basic hash-based, no framework needed) ────────────────────────
-<<<<<<< HEAD
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  // highlight active nav link
   document.querySelectorAll('.nav-link').forEach(a => {
     a.classList.toggle('nav-link-active', a.getAttribute('href') === location.hash);
   });
@@ -551,13 +518,10 @@ function handleRoute() {
     document.getElementById('nav-center').innerHTML = '';
     showScreen('screen-leaderboard');
     initLeaderboard();
-=======
-function handleRoute() {
-  const hash = location.hash;
-  const match = hash.match(/^#\/problems\/(\d+)$/);
-  if (match) {
-    openProblem(Number(match[1]));
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
+  } else if (hash === '#/graph') {
+    document.getElementById('nav-center').innerHTML = '';
+    showScreen('screen-graph');
+    initGraph();
   } else {
     goHome();
   }
@@ -706,7 +670,6 @@ async function handleOAuth(provider) {
   }
 }
 
-<<<<<<< HEAD
 
 // ─── LEADERBOARD ─────────────────────────────────────────────────────────────
 async function initLeaderboard() {
@@ -786,8 +749,116 @@ async function loadLeaderboard(problemId) {
   `;
 }
 
-=======
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
+// ─── KNOWLEDGE GRAPH ─────────────────────────────────────────────────────────
+function initGraph() {
+  const container = document.getElementById('graph-container');
+  container.innerHTML = '';
+
+  const W = container.clientWidth  || window.innerWidth;
+  const H = container.clientHeight || window.innerHeight - 100;
+
+  // Build nodes: topics + problems + tags (functions)
+  const topicNames = [...new Set(problemIndex.map(p => p.topic))];
+  const tagNames   = [...new Set(problemIndex.flatMap(p => p.tags || []))];
+
+  const nodes = [
+    ...topicNames.map(t  => ({ id: `t:${t}`,   label: t,         type: 'topic'   })),
+    ...problemIndex.map(p => ({ id: `p:${p.id}`, label: p.title,  type: 'problem', diff: p.diff, pid: p.id, solved: p.solved })),
+    ...tagNames.map(t    => ({ id: `f:${t}`,   label: t,         type: 'fn'      })),
+  ];
+
+  const links = [
+    ...problemIndex.map(p => ({ source: `p:${p.id}`, target: `t:${p.topic}` })),
+    ...problemIndex.flatMap(p => (p.tags || []).map(t => ({ source: `p:${p.id}`, target: `f:${t}` }))),
+  ];
+
+  const color = d => {
+    if (d.type === 'topic')   return '#4FC3F7';
+    if (d.type === 'problem') return d.diff === 'Easy' ? '#22c55e' : d.diff === 'Medium' ? '#f59e0b' : '#ef4444';
+    return '#475569';
+  };
+  const radius = d => d.type === 'topic' ? 18 : d.type === 'problem' ? 11 : 7;
+
+  const svg = d3.select(container).append('svg')
+    .attr('width', W).attr('height', H)
+    .style('background', 'var(--bg)');
+
+  // Pan + zoom
+  const g = svg.append('g');
+  svg.call(d3.zoom().scaleExtent([0.3, 3]).on('zoom', e => g.attr('transform', e.transform)));
+
+  const sim = d3.forceSimulation(nodes)
+    .force('link',      d3.forceLink(links).id(d => d.id).distance(d => d.target.type === 'topic' ? 90 : 60))
+    .force('charge',    d3.forceManyBody().strength(d => d.type === 'topic' ? -400 : -150))
+    .force('center',    d3.forceCenter(W / 2, H / 2))
+    .force('collision', d3.forceCollide(d => radius(d) + 4));
+
+  const link = g.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke', '#253354').attr('stroke-width', 1.2);
+
+  const node = g.append('g').selectAll('g').data(nodes).join('g')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+  node.append('circle')
+    .attr('r', radius)
+    .attr('fill', color)
+    .attr('stroke', '#0B1220').attr('stroke-width', 2);
+
+  // Solved checkmark ring
+  node.filter(d => d.type === 'problem' && d.solved)
+    .append('circle')
+    .attr('r', d => radius(d) + 3)
+    .attr('fill', 'none').attr('stroke', '#4ADE80').attr('stroke-width', 2);
+
+  // Labels
+  node.append('text')
+    .text(d => d.type === 'problem' ? `${d.pid}. ${d.label}` : d.label)
+    .attr('x', d => radius(d) + 5).attr('y', 4)
+    .attr('font-size', d => d.type === 'topic' ? '12px' : '10px')
+    .attr('font-family', 'Space Grotesk, sans-serif')
+    .attr('fill', d => d.type === 'fn' ? '#94A3B8' : '#E2E8F0')
+    .attr('pointer-events', 'none');
+
+  // Click: problem → open it; topic/fn → filter problem list
+  node.on('click', (e, d) => {
+    e.stopPropagation();
+    if (d.type === 'problem') {
+      openProblem(d.pid);
+    } else {
+      currentSearch = d.label;
+      currentDiff   = 'all';
+      goHome();
+      document.getElementById('search-input').value = d.label;
+    }
+  });
+
+  // Highlight connected nodes on hover
+  node.on('mouseover', (e, d) => {
+    const connected = new Set([d.id]);
+    links.forEach(l => {
+      if (l.source.id === d.id) connected.add(l.target.id);
+      if (l.target.id === d.id) connected.add(l.source.id);
+    });
+    node.select('circle').attr('opacity', n => connected.has(n.id) ? 1 : 0.2);
+    link.attr('opacity',  l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.1);
+    node.select('text').attr('opacity',  n => connected.has(n.id) ? 1 : 0.2);
+  }).on('mouseout', () => {
+    node.select('circle').attr('opacity', 1);
+    link.attr('opacity', 1);
+    node.select('text').attr('opacity', 1);
+  });
+
+  sim.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+}
+
 // ─── BOOT ────────────────────────────────────────────────────────────────────
 (async function boot() {
   wireStaticEvents();

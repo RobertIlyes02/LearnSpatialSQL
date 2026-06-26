@@ -1,6 +1,5 @@
 {
   "id": 15,
-<<<<<<< HEAD
   "title": "Detect Invalid Geometries",
   "diff": "Easy",
   "acc": 83,
@@ -13,20 +12,5 @@
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Filter with <code>WHERE NOT ST_IsValid(geom)</code> to keep only the invalid rows.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ST_IsValidReason(geom)</code> gives you the exact failure message — useful for triaging which rows need manual repair.</div>",
   "starterCode": "LOAD spatial;\n\n-- Return feature_id and reason for every invalid geometry.\n-- Return: feature_id, reason ordered by feature_id\nSELECT\n\nFROM features\nWHERE\n\nORDER BY feature_id;",
   "setup": "CREATE TABLE features AS SELECT * FROM (VALUES\n  (1, ST_GeomFromText('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))')),\n  (2, ST_GeomFromText('POLYGON((0 0, 10 10, 10 0, 0 10, 0 0))')),\n  (3, ST_GeomFromText('POLYGON((0 0, 5 0, 5 5, 0 5, 0 0))')),\n  (4, ST_GeomFromText('POLYGON((0 0, 4 4, 4 0, 0 4, 0 0))'))\n) t(feature_id, geom);",
-=======
-  "title": "GeoJSON to Parquet",
-  "diff": "Easy",
-  "topic": "I/O",
-  "tags": [
-    "ST_Read",
-    "COPY TO"
-  ],
-  "premium": false,
-  "description": "<p>Full problem statement for <strong>GeoJSON to Parquet</strong> is coming soon.</p><p>This problem will cover <code>ST_Read, COPY TO</code> in the <strong>I/O</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   "expected": null
 }

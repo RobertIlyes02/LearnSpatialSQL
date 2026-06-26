@@ -1,6 +1,5 @@
 {
   "id": 14,
-<<<<<<< HEAD
   "title": "Perimeter of Land Parcels",
   "diff": "Easy",
   "acc": 78,
@@ -17,20 +16,4 @@
     { "parcel_id": 2, "perimeter": 40.0 },
     { "parcel_id": 1, "perimeter": 24.0 }
   ]
-=======
-  "title": "Area Weighted Average",
-  "diff": "Hard",
-  "topic": "Measurement",
-  "tags": [
-    "ST_Area",
-    "ST_Intersection"
-  ],
-  "premium": true,
-  "description": "<p>Full problem statement for <strong>Area Weighted Average</strong> is coming soon.</p><p>This problem will cover <code>ST_Area, ST_Intersection</code> in the <strong>Measurement</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
-  "expected": null
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 }

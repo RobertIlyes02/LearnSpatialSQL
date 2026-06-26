@@ -1,6 +1,5 @@
 {
   "id": 11,
-<<<<<<< HEAD
   "title": "Neighbourhood Centroids",
   "diff": "Easy",
   "acc": 74,
@@ -17,19 +16,4 @@
     { "name": "Eastside", "cx": 25.0, "cy": 2.6667 },
     { "name": "Westside", "cx": 5.0,  "cy": 3.3333 }
   ]
-=======
-  "title": "Voronoi Tessellation",
-  "diff": "Hard",
-  "topic": "Geometry",
-  "tags": [
-    "ST_VoronoiPolygons"
-  ],
-  "premium": true,
-  "description": "<p>Full problem statement for <strong>Voronoi Tessellation</strong> is coming soon.</p><p>This problem will cover <code>ST_VoronoiPolygons</code> in the <strong>Geometry</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
-  "expected": null
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 }
