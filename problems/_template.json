@@ -1,0 +1,23 @@
+{
+  "id": 0,
+  "title": "Problem Title Here",
+  "diff": "Easy",
+  "acc": 50,
+  "topic": "Topic Name",
+  "tags": ["ST_Function", "Keyword"],
+  "premium": false,
+
+  "description": "<p>Describe the scenario and what tables exist.</p><h3>Goal</h3><p>Describe exactly what to return and how to order it.</p><h3>Example Output</h3><pre>col1  col2\n----  ----\nval   val</pre>",
+
+  "schema": "<h3>Tables</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>table.column</td><td>TYPE</td><td>Description</td></tr></table>",
+
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> First hint text.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Second hint text.</div>",
+
+  "starterCode": "LOAD spatial;\n\nSELECT 1;",
+
+  "setup": "CREATE TABLE example AS SELECT * FROM (VALUES (1, 'a')) t(id, name);",
+
+  "expected": [
+    { "id": 1, "name": "a" }
+  ]
+}

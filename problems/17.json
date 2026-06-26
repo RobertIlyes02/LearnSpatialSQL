@@ -1,0 +1,17 @@
+{
+  "id": 17,
+  "title": "LineString Intersection",
+  "diff": "Medium",
+  "topic": "Set Ops",
+  "tags": [
+    "ST_Intersection",
+    "Lines"
+  ],
+  "premium": false,
+  "description": "<p>Full problem statement for <strong>LineString Intersection</strong> is coming soon.</p><p>This problem will cover <code>ST_Intersection, Lines</code> in the <strong>Set Ops</strong> category.</p>",
+  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
+  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
+  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
+  "setup": "",
+  "expected": null
+}

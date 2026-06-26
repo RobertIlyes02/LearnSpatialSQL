@@ -1,0 +1,265 @@
+[
+  {
+    "id": 1,
+    "title": "Point in Polygon",
+    "diff": "Easy",
+    "topic": "Predicates",
+    "icon": "🔷",
+    "tags": [
+      "ST_Within",
+      "Polygon"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 2,
+    "title": "Nearest Neighbor Search",
+    "diff": "Easy",
+    "topic": "Distance",
+    "icon": "📍",
+    "tags": [
+      "ST_Distance",
+      "ORDER BY"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 3,
+    "title": "Bounding Box Filter",
+    "diff": "Easy",
+    "topic": "Indexing",
+    "icon": "📦",
+    "tags": [
+      "ST_Envelope",
+      "ST_Intersects"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 4,
+    "title": "Spatial Join Two Layers",
+    "diff": "Medium",
+    "topic": "Joins",
+    "icon": "🔗",
+    "tags": [
+      "ST_Intersects",
+      "JOIN"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 5,
+    "title": "Route Length from WKT",
+    "diff": "Easy",
+    "topic": "Measurement",
+    "icon": "📏",
+    "tags": [
+      "ST_Length",
+      "ST_GeomFromText"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 6,
+    "title": "Convex Hull of Cluster",
+    "diff": "Medium",
+    "topic": "Aggregation",
+    "icon": "🫧",
+    "tags": [
+      "ST_ConvexHull",
+      "ST_Collect"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 7,
+    "title": "Polygon Difference Delta",
+    "diff": "Hard",
+    "topic": "Set Ops",
+    "icon": "✂️",
+    "tags": [
+      "ST_Difference",
+      "CTE"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 8,
+    "title": "Reverse Geocode Grid",
+    "diff": "Medium",
+    "topic": "Geocoding",
+    "icon": "🗺️",
+    "tags": [
+      "ST_X",
+      "ST_Y",
+      "FLOOR"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 9,
+    "title": "Flood Risk Buffer",
+    "diff": "Medium",
+    "topic": "Buffering",
+    "icon": "🌊",
+    "tags": [
+      "ST_Buffer",
+      "ST_Within"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 10,
+    "title": "Merge Coverage Areas",
+    "diff": "Medium",
+    "topic": "Aggregation",
+    "icon": "📡",
+    "tags": [
+      "ST_Union",
+      "ST_NumGeometries"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 11,
+    "title": "Neighbourhood Centroids",
+    "diff": "Easy",
+    "topic": "Geometry",
+    "icon": "🎯",
+    "tags": [
+      "ST_Centroid",
+      "ST_X",
+      "ST_Y"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 12,
+    "title": "Simplify Dense Coastline",
+    "diff": "Medium",
+    "topic": "Geometry",
+    "icon": "🌊",
+    "tags": [
+      "ST_Simplify",
+      "ST_NPoints"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 13,
+    "title": "Snap Points to Road",
+    "diff": "Medium",
+    "topic": "Snapping",
+    "icon": "🧲",
+    "tags": [
+      "ST_ClosestPoint",
+      "ST_X",
+      "ST_Y"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 14,
+    "title": "Perimeter of Land Parcels",
+    "diff": "Easy",
+    "topic": "Measurement",
+    "icon": "📐",
+    "tags": [
+      "ST_Boundary",
+      "ST_Length"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 15,
+    "title": "Detect Invalid Geometries",
+    "diff": "Easy",
+    "topic": "Data Quality",
+    "icon": "🔍",
+    "tags": [
+      "ST_IsValid",
+      "ST_IsValidReason"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 16,
+    "title": "Simplify Dense Geometry",
+    "diff": "Medium",
+    "topic": "Geometry",
+    "icon": "🔵",
+    "tags": [
+      "ST_Simplify",
+      "tolerance"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 17,
+    "title": "LineString Intersection",
+    "diff": "Medium",
+    "topic": "Set Ops",
+    "icon": "✂️",
+    "tags": [
+      "ST_Intersection",
+      "Lines"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 18,
+    "title": "H3 Compact Resolution",
+    "diff": "Hard",
+    "topic": "H3 Grid",
+    "icon": "⬡",
+    "tags": [
+      "h3_compact_cells",
+      "H3"
+    ],
+    "premium": false,
+    "hasExecution": false
+  },
+  {
+    "id": 19,
+    "title": "Spatial Window Function",
+    "diff": "Hard",
+    "topic": "Analytics",
+    "icon": "📊",
+    "tags": [
+      "PARTITION BY",
+      "ST_Within"
+    ],
+    "premium": true,
+    "hasExecution": false
+  },
+  {
+    "id": 20,
+    "title": "Load Shapefile Layer",
+    "diff": "Easy",
+    "topic": "I/O",
+    "icon": "💾",
+    "tags": [
+      "ST_Read",
+      "drivers"
+    ],
+    "premium": false,
+    "hasExecution": false
+  }
+]

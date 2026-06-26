@@ -1,0 +1,20 @@
+{
+  "id": 13,
+  "title": "Snap Points to Road",
+  "diff": "Medium",
+  "acc": 44,
+  "topic": "Snapping",
+  "tags": ["ST_ClosestPoint", "ST_X", "ST_Y"],
+  "premium": false,
+  "hasExecution": true,
+  "description": "<p>GPS devices often record positions slightly off the road network due to signal error. Given a table of <strong>GPS pings</strong> and a single <strong>road segment</strong>, snap each ping to its closest point on the road.</p><h3>Goal</h3><p>Return <code>ping_id</code>, <code>snapped_x</code> and <code>snapped_y</code> (coordinates of the closest point on the road, rounded to 2 decimal places), ordered by <code>ping_id</code>.</p><h3>Example Output</h3><pre>ping_id  snapped_x  snapped_y\n-------  ---------  ---------\n1        3.00       0.00\n2        7.00       0.00\n3        10.00      0.00</pre>",
+  "schema": "<h3>Tables</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>road.geom</td><td>GEOMETRY</td><td>The road as a LineString</td></tr><tr><td>gps_pings.ping_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>gps_pings.geom</td><td>GEOMETRY</td><td>Raw GPS point</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_ClosestPoint(line, point)</code> returns the point on <code>line</code> that is nearest to <code>point</code>. Wrap with <code>ST_X()</code> / <code>ST_Y()</code> to extract coordinates.</p>",
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Cross join GPS pings with the road (<code>JOIN road ON TRUE</code>) so you can reference both geometries in the same row.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ROUND(ST_X(ST_ClosestPoint(r.geom, p.geom)), 2)</code> gives you the snapped x-coordinate.</div>",
+  "starterCode": "LOAD spatial;\n\n-- Snap each GPS ping to its closest point on the road.\n-- Return: ping_id, snapped_x, snapped_y (rounded to 2dp) ordered by ping_id\nSELECT\n  p.ping_id,\n\nFROM gps_pings p\nJOIN road r ON TRUE\nORDER BY p.ping_id;",
+  "setup": "CREATE TABLE road AS SELECT * FROM (VALUES\n  (ST_GeomFromText('LINESTRING(0 0, 10 0)'))\n) t(geom);\n\nCREATE TABLE gps_pings AS SELECT * FROM (VALUES\n  (1, ST_Point(3.0,  2.5)),\n  (2, ST_Point(7.0, -1.8)),\n  (3, ST_Point(11.0, 3.0))\n) t(ping_id, geom);",
+  "expected": [
+    { "ping_id": 1, "snapped_x": 3.0,  "snapped_y": 0.0 },
+    { "ping_id": 2, "snapped_x": 7.0,  "snapped_y": 0.0 },
+    { "ping_id": 3, "snapped_x": 10.0, "snapped_y": 0.0 }
+  ]
+}
