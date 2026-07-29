@@ -2,6 +2,8 @@
 
 A LeetCode-style platform for learning geospatial SQL with DuckDB-WASM.
 
+📋 **[[Launch Checklist]]** — roadmap to publish & market
+
 ## Topics
 
 - [[Predicates]]

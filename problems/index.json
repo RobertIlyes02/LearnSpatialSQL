@@ -261,5 +261,47 @@
     ],
     "premium": false,
     "hasExecution": false
+  },
+  {
+    "id": 21,
+    "title": "NYC Taxi Pickup Hotspots",
+    "diff": "Medium",
+    "topic": "Geocoding",
+    "icon": "🚕",
+    "tags": [
+      "read_parquet",
+      "ST_Point",
+      "FLOOR"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 22,
+    "title": "Nearest Restaurant per Hotel",
+    "diff": "Hard",
+    "topic": "Distance",
+    "icon": "🍽️",
+    "tags": [
+      "read_parquet",
+      "ST_Distance",
+      "LATERAL"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 23,
+    "title": "Busiest US Flight Routes",
+    "diff": "Medium",
+    "topic": "Measurement",
+    "icon": "✈️",
+    "tags": [
+      "read_parquet",
+      "ST_Distance",
+      "GROUP BY"
+    ],
+    "premium": false,
+    "hasExecution": true
   }
 ]

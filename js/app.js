@@ -490,7 +490,8 @@ async function openProblem(id) {
   const starterCode = p.starterCode || `LOAD spatial;\n\n-- Write your query here\nSELECT 1;`;
   initEditor(starterCode);
 
-  const hasBackend = !!p.setup;
+  // ponytail: executable = has setup SQL, or explicitly flagged (parquet problems need no setup)
+  const hasBackend = !!p.setup || p.hasExecution === true;
   document.getElementById('run-btn').disabled = !dbReady || !hasBackend;
   document.getElementById('submit-btn').disabled = !dbReady || !hasBackend;
   if (!hasBackend) {
