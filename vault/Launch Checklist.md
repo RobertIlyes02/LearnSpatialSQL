@@ -3,9 +3,9 @@
 Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 
 ## Phase 1 — Blockers
-- [ ] Commit and push all work (uncommitted: app.js, problems 21–23, data/)
+- [x] Commit and push all work ✅ 2026-07-29
 - [ ] Deploy to a real URL (Vercel/Netlify/GH Pages) + buy domain
-- [ ] Test every problem end-to-end (run reference solution → Accepted)
+- [x] Test every problem end-to-end ✅ 2026-07-29 — `tests/test_solutions.py`, all 16 expected outputs pass (found & fixed problem 12 tolerance bug). Problems 2 & 15 have no expected output yet.
 - [ ] Finish or hide problems 16–20 (`hasExecution: false`)
 - [ ] Fix mobile — landing page + problem list must not break
 - [ ] Error state when DuckDB WASM fails to load (no infinite "Loading runtime…")
