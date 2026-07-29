@@ -4,7 +4,10 @@
   "diff": "Medium",
   "acc": 52,
   "topic": "Aggregation",
-  "tags": ["ST_Union", "ST_GeomFromText"],
+  "tags": [
+    "ST_Union",
+    "ST_GeomFromText"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A telecoms company has a table of <strong>cell tower coverage polygons</strong>. Some towers overlap. The company wants to know the <strong>total number of distinct merged coverage blobs</strong> after unioning all polygons together.</p><h3>Goal</h3><p>Union all coverage polygons into a single geometry, then count how many distinct non-overlapping sub-geometries it contains. Return a single row with column <code>coverage_blobs</code>.</p><h3>Example Output</h3><pre>coverage_blobs\n--------------\n2</pre>",
@@ -13,6 +16,9 @@
   "starterCode": "LOAD spatial;\n\n-- Count the distinct merged coverage blobs after unioning all tower polygons.\n-- Return a single column: coverage_blobs\nSELECT\n\nFROM towers;",
   "setup": "CREATE TABLE towers AS SELECT * FROM (VALUES\n  (1, ST_GeomFromText('POLYGON((0 0, 4 0, 4 4, 0 4, 0 0))')),\n  (2, ST_GeomFromText('POLYGON((2 0, 6 0, 6 4, 2 4, 2 0))')),\n  (3, ST_GeomFromText('POLYGON((20 0, 24 0, 24 4, 20 4, 20 0))'))\n) t(tower_id, geom);",
   "expected": [
-    { "coverage_blobs": 2 }
-  ]
+    {
+      "coverage_blobs": 2
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT ST_NumGeometries(ST_Union_Agg(geom)) AS coverage_blobs\nFROM towers;"
 }

@@ -4,7 +4,11 @@
   "diff": "Easy",
   "acc": 74,
   "topic": "Geometry",
-  "tags": ["ST_Centroid", "ST_X", "ST_Y"],
+  "tags": [
+    "ST_Centroid",
+    "ST_X",
+    "ST_Y"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A city stores its <strong>neighbourhood boundaries</strong> as polygons. Urban planners need the centre point (centroid) of each neighbourhood to place service facilities.</p><h3>Goal</h3><p>Return <code>name</code>, <code>cx</code> (centroid longitude, rounded to 4 decimal places), and <code>cy</code> (centroid latitude, rounded to 4 decimal places) for every neighbourhood, ordered by <code>name</code>.</p><h3>Example Output</h3><pre>name           cx       cy\n-------------  -------  ------\nEastside       25.0     2.6667\nWestside        5.0     3.3333</pre>",
@@ -13,7 +17,16 @@
   "starterCode": "LOAD spatial;\n\n-- Return the centroid coordinates of each neighbourhood.\n-- Return: name, cx (rounded 4dp), cy (rounded 4dp) ordered by name\nSELECT\n  name,\n\nFROM neighbourhoods\nORDER BY name;",
   "setup": "CREATE TABLE neighbourhoods AS SELECT * FROM (VALUES\n  ('Westside', ST_GeomFromText('POLYGON((0 0, 10 0, 5 10, 0 0))')),\n  ('Eastside', ST_GeomFromText('POLYGON((20 0, 30 0, 25 8, 20 0))')\n  )\n) t(name, geom);",
   "expected": [
-    { "name": "Eastside", "cx": 25.0, "cy": 2.6667 },
-    { "name": "Westside", "cx": 5.0,  "cy": 3.3333 }
-  ]
+    {
+      "name": "Eastside",
+      "cx": 25.0,
+      "cy": 2.6667
+    },
+    {
+      "name": "Westside",
+      "cx": 5.0,
+      "cy": 3.3333
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT name,\n       ROUND(ST_X(ST_Centroid(geom)), 4) AS cx,\n       ROUND(ST_Y(ST_Centroid(geom)), 4) AS cy\nFROM neighbourhoods\nORDER BY name;"
 }

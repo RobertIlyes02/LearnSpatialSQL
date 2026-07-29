@@ -16,10 +16,36 @@
   "starterCode": "LOAD spatial;\n\n-- Find the 5 busiest bidirectional route pairs (≥ 5 flights).\n-- Normalise direction with LEAST/GREATEST so JFK→LAX = LAX→JFK.\n-- Return: airport_1, airport_2, total_flights, avg_distance_km\nSELECT\n  LEAST(origin, destination)    AS airport_1,\n  GREATEST(origin, destination) AS airport_2,\n\nFROM read_parquet('./data/us_flights_sample.parquet')\nGROUP BY airport_1, airport_2\nHAVING COUNT(*) >= 5\nORDER BY total_flights DESC, avg_distance_km DESC\nLIMIT 5;",
   "setup": "",
   "expected": [
-    { "airport_1": "EWR", "airport_2": "PHL", "total_flights": "19", "avg_distance_km": "128" },
-    { "airport_1": "ORD", "airport_2": "SFO", "total_flights": "16", "avg_distance_km": "2964" },
-    { "airport_1": "BOS", "airport_2": "MSP", "total_flights": "16", "avg_distance_km": "1804" },
-    { "airport_1": "CLT", "airport_2": "LAS", "total_flights": "15", "avg_distance_km": "3077" },
-    { "airport_1": "ATL", "airport_2": "SEA", "total_flights": "14", "avg_distance_km": "3505" }
-  ]
+    {
+      "airport_1": "EWR",
+      "airport_2": "PHL",
+      "total_flights": "19",
+      "avg_distance_km": "128"
+    },
+    {
+      "airport_1": "ORD",
+      "airport_2": "SFO",
+      "total_flights": "16",
+      "avg_distance_km": "2964"
+    },
+    {
+      "airport_1": "BOS",
+      "airport_2": "MSP",
+      "total_flights": "16",
+      "avg_distance_km": "1804"
+    },
+    {
+      "airport_1": "CLT",
+      "airport_2": "LAS",
+      "total_flights": "15",
+      "avg_distance_km": "3077"
+    },
+    {
+      "airport_1": "ATL",
+      "airport_2": "SEA",
+      "total_flights": "14",
+      "avg_distance_km": "3505"
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT LEAST(origin, destination)    AS airport_1,\n       GREATEST(origin, destination) AS airport_2,\n       COUNT(*)                      AS total_flights,\n       ROUND(AVG(distance_km), 0)    AS avg_distance_km\nFROM read_parquet('./data/us_flights_sample.parquet')\nGROUP BY airport_1, airport_2\nHAVING COUNT(*) >= 5\nORDER BY total_flights DESC, avg_distance_km DESC\nLIMIT 5;"
 }

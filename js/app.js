@@ -33,7 +33,8 @@ const CONFIG = {
     'zones', 'warehouses', 'routes', 'pings',
     'zones_old', 'zones_new', 'sightings',
     'flood_zone', 'properties', 'towers',
-    'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features'
+    'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features',
+    'lake_shores', 'ferry_routes', 'shipping_lane', 'districts', 'stores'
   ],
 };
 
@@ -202,6 +203,18 @@ async function runDuckDBInit(bar, status) {
   bar.style.width = '100%';
   status.textContent = 'Ready!';
   dbReady = true;
+
+  // If the user deep-linked into a problem while WASM was still loading, the
+  // Run/Submit buttons were disabled with dbReady=false — re-enable them now.
+  if (currentProblem && problemExecutable(currentProblem)) {
+    document.getElementById('run-btn').disabled = false;
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+// ponytail: executable = has setup SQL, or explicitly flagged (parquet problems need no setup)
+function problemExecutable(p) {
+  return !!p.setup || p.hasExecution === true;
 }
 
 function addDismissButton(overlay, status) {
@@ -258,7 +271,7 @@ async function resetTables(conn) {
 async function runQuery(isSubmit) {
   if (!dbReady) { showConsole('DuckDB is still initializing…'); return; }
   const p = currentProblem;
-  if (!p || !p.setup) {
+  if (!p || (!p.setup && p.hasExecution !== true)) {
     showConsole('This problem does not have a live execution environment yet.');
     return;
   }
@@ -277,9 +290,14 @@ async function runQuery(isSubmit) {
     conn = await db.connect();
     await conn.query('LOAD spatial;');
     await resetTables(conn);
-    await conn.query(p.setup);
+    if (p.setup) await conn.query(p.setup);
 
-    const result = await withTimeout(conn.query(userSQL), CONFIG.QUERY_TIMEOUT_MS);
+    // DuckDB-WASM resolves file paths against its virtual FS, not the page URL,
+    // so rewrite relative ./data/ references to absolute http URLs it can fetch.
+    const dataBase = new URL('data/', location.href).href;
+    const resolvedSQL = userSQL.replaceAll("'./data/", `'${dataBase}`);
+
+    const result = await withTimeout(conn.query(resolvedSQL), CONFIG.QUERY_TIMEOUT_MS);
     const elapsed = (performance.now() - t0).toFixed(1);
 
     const allRows = result.toArray().map(r => Object.fromEntries(
@@ -469,9 +487,15 @@ async function openProblem(id) {
   document.getElementById('prob-topic').textContent = p.topic;
   document.getElementById('prob-description').innerHTML = p.description || '<p class="results-placeholder">Full problem statement coming soon.</p>';
   document.getElementById('prob-schema').innerHTML = p.schema || '<p class="results-placeholder">Schema details coming soon.</p>';
+  const solutionBlock = p.solution
+    ? `<details class="solution-block"><summary>🔓 Show Solution</summary><pre class="solution-code">${escapeHtml(p.solution)}</pre></details>`
+    : '';
+  const issueUrl = `https://github.com/RobertIlyes02/LearnSpatialSQL/issues/new?title=${encodeURIComponent(`Problem ${p.id}: ${p.title}`)}`;
+  const issueLink = `<p class="report-issue"><a href="${issueUrl}" target="_blank" rel="noopener">🐛 Report an issue with this problem</a></p>`;
   document.getElementById('prob-hints').innerHTML =
     (p.hints || '<p class="results-placeholder">Hints coming soon.</p>') +
-    buildFunctionRefs(p.tags || []);
+    buildFunctionRefs(p.tags || []) +
+    solutionBlock + issueLink;
 
   renderExpectedTab(p.expected);
 
@@ -490,8 +514,7 @@ async function openProblem(id) {
   const starterCode = p.starterCode || `LOAD spatial;\n\n-- Write your query here\nSELECT 1;`;
   initEditor(starterCode);
 
-  // ponytail: executable = has setup SQL, or explicitly flagged (parquet problems need no setup)
-  const hasBackend = !!p.setup || p.hasExecution === true;
+  const hasBackend = problemExecutable(p);
   document.getElementById('run-btn').disabled = !dbReady || !hasBackend;
   document.getElementById('submit-btn').disabled = !dbReady || !hasBackend;
   if (!hasBackend) {

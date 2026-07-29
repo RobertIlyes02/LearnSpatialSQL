@@ -34,5 +34,6 @@
       "iata_code": "MAD",
       "airport_name": "Adolfo Suárez"
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT iata_code, airport_name\nFROM airports\nWHERE ST_X(geom) BETWEEN -10 AND 20\n  AND ST_Y(geom) BETWEEN 35 AND 60\nORDER BY iata_code;"
 }

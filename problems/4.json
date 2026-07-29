@@ -26,5 +26,6 @@
       "warehouse_name": "Depot Beta",
       "zone_name": "South"
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT w.warehouse_name, z.zone_name\nFROM warehouses w\nJOIN zones z ON ST_Intersects(w.geom, z.geom)\nORDER BY w.warehouse_name, z.zone_name;"
 }

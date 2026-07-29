@@ -4,7 +4,10 @@
   "diff": "Medium",
   "acc": 58,
   "topic": "Geometry",
-  "tags": ["ST_Simplify", "ST_NPoints"],
+  "tags": [
+    "ST_Simplify",
+    "ST_NPoints"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A GIS analyst has a table of <strong>coastline segments</strong> with very high vertex density — too detailed for small-scale map rendering. They want to simplify each segment and compare the vertex count before and after.</p><h3>Goal</h3><p>Return <code>segment_name</code>, <code>points_before</code> (vertex count of the original), and <code>points_after</code> (vertex count after simplifying with a tolerance of <code>1.8</code>), ordered by <code>segment_name</code>.</p><h3>Example Output</h3><pre>segment_name   points_before  points_after\n-------------  -------------  ------------\nNorth Coast    6              2\nSouth Cove     5              3</pre>",
@@ -13,7 +16,16 @@
   "starterCode": "LOAD spatial;\n\n-- Return vertex counts before and after simplifying with tolerance 1.8.\n-- Return: segment_name, points_before, points_after ordered by segment_name\nSELECT\n  segment_name,\n\nFROM coastlines\nORDER BY segment_name;",
   "setup": "CREATE TABLE coastlines AS SELECT * FROM (VALUES\n  ('North Coast', ST_GeomFromText('LINESTRING(0 0, 1 0.1, 2 0.05, 3 0.15, 4 0.0, 10 0)')),\n  ('South Cove',  ST_GeomFromText('LINESTRING(0 0, 1 2, 2 0.1, 5 1.9, 10 0)'))\n) t(segment_name, geom);",
   "expected": [
-    { "segment_name": "North Coast", "points_before": 6, "points_after": 2 },
-    { "segment_name": "South Cove",  "points_before": 5, "points_after": 3 }
-  ]
+    {
+      "segment_name": "North Coast",
+      "points_before": 6,
+      "points_after": 2
+    },
+    {
+      "segment_name": "South Cove",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT segment_name,\n       ST_NPoints(geom) AS points_before,\n       ST_NPoints(ST_Simplify(geom, 1.8)) AS points_after\nFROM coastlines\nORDER BY segment_name;"
 }

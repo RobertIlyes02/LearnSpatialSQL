@@ -22,5 +22,6 @@
       "mission_id": 2,
       "hull_area": 25
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT mission_id,\n       ST_Area(ST_ConvexHull(ST_Collect(list(geom)))) AS hull_area\nFROM pings\nGROUP BY mission_id\nORDER BY mission_id;"
 }

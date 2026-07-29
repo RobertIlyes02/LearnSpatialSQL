@@ -26,5 +26,6 @@
       "route_name": "Route B",
       "length_units": 7.0710678118654755
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT route_name,\n       ST_Length(ST_GeomFromText(wkt)) AS length_units\nFROM routes\nORDER BY length_units DESC;"
 }

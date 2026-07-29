@@ -192,7 +192,7 @@
     "icon": "🔍",
     "tags": [
       "ST_IsValid",
-      "ST_IsValidReason"
+      "ST_MakeValid"
     ],
     "premium": false,
     "hasExecution": true
@@ -205,10 +205,10 @@
     "icon": "🔵",
     "tags": [
       "ST_Simplify",
-      "tolerance"
+      "ST_Area"
     ],
     "premium": false,
-    "hasExecution": false
+    "hasExecution": true
   },
   {
     "id": 17,
@@ -218,23 +218,24 @@
     "icon": "✂️",
     "tags": [
       "ST_Intersection",
-      "Lines"
+      "ST_AsText"
     ],
     "premium": false,
-    "hasExecution": false
+    "hasExecution": true
   },
   {
     "id": 18,
-    "title": "H3 Compact Resolution",
+    "title": "H3 Hexbin Hotspots",
     "diff": "Hard",
     "topic": "H3 Grid",
     "icon": "⬡",
     "tags": [
-      "h3_compact_cells",
-      "H3"
+      "h3_latlng_to_cell",
+      "H3",
+      "read_parquet"
     ],
     "premium": false,
-    "hasExecution": false
+    "hasExecution": true
   },
   {
     "id": 19,
@@ -244,23 +245,24 @@
     "icon": "📊",
     "tags": [
       "PARTITION BY",
-      "ST_Within"
+      "ST_Within",
+      "RANK"
     ],
     "premium": true,
-    "hasExecution": false
+    "hasExecution": true
   },
   {
     "id": 20,
-    "title": "Load Shapefile Layer",
+    "title": "Load a Parquet Layer",
     "diff": "Easy",
     "topic": "I/O",
     "icon": "💾",
     "tags": [
-      "ST_Read",
-      "drivers"
+      "read_parquet",
+      "GROUP BY"
     ],
     "premium": false,
-    "hasExecution": false
+    "hasExecution": true
   },
   {
     "id": 21,

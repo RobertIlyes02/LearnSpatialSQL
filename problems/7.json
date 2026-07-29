@@ -22,5 +22,6 @@
       "zone_name": "Zone A",
       "removed_area": 10
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nWITH diffs AS (\n  SELECT o.zone_name,\n         ST_Area(ST_Difference(o.geom, n.geom)) AS removed_area\n  FROM zones_old o\n  JOIN zones_new n ON o.zone_name = n.zone_name\n)\nSELECT zone_name, removed_area\nFROM diffs\nWHERE removed_area > 0\nORDER BY removed_area DESC;"
 }

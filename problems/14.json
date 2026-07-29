@@ -4,7 +4,10 @@
   "diff": "Easy",
   "acc": 78,
   "topic": "Measurement",
-  "tags": ["ST_Boundary", "ST_Length"],
+  "tags": [
+    "ST_Boundary",
+    "ST_Length"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A land registry stores <strong>parcel polygons</strong>. Fencing contractors need the perimeter of each parcel to estimate materials.</p><h3>Goal</h3><p>Return <code>parcel_id</code> and <code>perimeter</code> (total boundary length, rounded to 2 decimal places), ordered by <code>perimeter</code> descending.</p><h3>Example Output</h3><pre>parcel_id  perimeter\n---------  ---------\n2          40.00\n1          24.00</pre>",
@@ -13,7 +16,14 @@
   "starterCode": "LOAD spatial;\n\n-- Return the perimeter of each parcel, rounded to 2dp.\n-- Return: parcel_id, perimeter ordered by perimeter DESC\nSELECT\n  parcel_id,\n\nFROM parcels\nORDER BY perimeter DESC;",
   "setup": "CREATE TABLE parcels AS SELECT * FROM (VALUES\n  (1, ST_GeomFromText('POLYGON((0 0, 6 0, 0 8, 0 0))')),\n  (2, ST_GeomFromText('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'))\n) t(parcel_id, geom);",
   "expected": [
-    { "parcel_id": 2, "perimeter": 40.0 },
-    { "parcel_id": 1, "perimeter": 24.0 }
-  ]
+    {
+      "parcel_id": 2,
+      "perimeter": 40.0
+    },
+    {
+      "parcel_id": 1,
+      "perimeter": 24.0
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT parcel_id,\n       ROUND(ST_Perimeter(geom), 2) AS perimeter\nFROM parcels\nORDER BY perimeter DESC;"
 }

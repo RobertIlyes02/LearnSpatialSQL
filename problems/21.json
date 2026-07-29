@@ -16,10 +16,31 @@
   "starterCode": "LOAD spatial;\n\n-- Find the top 5 pickup grid cells (0.01° bins).\n-- Return: grid_lat, grid_lon, pickups — ordered by pickups DESC\nSELECT\n  ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2) AS grid_lat,\n\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY grid_lat, grid_lon\nORDER BY pickups DESC\nLIMIT 5;",
   "setup": "",
   "expected": [
-    { "grid_lat": "40.75", "grid_lon": "-73.98", "pickups": "129" },
-    { "grid_lat": "40.75", "grid_lon": "-73.99", "pickups": "126" },
-    { "grid_lat": "40.72", "grid_lon": "-74",    "pickups": "122" },
-    { "grid_lat": "40.76", "grid_lon": "-73.98", "pickups": "95"  },
-    { "grid_lat": "40.72", "grid_lon": "-74.01", "pickups": "91"  }
-  ]
+    {
+      "grid_lat": "40.75",
+      "grid_lon": "-73.98",
+      "pickups": "129"
+    },
+    {
+      "grid_lat": "40.75",
+      "grid_lon": "-73.99",
+      "pickups": "126"
+    },
+    {
+      "grid_lat": "40.72",
+      "grid_lon": "-74",
+      "pickups": "122"
+    },
+    {
+      "grid_lat": "40.76",
+      "grid_lon": "-73.98",
+      "pickups": "95"
+    },
+    {
+      "grid_lat": "40.72",
+      "grid_lon": "-74.01",
+      "pickups": "91"
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2) AS grid_lat,\n       ROUND(FLOOR(pickup_lon / 0.01) * 0.01, 2) AS grid_lon,\n       COUNT(*) AS pickups\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY grid_lat, grid_lon\nORDER BY pickups DESC\nLIMIT 5;"
 }

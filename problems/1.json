@@ -26,5 +26,6 @@
       "incident_id": 5,
       "park_name": "Riverside Park"
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT i.incident_id, p.park_name\nFROM incidents i\nJOIN parks p ON ST_Within(i.geom, p.geom)\nORDER BY incident_id;"
 }

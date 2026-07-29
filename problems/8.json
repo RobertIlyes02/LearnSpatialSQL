@@ -30,5 +30,6 @@
       "grid_x": -3,
       "grid_y": 8
     }
-  ]
+  ],
+  "solution": "LOAD spatial;\n\nSELECT sighting_id,\n       FLOOR(ST_X(geom))::INTEGER AS grid_x,\n       FLOOR(ST_Y(geom))::INTEGER AS grid_y\nFROM sightings\nORDER BY sighting_id;"
 }

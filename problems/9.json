@@ -4,7 +4,10 @@
   "diff": "Medium",
   "acc": 61,
   "topic": "Buffering",
-  "tags": ["ST_Buffer", "ST_Within"],
+  "tags": [
+    "ST_Buffer",
+    "ST_Within"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A city has mapped a <strong>flood zone</strong> polygon. Properties within <strong>500 metres</strong> of the flood zone boundary are considered at-risk and must be notified.</p><h3>Goal</h3><p>Return the <code>property_id</code> and <code>address</code> of every property that falls within a 500-unit buffer of the flood zone, ordered by <code>property_id</code>.</p><h3>Example Output</h3><pre>property_id  address\n-----------  ---------------\n1            12 River St\n2            45 Valley Rd\n3            7 Creek Ave\n4            88 Lowland Dr</pre>",
@@ -13,9 +16,22 @@
   "starterCode": "LOAD spatial;\n\n-- Find all properties within 500 units of the flood zone.\n-- Return: property_id, address ordered by property_id\nSELECT\n\nFROM properties p\nWHERE\n\nORDER BY property_id;",
   "setup": "CREATE TABLE flood_zone AS SELECT * FROM (VALUES\n  (ST_GeomFromText('POLYGON((0 -100, 1000 -100, 1000 100, 0 100, 0 -100))'))\n) t(geom);\n\nCREATE TABLE properties AS SELECT * FROM (VALUES\n  (1, '12 River St',    ST_Point(200, 0)),\n  (2, '45 Valley Rd',  ST_Point(500, 50)),\n  (3, '7 Creek Ave',   ST_Point(800, -80)),\n  (4, '88 Lowland Dr', ST_Point(1200, 0)),\n  (5, '3 Highland Pl', ST_Point(2000, 0))\n) t(property_id, address, geom);",
   "expected": [
-    { "property_id": 1, "address": "12 River St" },
-    { "property_id": 2, "address": "45 Valley Rd" },
-    { "property_id": 3, "address": "7 Creek Ave" },
-    { "property_id": 4, "address": "88 Lowland Dr" }
-  ]
+    {
+      "property_id": 1,
+      "address": "12 River St"
+    },
+    {
+      "property_id": 2,
+      "address": "45 Valley Rd"
+    },
+    {
+      "property_id": 3,
+      "address": "7 Creek Ave"
+    },
+    {
+      "property_id": 4,
+      "address": "88 Lowland Dr"
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT p.property_id, p.address\nFROM properties p, flood_zone f\nWHERE ST_Within(p.geom, ST_Buffer(f.geom, 500))\nORDER BY property_id;"
 }
