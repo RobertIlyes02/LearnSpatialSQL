@@ -46,14 +46,9 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // ─── PASTE YOUR VALUES HERE ──────────────────────────────────────────────────
-<<<<<<< HEAD
 const SUPABASE_URL      = 'https://nosguilaomfrnuuhdwcd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_TmtiPwRxWSysirtzovWGcA_dvNX8Zho';
 // ─────────────────────────────────────────────────────────────────────────────
-=======
-const SUPABASE_URL      = 'https://nosguilaomfrnuuhdwcd.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_TmtiPwRxWSysirtzovWGcA_dvNX8Zho';
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
 
 const CONFIGURED = (
   SUPABASE_URL      !== 'PASTE_YOUR_PROJECT_URL_HERE' &&
@@ -178,11 +173,7 @@ export async function loadSolvedFromSupabase() {
  * Record a submission. Called on every Submit click, pass or fail.
  * Silently swallows errors — a failed write shouldn't break the UX.
  */
-<<<<<<< HEAD
 export async function recordSubmission({ problemId, code, passed, runtimeMs }) {
-=======
-export async function recordSubmission({ problemId, code, passed }) {
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   if (!supabase) return;
   const session = await getSession();
   if (!session) return;
@@ -192,15 +183,11 @@ export async function recordSubmission({ problemId, code, passed }) {
     problem_id: problemId,
     code,
     passed,
-<<<<<<< HEAD
     runtime_ms: runtimeMs ?? null,
-=======
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
   });
 
   if (error) console.warn('[GeoSQL] Could not save submission:', error.message);
 }
-<<<<<<< HEAD
 
 /**
  * Fetch leaderboard for a given problem.
@@ -243,5 +230,3 @@ export async function fetchLeaderboard(problemId) {
   }
   return data ?? [];
 }
-=======
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701

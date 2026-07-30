@@ -1,0 +1,46 @@
+{
+  "id": 21,
+  "title": "NYC Taxi Pickup Hotspots",
+  "diff": "Medium",
+  "topic": "Geocoding",
+  "tags": [
+    "read_parquet",
+    "ST_Point",
+    "FLOOR"
+  ],
+  "premium": false,
+  "hasExecution": true,
+  "description": "<p>You have a sample of <strong>2,000 NYC taxi trips</strong> stored in a Parquet file. Each row has a pickup latitude and longitude.</p><h3>Goal</h3><p>Bin pickups into a <strong>0.01° grid</strong> (roughly 1 km cells) and return the <strong>top 5 cells</strong> by pickup count.</p><p>Use <code>FLOOR(col / 0.01) * 0.01</code> to snap each coordinate to the nearest grid corner, and <code>ROUND(..., 2)</code> to clean up floating-point noise.</p><h3>Expected Output</h3><pre>grid_lat  grid_lon  pickups\n--------  --------  -------\n40.75    -73.98     129\n40.75    -73.99     126\n40.72    -74.0      122\n40.76    -73.98     95\n40.72    -74.01     91</pre>",
+  "schema": "<h3>Parquet file: <code>./data/nyc_taxi_sample.parquet</code></h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pickup_lat</td><td>DOUBLE</td><td>Pickup latitude</td></tr><tr><td>pickup_lon</td><td>DOUBLE</td><td>Pickup longitude</td></tr><tr><td>dropoff_lat</td><td>DOUBLE</td><td>Dropoff latitude</td></tr><tr><td>dropoff_lon</td><td>DOUBLE</td><td>Dropoff longitude</td></tr><tr><td>trip_distance_km</td><td>DOUBLE</td><td>Euclidean trip distance</td></tr><tr><td>fare_usd</td><td>DOUBLE</td><td>Fare amount</td></tr><tr><td>passenger_count</td><td>INTEGER</td><td>Number of passengers</td></tr><tr><td>pickup_hour</td><td>INTEGER</td><td>Hour of pickup (0–23)</td></tr></table>",
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Read the file directly in your query: <code>FROM read_parquet('./data/nyc_taxi_sample.parquet')</code> — no setup needed.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2)</code> snaps latitude to the grid and removes floating-point noise in one step.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 3</strong> GROUP BY both grid columns, then ORDER BY COUNT(*) DESC LIMIT 5.</div>",
+  "starterCode": "LOAD spatial;\n\n-- Find the top 5 pickup grid cells (0.01° bins).\n-- Return: grid_lat, grid_lon, pickups — ordered by pickups DESC\nSELECT\n  ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2) AS grid_lat,\n\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY grid_lat, grid_lon\nORDER BY pickups DESC\nLIMIT 5;",
+  "setup": "",
+  "expected": [
+    {
+      "grid_lat": "40.75",
+      "grid_lon": "-73.98",
+      "pickups": "129"
+    },
+    {
+      "grid_lat": "40.75",
+      "grid_lon": "-73.99",
+      "pickups": "126"
+    },
+    {
+      "grid_lat": "40.72",
+      "grid_lon": "-74",
+      "pickups": "122"
+    },
+    {
+      "grid_lat": "40.76",
+      "grid_lon": "-73.98",
+      "pickups": "95"
+    },
+    {
+      "grid_lat": "40.72",
+      "grid_lon": "-74.01",
+      "pickups": "91"
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2) AS grid_lat,\n       ROUND(FLOOR(pickup_lon / 0.01) * 0.01, 2) AS grid_lon,\n       COUNT(*) AS pickups\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY grid_lat, grid_lon\nORDER BY pickups DESC\nLIMIT 5;"
+}

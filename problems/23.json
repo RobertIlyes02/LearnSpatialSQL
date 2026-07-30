@@ -1,0 +1,51 @@
+{
+  "id": 23,
+  "title": "Busiest US Flight Routes",
+  "diff": "Medium",
+  "topic": "Measurement",
+  "tags": [
+    "read_parquet",
+    "ST_Distance",
+    "GROUP BY"
+  ],
+  "premium": false,
+  "hasExecution": true,
+  "description": "<p>A Parquet file holds <strong>1,500 US domestic flights</strong> with origin/destination airport codes and coordinates.</p><h3>Goal</h3><p>Find the <strong>5 busiest route pairs</strong> by flight count. Treat JFK→LAX and LAX→JFK as the <em>same</em> route by normalising direction with <code>LEAST</code> / <code>GREATEST</code>.</p><p>Only include routes with <strong>at least 5 flights</strong>. Break ties by average distance descending.</p><h3>Expected Output</h3><pre>airport_1  airport_2  total_flights  avg_distance_km\n---------  ---------  -------------  ---------------\nEWR        PHL        19             128\nORD        SFO        16             2964\nBOS        MSP        16             1804\nCLT        LAS        15             3077\nATL        SEA        14             3505</pre>",
+  "schema": "<h3>Parquet file: <code>./data/us_flights_sample.parquet</code></h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>flight_id</td><td>INTEGER</td><td>Unique flight ID</td></tr><tr><td>callsign</td><td>VARCHAR</td><td>Airline + flight number</td></tr><tr><td>origin</td><td>VARCHAR</td><td>Origin IATA code</td></tr><tr><td>destination</td><td>VARCHAR</td><td>Destination IATA code</td></tr><tr><td>origin_lat / origin_lon</td><td>DOUBLE</td><td>Origin airport coordinates</td></tr><tr><td>dest_lat / dest_lon</td><td>DOUBLE</td><td>Destination airport coordinates</td></tr><tr><td>distance_km</td><td>DOUBLE</td><td>Haversine great-circle distance</td></tr><tr><td>altitude_ft</td><td>INTEGER</td><td>Cruise altitude</td></tr><tr><td>speed_kt</td><td>INTEGER</td><td>Airspeed in knots</td></tr></table>",
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> <code>LEAST(origin, destination)</code> and <code>GREATEST(origin, destination)</code> give you a canonical alphabetical order regardless of flight direction.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Use <code>HAVING COUNT(*) &gt;= 5</code> to filter out thin routes before sorting.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 3</strong> <code>ROUND(AVG(distance_km), 0)</code> gives a clean integer-like distance. Order by <code>total_flights DESC, avg_distance_km DESC</code>.</div>",
+  "starterCode": "LOAD spatial;\n\n-- Find the 5 busiest bidirectional route pairs (≥ 5 flights).\n-- Normalise direction with LEAST/GREATEST so JFK→LAX = LAX→JFK.\n-- Return: airport_1, airport_2, total_flights, avg_distance_km\nSELECT\n  LEAST(origin, destination)    AS airport_1,\n  GREATEST(origin, destination) AS airport_2,\n\nFROM read_parquet('./data/us_flights_sample.parquet')\nGROUP BY airport_1, airport_2\nHAVING COUNT(*) >= 5\nORDER BY total_flights DESC, avg_distance_km DESC\nLIMIT 5;",
+  "setup": "",
+  "expected": [
+    {
+      "airport_1": "EWR",
+      "airport_2": "PHL",
+      "total_flights": "19",
+      "avg_distance_km": "128"
+    },
+    {
+      "airport_1": "ORD",
+      "airport_2": "SFO",
+      "total_flights": "16",
+      "avg_distance_km": "2964"
+    },
+    {
+      "airport_1": "BOS",
+      "airport_2": "MSP",
+      "total_flights": "16",
+      "avg_distance_km": "1804"
+    },
+    {
+      "airport_1": "CLT",
+      "airport_2": "LAS",
+      "total_flights": "15",
+      "avg_distance_km": "3077"
+    },
+    {
+      "airport_1": "ATL",
+      "airport_2": "SEA",
+      "total_flights": "14",
+      "avg_distance_km": "3505"
+    }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT LEAST(origin, destination)    AS airport_1,\n       GREATEST(origin, destination) AS airport_2,\n       COUNT(*)                      AS total_flights,\n       ROUND(AVG(distance_km), 0)    AS avg_distance_km\nFROM read_parquet('./data/us_flights_sample.parquet')\nGROUP BY airport_1, airport_2\nHAVING COUNT(*) >= 5\nORDER BY total_flights DESC, avg_distance_km DESC\nLIMIT 5;"
+}

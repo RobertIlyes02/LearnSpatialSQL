@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoSQL — Geospatial DuckDB Challenges</title>
+<title>GeoSQL — Learn Spatial SQL in Your Browser</title>
+<meta name="description" content="LeetCode for spatial SQL. 23 hands-on geospatial problems that run entirely in your browser with DuckDB-WASM — no install, no signup. Practice ST_Within, ST_Distance, spatial joins, H3, and real Parquet datasets.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GeoSQL — Learn Spatial SQL in Your Browser">
+<meta property="og:description" content="LeetCode for spatial SQL. Hands-on geospatial problems running entirely in your browser with DuckDB-WASM — no install, no signup.">
+<meta property="og:site_name" content="GeoSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GeoSQL — Learn Spatial SQL in Your Browser">
+<meta name="twitter:description" content="LeetCode for spatial SQL. Hands-on geospatial problems running entirely in your browser with DuckDB-WASM.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
@@ -26,15 +35,10 @@
   </div>
   <div id="nav-center"></div>
   <div class="nav-links">
-<<<<<<< HEAD
     <a href="#/problems" class="nav-link">Problems</a>
     <a href="#/resources" class="nav-link">Resources</a>
     <a href="#/leaderboard" class="nav-link">Leaderboard</a>
-=======
-    <a href="#/problems">Problems</a>
-    <a href="#">Discuss</a>
-    <a href="#">Leaderboard</a>
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
+    <a href="#/graph" class="nav-link">Graph</a>
     <div id="nav-auth-slot"></div>
   </div>
 </nav>
@@ -183,7 +187,6 @@
 </div>
 
 
-<<<<<<< HEAD
 
 <!-- ═══════════════ SCREEN: RESOURCES ═══════════════ -->
 <div id="screen-resources" class="screen">
@@ -426,8 +429,24 @@
   <footer>Built for spatial data engineers · Powered by <a href="https://duckdb.org/docs/api/wasm/overview" target="_blank">DuckDB WASM</a> · © 2025 GeoSQL</footer>
 </div>
 
-=======
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
+<!-- ═══════════════ SCREEN: GRAPH ═══════════════ -->
+<div id="screen-graph" class="screen">
+  <div class="graph-screen">
+    <div class="graph-legend">
+      <div class="graph-legend-title">Knowledge Graph</div>
+      <div class="graph-legend-items">
+        <span class="graph-legend-item"><span class="graph-dot" style="background:var(--cyan)"></span>Topic</span>
+        <span class="graph-legend-item"><span class="graph-dot" style="background:#22c55e"></span>Easy</span>
+        <span class="graph-legend-item"><span class="graph-dot" style="background:#f59e0b"></span>Medium</span>
+        <span class="graph-legend-item"><span class="graph-dot" style="background:#ef4444"></span>Hard</span>
+        <span class="graph-legend-item"><span class="graph-dot" style="background:#475569"></span>Function</span>
+      </div>
+      <div class="graph-legend-hint">Click a problem to open it · Click a topic to filter · Click a function to open DuckDB docs</div>
+    </div>
+    <div id="graph-container"></div>
+  </div>
+</div>
+
 <!-- ═══════════════ AUTH MODAL ═══════════════ -->
 <div id="auth-modal-overlay" style="display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
   <div class="auth-modal">

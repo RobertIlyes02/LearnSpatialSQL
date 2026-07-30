@@ -3,15 +3,19 @@
   "title": "Spatial Window Function",
   "diff": "Hard",
   "topic": "Analytics",
-  "tags": [
-    "PARTITION BY",
-    "ST_Within"
-  ],
+  "tags": ["PARTITION BY", "ST_Within", "RANK"],
   "premium": true,
-  "description": "<p>Full problem statement for <strong>Spatial Window Function</strong> is coming soon.</p><p>This problem will cover <code>PARTITION BY, ST_Within</code> in the <strong>Analytics</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
-  "expected": null
+  "hasExecution": true,
+  "description": "<p>A retail chain has <strong>store locations</strong> (points, with annual revenue) and <strong>district boundaries</strong> (polygons). Management wants the <strong>top 2 stores by revenue in each district</strong>.</p><h3>Goal</h3><p>Spatially assign each store to its district with <code>ST_Within</code>, rank stores by revenue within each district using a window function, and return only ranks 1–2.</p><p>Return <code>district_name</code>, <code>store_name</code>, <code>revenue</code>, <code>rnk</code>, ordered by <code>district_name</code>, then <code>rnk</code>.</p><h3>Expected Output</h3><pre>district_name  store_name   revenue  rnk\n-------------  -----------  -------  ---\nDowntown       Beta Shop    340000   1\nDowntown       Gamma Store  210000   2\nUptown         Delta Mart   500000   1\nUptown         Zeta Corner  430000   2</pre>",
+  "schema": "<h3>Tables</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>districts.district_name</td><td>VARCHAR</td><td>District label</td></tr><tr><td>districts.geom</td><td>GEOMETRY</td><td>District polygon</td></tr><tr><td>stores.store_name</td><td>VARCHAR</td><td>Store label</td></tr><tr><td>stores.geom</td><td>GEOMETRY</td><td>Store point</td></tr><tr><td>stores.revenue</td><td>INTEGER</td><td>Annual revenue</td></tr></table><p style=\"margin-top:0.75rem\">Window functions like <code>RANK() OVER (PARTITION BY ... ORDER BY ...)</code> compute per-group rankings without collapsing rows. DuckDB's <code>QUALIFY</code> clause filters on a window result directly — no subquery needed.</p>",
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> First get each store's district: <code>JOIN districts d ON ST_Within(s.geom, d.geom)</code>.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>RANK() OVER (PARTITION BY district_name ORDER BY revenue DESC)</code> ranks within each district.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 3</strong> DuckDB's <code>QUALIFY</code> clause filters on a window expression without a subquery: <code>QUALIFY RANK() OVER (...) &lt;= 2</code>. (Referencing the SELECT alias in QUALIFY needs a newer DuckDB than the browser runtime — repeat the full expression.)</div>",
+  "starterCode": "LOAD spatial;\n\n-- Top 2 stores by revenue in each district (spatial join + window function).\n-- Return: district_name, store_name, revenue, rnk ordered by district_name, rnk\nSELECT\n  d.district_name,\n  s.store_name,\n  s.revenue,\n\nFROM stores s\nJOIN districts d ON ST_Within(s.geom, d.geom)\nQUALIFY RANK() OVER (PARTITION BY d.district_name ORDER BY s.revenue DESC) <= 2\nORDER BY district_name, rnk;",
+  "setup": "CREATE TABLE districts AS SELECT * FROM (VALUES\n  ('Downtown', ST_GeomFromText('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))')),\n  ('Uptown',   ST_GeomFromText('POLYGON((10 0, 20 0, 20 10, 10 10, 10 0))'))\n) t(district_name, geom);\n\nCREATE TABLE stores AS SELECT * FROM (VALUES\n  ('Alpha Mart',  ST_Point(2, 2),  120000),\n  ('Beta Shop',   ST_Point(5, 5),  340000),\n  ('Gamma Store', ST_Point(8, 3),  210000),\n  ('Delta Mart',  ST_Point(12, 4), 500000),\n  ('Epsilon Co',  ST_Point(15, 8), 150000),\n  ('Zeta Corner', ST_Point(18, 2), 430000)\n) t(store_name, geom, revenue);",
+  "expected": [
+    { "district_name": "Downtown", "store_name": "Beta Shop",   "revenue": "340000", "rnk": "1" },
+    { "district_name": "Downtown", "store_name": "Gamma Store", "revenue": "210000", "rnk": "2" },
+    { "district_name": "Uptown",   "store_name": "Delta Mart",  "revenue": "500000", "rnk": "1" },
+    { "district_name": "Uptown",   "store_name": "Zeta Corner", "revenue": "430000", "rnk": "2" }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT d.district_name,\n       s.store_name,\n       s.revenue,\n       RANK() OVER (PARTITION BY d.district_name ORDER BY s.revenue DESC) AS rnk\nFROM stores s\nJOIN districts d ON ST_Within(s.geom, d.geom)\nQUALIFY RANK() OVER (PARTITION BY d.district_name ORDER BY s.revenue DESC) <= 2\nORDER BY district_name, rnk;"
 }

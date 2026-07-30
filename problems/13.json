@@ -1,11 +1,14 @@
 {
   "id": 13,
-<<<<<<< HEAD
   "title": "Snap Points to Road",
   "diff": "Medium",
   "acc": 44,
   "topic": "Snapping",
-  "tags": ["ST_ClosestPoint", "ST_X", "ST_Y"],
+  "tags": [
+    "ST_ClosestPoint",
+    "ST_X",
+    "ST_Y"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>GPS devices often record positions slightly off the road network due to signal error. Given a table of <strong>GPS pings</strong> and a single <strong>road segment</strong>, snap each ping to its closest point on the road.</p><h3>Goal</h3><p>Return <code>ping_id</code>, <code>snapped_x</code> and <code>snapped_y</code> (coordinates of the closest point on the road, rounded to 2 decimal places), ordered by <code>ping_id</code>.</p><h3>Example Output</h3><pre>ping_id  snapped_x  snapped_y\n-------  ---------  ---------\n1        3.00       0.00\n2        7.00       0.00\n3        10.00      0.00</pre>",
@@ -14,24 +17,21 @@
   "starterCode": "LOAD spatial;\n\n-- Snap each GPS ping to its closest point on the road.\n-- Return: ping_id, snapped_x, snapped_y (rounded to 2dp) ordered by ping_id\nSELECT\n  p.ping_id,\n\nFROM gps_pings p\nJOIN road r ON TRUE\nORDER BY p.ping_id;",
   "setup": "CREATE TABLE road AS SELECT * FROM (VALUES\n  (ST_GeomFromText('LINESTRING(0 0, 10 0)'))\n) t(geom);\n\nCREATE TABLE gps_pings AS SELECT * FROM (VALUES\n  (1, ST_Point(3.0,  2.5)),\n  (2, ST_Point(7.0, -1.8)),\n  (3, ST_Point(11.0, 3.0))\n) t(ping_id, geom);",
   "expected": [
-    { "ping_id": 1, "snapped_x": 3.0,  "snapped_y": 0.0 },
-    { "ping_id": 2, "snapped_x": 7.0,  "snapped_y": 0.0 },
-    { "ping_id": 3, "snapped_x": 10.0, "snapped_y": 0.0 }
-  ]
-=======
-  "title": "Snap Points to Line",
-  "diff": "Medium",
-  "topic": "Snapping",
-  "tags": [
-    "ST_ClosestPoint",
-    "ST_Line"
+    {
+      "ping_id": 1,
+      "snapped_x": 3.0,
+      "snapped_y": 0.0
+    },
+    {
+      "ping_id": 2,
+      "snapped_x": 7.0,
+      "snapped_y": 0.0
+    },
+    {
+      "ping_id": 3,
+      "snapped_x": 10.0,
+      "snapped_y": 0.0
+    }
   ],
-  "premium": false,
-  "description": "<p>Full problem statement for <strong>Snap Points to Line</strong> is coming soon.</p><p>This problem will cover <code>ST_ClosestPoint, ST_Line</code> in the <strong>Snapping</strong> category.</p>",
-  "schema": "<p class=\"results-placeholder\">Schema details coming soon.</p>",
-  "hints": "<p class=\"results-placeholder\">Hints coming soon.</p>",
-  "starterCode": "LOAD spatial;\n\n-- This problem's live execution environment isn't set up yet.\nSELECT 1;",
-  "setup": "",
-  "expected": null
->>>>>>> d1be0c33e1d39c44b4e25cea5458c8839bdd2701
+  "solution": "LOAD spatial;\n\nSELECT p.ping_id,\n       ROUND(ST_X(ST_ClosestPoint(r.geom, p.geom)), 2) AS snapped_x,\n       ROUND(ST_Y(ST_ClosestPoint(r.geom, p.geom)), 2) AS snapped_y\nFROM gps_pings p\nJOIN road r ON TRUE\nORDER BY p.ping_id;"
 }
