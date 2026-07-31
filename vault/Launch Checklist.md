@@ -2,6 +2,19 @@
 
 Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 
+## 👤 Robert's To-Do (needs your accounts — Claude can't do these)
+
+- [ ] **Deploy**: connect the GitHub repo on vercel.com (or Netlify) — repo is static, zero config
+- [ ] **Domain**: buy one (~$12/yr) and point it at the deploy
+- [ ] **Leaderboard**: paste the two SQL statements from the comment block in `js/supabase.js` (~line 196) into the Supabase SQL editor (CREATE VIEW leaderboard + GRANT)
+- [ ] **Merge PR #2** on GitHub once you're happy with it
+- [ ] **Analytics**: create a Plausible or Vercel Analytics account → then ask Claude to add the snippet
+- [ ] **Donate button**: create a GitHub Sponsors and/or Ko-fi account → then ask Claude to wire the button
+- [ ] **Social preview image**: after deploy, screenshot the editor and ask Claude to add it as og:image
+- [ ] **Test on your actual phone** — automated check passed, but real thumbs are the judge
+- [ ] **Launch posts** (after deploy): r/gis and r/PostGIS first, then Show HN, DuckDB Discord, #gischat
+- [ ] Optional: **blog post** "How I built a spatial SQL playground that runs entirely in the browser"
+
 ## Phase 1 — Blockers
 - [x] Commit and push all work ✅ 2026-07-29
 - [ ] Deploy to a real URL (Vercel/Netlify/GH Pages) + buy domain
