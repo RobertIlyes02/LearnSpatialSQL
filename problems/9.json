@@ -2,7 +2,6 @@
   "id": 9,
   "title": "Flood Risk Buffer",
   "diff": "Medium",
-  "acc": 61,
   "topic": "Buffering",
   "tags": [
     "ST_Buffer",

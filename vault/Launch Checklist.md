@@ -13,7 +13,7 @@ Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 ## Phase 2 — First two weeks
 - [ ] Landing page pitch: "LeetCode for spatial SQL — runs in your browser"
 - [x] Show-solution per problem ✅ 2026-07-29 — collapsible "Show Solution" in Hints tab, all 23 problems
-- [ ] Ordered learning path (use the knowledge graph as the spine)
+- [x] Ordered learning path ✅ 2026-07-31 — problem list grouped into 6 stages (Foundations → Real-World Analytics)
 - [ ] Analytics (Plausible / Vercel Analytics)
 - [x] "Report an issue" link per problem ✅ 2026-07-29 — GitHub issue link in Hints tab
 - [x] OG/meta tags ✅ 2026-07-29 — title, description, OG, Twitter card, favicon (social preview image still TODO after deploy)

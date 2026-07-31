@@ -439,14 +439,15 @@ function escapeHtml(val) {
 
 // ─── PROBLEM DATA FETCHING ───────────────────────────────────────────────────
 async function loadProblemIndex() {
-  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/index.json`);
+  // no-cache: revalidate with the server so problem edits show up without a hard refresh
+  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/index.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load problem index (${res.status})`);
   const data = await res.json();
   return data.map(p => ({ ...p, solved: solvedIds.has(p.id) }));
 }
 
 async function loadProblemDetail(id) {
-  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/${id}.json`);
+  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/${id}.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load problem ${id} (${res.status})`);
   return res.json();
 }
@@ -545,18 +546,38 @@ function switchResTab(btn, panelId) {
 }
 
 // ─── PROBLEM TABLE (list screen) ────────────────────────────────────────────
+// Suggested learning order — stages of increasing difficulty/prerequisites.
+// Problems not listed here are appended at the end automatically.
+const LEARNING_PATH = [
+  ['🧭 Foundations',              [20, 1, 3, 5, 8, 11, 14]],
+  ['📍 Distance & Proximity',     [2, 25, 9, 13, 22]],
+  ['🔗 Joins & Aggregation',      [4, 6, 10, 17, 27, 28, 24]],
+  ['✂️ Editing & Data Quality',   [7, 12, 16, 15]],
+  ['🌐 Projections & Bearings',   [26, 29]],
+  ['📊 Real-World Analytics',     [21, 23, 18, 19]],
+];
+
 function renderTable() {
   const tbody = document.getElementById('problem-body');
-  const rows = problemIndex.filter(p => {
+  const matches = p => {
     const matchDiff = currentDiff === 'all' || p.diff === currentDiff;
     const q = currentSearch.toLowerCase();
     const matchSearch = !q || p.title.toLowerCase().includes(q)
       || (p.tags || []).some(t => t.toLowerCase().includes(q))
       || (p.topic || '').toLowerCase().includes(q);
     return matchDiff && matchSearch;
-  });
+  };
+  const byId = new Map(problemIndex.map(p => [p.id, p]));
+  const inPath = new Set(LEARNING_PATH.flatMap(([, ids]) => ids));
+  const stages = LEARNING_PATH
+    .map(([label, ids]) => [label, ids.map(id => byId.get(id)).filter(p => p && matches(p))])
+    .filter(([, ps]) => ps.length);
+  const extra = problemIndex.filter(p => !inPath.has(p.id) && matches(p));
+  if (extra.length) stages.push(['✨ More', extra]);
 
-  tbody.innerHTML = rows.map(p => `
+  tbody.innerHTML = stages.map(([label, ps]) =>
+    `<tr class="path-header"><td colspan="6">${label}</td></tr>` +
+    ps.map(p => `
     <tr class="${p.solved ? 'solved-row' : ''}" data-id="${p.id}">
       <td class="td-status">${p.solved ? '<span class="check-icon">✓</span>' : ''}</td>
       <td class="td-id">${p.id}</td>
@@ -568,9 +589,9 @@ function renderTable() {
       <td class="td-topic"><span class="topic-chip"><span>${p.icon || ''}</span>${escapeHtml(p.topic)}</span></td>
       <td class="td-premium">${p.premium ? '<span class="premium-lock">🔒</span>' : ''}</td>
     </tr>
-  `).join('');
+  `).join('')).join('');
 
-  tbody.querySelectorAll('tr').forEach(tr => {
+  tbody.querySelectorAll('tr[data-id]').forEach(tr => {
     tr.addEventListener('click', (e) => {
       e.preventDefault();
       openProblem(Number(tr.dataset.id));

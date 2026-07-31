@@ -2,7 +2,6 @@
   "id": 12,
   "title": "Simplify Dense Coastline",
   "diff": "Medium",
-  "acc": 58,
   "topic": "Geometry",
   "tags": [
     "ST_Simplify",

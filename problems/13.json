@@ -2,7 +2,6 @@
   "id": 13,
   "title": "Snap Points to Road",
   "diff": "Medium",
-  "acc": 44,
   "topic": "Snapping",
   "tags": [
     "ST_ClosestPoint",

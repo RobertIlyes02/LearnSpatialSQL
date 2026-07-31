@@ -2,7 +2,6 @@
   "id": 10,
   "title": "Merge Coverage Areas",
   "diff": "Medium",
-  "acc": 52,
   "topic": "Aggregation",
   "tags": [
     "ST_Union",
