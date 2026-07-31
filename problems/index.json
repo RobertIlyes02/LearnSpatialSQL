@@ -248,7 +248,7 @@
       "ST_Within",
       "RANK"
     ],
-    "premium": true,
+    "premium": false,
     "hasExecution": true
   },
   {

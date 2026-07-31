@@ -1,100 +1,92 @@
 # GeoSQL
 
-A LeetCode-style platform for practicing geospatial SQL with DuckDB.
+**LeetCode for spatial SQL — 29 hands-on geospatial problems that run entirely in your browser.**
+
+Practice `ST_Within`, spatial joins, H3 hexbinning, projections, and querying real
+Parquet datasets, all powered by [DuckDB-WASM](https://duckdb.org/docs/api/wasm/overview)
+with the spatial extension. No install, no signup, no server.
 
 ## How it runs
 
-Query execution happens **entirely in the browser** via [DuckDB-WASM](https://duckdb.org/docs/api/wasm/overview) —
-there is no application server, and no query ever touches your infrastructure. When a
-user clicks Run/Submit, a DuckDB instance compiled to WebAssembly runs in their tab,
-loads the problem's seed data, executes their SQL, and compares the result locally.
-This means:
+Query execution happens **entirely in the browser** — there is no application server,
+and no query ever touches your infrastructure. When a user clicks Run/Submit, a DuckDB
+instance compiled to WebAssembly runs in their tab, loads the problem's seed data
+(inline SQL or a Parquet file from `data/`), executes their SQL, and grades the result
+locally against the problem's expected output.
 
-- **No server compute cost** for running queries, ever — it scales to any number of
-  concurrent users for free on that dimension.
-- A slow or pathological query only affects that user's browser tab, not shared
-  infrastructure. We still guard against it (see `CONFIG` in `js/app.js`):
-  a 10s client-side timeout, and a 500-row render cap so a huge result set doesn't
-  freeze the DOM.
-- The only real "backend" cost is bandwidth for static files (HTML/CSS/JS + the
-  ~5–8MB WASM bundle, which is CDN-cached after first load) and the small JSON
-  problem files.
+- **No server compute cost** for running queries, ever.
+- A slow query only affects that user's tab — guarded by a 10s client-side timeout
+  and a 500-row render cap (see `CONFIG` in `js/app.js`).
+- The only backend cost is static bandwidth (the ~5–8MB WASM bundle is CDN-cached
+  after first load).
 
-"Solved" status currently persists in `localStorage` as a stand-in for a real
-backend. See **Extending this** below for what a production version would add.
+Solved state persists in `localStorage` for anonymous users, or in Supabase
+(`js/supabase.js`) when signed in — which also powers per-problem leaderboards.
 
 ## Project structure
 
 ```
 geosql/
-├── index.html              # App shell — nav, two screens (list + detail), no inline data
-├── css/
-│   └── styles.css          # All styling
+├── index.html         # App shell — problem list, problem detail, knowledge graph
+├── css/styles.css     # All styling
 ├── js/
-│   └── app.js               # Routing, DuckDB-WASM lifecycle, CodeMirror setup,
-│                             # fetch-based problem loading, query execution + guardrails
-└── problems/
-    ├── SCHEMA.md            # Documents the problem JSON schema
-    ├── _template.json       # Copy-paste starting point for a new problem
-    ├── index.json           # Lightweight list (id, title, diff, tags...) — loaded by the list screen
-    ├── 1.json                # Full problem detail — fetched lazily only when opened
-    ├── 2.json
-    └── ...
+│   ├── app.js         # Routing, DuckDB-WASM lifecycle, CodeMirror, grading, D3 graph
+│   └── supabase.js    # Optional auth + submissions + leaderboard client
+├── data/              # Local Parquet datasets (NYC taxi, NYC POIs, US flights)
+├── problems/
+│   ├── SCHEMA.md      # Problem JSON schema docs
+│   ├── _template.json # Starting point for a new problem
+│   ├── index.json     # Lightweight list — loaded by the list screen
+│   └── {1..29}.json   # Full problem details — fetched lazily on open
+├── tests/
+│   └── test_solutions.py  # Validates every problem's solution vs expected output
+└── vault/             # Obsidian knowledge base (topics/problems/functions notes)
 ```
 
-### Why split into `index.json` + per-problem files?
-
-The list screen only ever needs id/title/difficulty/tags to render the table — so it
-only fetches the small `index.json`. The full description, schema docs, hints,
-starter code, seed-data SQL, and expected output for a given problem are only
-fetched when a user actually opens that problem. This keeps the initial page load
-small regardless of whether you have 20 problems or 2,000, and means adding a new
-problem is just adding one JSON file — no app code changes, no redeploy of existing
-problems' data.
+The list screen fetches only the small `index.json`; a problem's full description,
+hints, seed SQL, reference solution, and expected output load only when opened.
+Adding a problem is adding one JSON file — no app code changes.
 
 ## Running locally
 
-Any static file server works — `fetch()` requires HTTP, so you can't just open
-`index.html` via `file://`.
+Any static file server works — `fetch()` requires HTTP, so `file://` won't.
 
 ```bash
-cd geosql
-python3 -m http.server 8000
-# visit http://localhost:8000
+python -m http.server 8000
 ```
 
-Or `npx serve`, or drop the folder into any static host (Vercel, Netlify, Cloudflare
-Pages, S3 + CloudFront, GitHub Pages all work with zero config beyond pointing at
-this directory).
+Then visit http://localhost:8000. Or `npx serve`, or any static host
+(Vercel, Netlify, Cloudflare Pages, GitHub Pages) pointed at this directory.
+
+> **Deploying:** bump the `?v=` query on the `app.js`/`styles.css` tags in
+> `index.html` so returning visitors' browsers pick up the new assets.
 
 ## Adding a new problem
 
-1. Copy `problems/_template.json` to `problems/{next_id}.json` and fill it in.
-   See `problems/SCHEMA.md` for field-by-field documentation.
-2. If your `setup` SQL introduces new table names, add them to `KNOWN_TABLES` in
-   `js/app.js` — this list is dropped before every query run so state never leaks
-   between problems or between repeated Run clicks.
-3. Add a matching lightweight entry to `problems/index.json` (same id/title/diff/etc,
-   plus `"hasExecution": true`).
-4. That's it — no other code changes needed.
+1. Copy `problems/_template.json` to `problems/{next_id}.json` and fill it in
+   (see `problems/SCHEMA.md`). Include a `solution` (shown behind "Show Solution")
+   and an `expected` array (used for grading).
+   - Table-based problem: put seed SQL in `setup`. Tables are dropped automatically
+     before every run — no cleanup list to maintain.
+   - Parquet-based problem: leave `setup` empty, set `"hasExecution": true`, and
+     query `read_parquet('./data/yourfile.parquet')` (the app rewrites the relative
+     path for WASM).
+2. Add a matching entry to `problems/index.json`.
+3. Verify it: `python tests/test_solutions.py` runs every problem's setup +
+   reference solution and diffs against `expected` with the same comparison the
+   app uses.
 
-Currently problems 1–8 have full live execution (seed data + expected output).
-Problems 9–20 are stubs with description/schema/hints placeholders and no live
-execution yet — a good batch to fill in next using the same pattern.
+**Gotchas learned the hard way** (all encoded in existing problems):
+- The in-browser DuckDB can lag the Python release — e.g. it can't reference a
+  SELECT alias in `QUALIFY` (see problem 19). Always browser-test new functions.
+- `ST_Transform` follows EPSG:4326's official lat/lon axis order (problem 26).
+- Expected values are compared as JS strings: `String(-74.0)` is `"-74"`, and
+  booleans are `"true"`/`"false"`.
 
-## What's still missing for a real production version
+## Testing
 
-This is a solid client-side foundation, but a few things are deliberately out of
-scope for this iteration and would need a real (small) backend:
+```bash
+python tests/test_solutions.py
+```
 
-- **Auth** — so solved state and stats follow a user across devices instead of
-  living in localStorage.
-- **A submissions table** (`user_id, problem_id, code, passed, submitted_at`) —
-  this is what would let "Acceptance %" become a real, live-computed number
-  instead of the placeholder values currently hardcoded in each problem's JSON.
-- **Rate limiting on the backend API**, if/when one exists for submissions —
-  not for query execution (which never touches your servers), but to prevent
-  spammy submission-logging requests.
-- **A CDN in front of `/problems/*.json` and the WASM bundle** for latency and
-  to reduce duplicate downloads at scale — most static hosts give you this for
-  free already.
+Requires Python with `duckdb` installed. All 29 problems must pass before shipping.

@@ -25,18 +25,6 @@ const CONFIG = {
   PROBLEMS_DIR: './problems',          // where index.json + {id}.json live
   QUERY_TIMEOUT_MS: 10_000,            // abort a query that hangs longer than this
   MAX_RENDERED_ROWS: 500,              // never render more than this many rows in the table
-  // Table names that get DROP'd before every run, so stale data never leaks
-  // between problems or between repeated Run clicks. Extend this list whenever
-  // a new problem's `setup` introduces a new table name.
-  KNOWN_TABLES: [
-    'parks', 'incidents', 'users', 'shops', 'airports',
-    'zones', 'warehouses', 'routes', 'pings',
-    'zones_old', 'zones_new', 'sightings',
-    'flood_zone', 'properties', 'towers',
-    'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features',
-    'lake_shores', 'ferry_routes', 'shipping_lane', 'districts', 'stores',
-    'pipeline', 'sensors', 'landmarks', 'drone_pings', 'hubs'
-  ],
 };
 
 // ─── FUNCTION DOCUMENTATION LINKS ───────────────────────────────────────────
@@ -276,10 +264,15 @@ function withTimeout(promise, ms) {
 }
 
 async function resetTables(conn) {
-  // Defensive cleanup: drop every table this app knows about before each run,
-  // so leftover state from a previous problem/run never bleeds into the next.
-  const drops = CONFIG.KNOWN_TABLES.map(t => `DROP TABLE IF EXISTS ${t};`).join(' ');
-  await conn.query(drops);
+  // Defensive cleanup: drop every user table before each run, so leftover state
+  // from a previous problem/run never bleeds into the next. Queried dynamically
+  // so new problems never need a hand-maintained table list.
+  const res = await conn.query(
+    "SELECT table_name FROM information_schema.tables WHERE table_schema = 'main' AND table_type = 'BASE TABLE'"
+  );
+  const drops = res.toArray()
+    .map(r => `DROP TABLE IF EXISTS "${r.table_name}";`).join(' ');
+  if (drops) await conn.query(drops);
 }
 
 async function runQuery(isSubmit) {
