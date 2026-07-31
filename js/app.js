@@ -81,18 +81,26 @@ const FUNCTION_DOCS = {
   // Data quality
   ST_IsValid:       { url: `${SPATIAL}#st_isvalid`,       label: 'ST_IsValid — DuckDB Spatial' },
   ST_IsValidReason: { url: `${SPATIAL}#st_isvalidreason`, label: 'ST_IsValidReason — DuckDB Spatial' },
+  ST_MakeValid:     { url: `${SPATIAL}#st_makevalid`,     label: 'ST_MakeValid — DuckDB Spatial' },
+  ST_AsText:        { url: `${SPATIAL}#st_astext`,        label: 'ST_AsText — DuckDB Spatial' },
+  ST_Perimeter:     { url: `${SPATIAL}#st_perimeter`,     label: 'ST_Perimeter — DuckDB Spatial' },
   // I/O
   ST_Read:          { url: `${SPATIAL}#st_read`,          label: 'ST_Read — DuckDB Spatial' },
+  read_parquet:     { url: 'https://duckdb.org/docs/current/data/parquet/overview', label: 'read_parquet — DuckDB Parquet' },
   // H3
+  H3:                   { url: H3_EXT, label: 'H3 — DuckDB Community Extension' },
   h3_latlng_to_cell:    { url: H3_EXT, label: 'h3_latlng_to_cell — DuckDB H3 Extension' },
   h3_grid_ring_unsafe:  { url: H3_EXT, label: 'h3_grid_ring_unsafe — DuckDB H3 Extension' },
   h3_compact_cells:     { url: H3_EXT, label: 'h3_compact_cells — DuckDB H3 Extension' },
   // SQL constructs
   'ORDER BY':    { url: `${SQL}/orderby`,    label: 'ORDER BY — DuckDB SQL' },
+  'GROUP BY':    { url: `${SQL}/groupby`,    label: 'GROUP BY — DuckDB SQL' },
   'JOIN':        { url: `${SQL}/from`,       label: 'JOIN — DuckDB SQL' },
+  'LATERAL':     { url: `${SQL}/from`,       label: 'LATERAL Joins — DuckDB SQL' },
   'CTE':         { url: `${SQL}/with`,       label: 'CTEs (WITH) — DuckDB SQL' },
   'FLOOR':       { url: NUMERIC,             label: 'Numeric Functions — DuckDB SQL' },
   'PARTITION BY':{ url: WINDOW,              label: 'Window Functions — DuckDB SQL' },
+  'RANK':        { url: WINDOW,              label: 'RANK — DuckDB Window Functions' },
 };
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -921,6 +929,11 @@ function initGraph() {
       openProblem(d.pid);
     } else if (d.type === 'fn' && FUNCTION_DOCS[d.label]) {
       window.open(FUNCTION_DOCS[d.label].url, '_blank', 'noopener');
+    } else if (d.type === 'fn') {
+      // ponytail: no docs page for this tag — filter the problem list by it instead of dead-clicking
+      currentSearch = d.label;
+      currentDiff   = 'all';
+      goHome();
     } else {
       currentSearch = d.label;
       currentDiff   = 'all';
