@@ -34,7 +34,8 @@ const CONFIG = {
     'zones_old', 'zones_new', 'sightings',
     'flood_zone', 'properties', 'towers',
     'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features',
-    'lake_shores', 'ferry_routes', 'shipping_lane', 'districts', 'stores'
+    'lake_shores', 'ferry_routes', 'shipping_lane', 'districts', 'stores',
+    'pipeline', 'sensors', 'landmarks', 'drone_pings', 'hubs'
   ],
 };
 
@@ -82,6 +83,11 @@ const FUNCTION_DOCS = {
   ST_IsValid:       { url: `${SPATIAL}#st_isvalid`,       label: 'ST_IsValid — DuckDB Spatial' },
   ST_IsValidReason: { url: `${SPATIAL}#st_isvalidreason`, label: 'ST_IsValidReason — DuckDB Spatial' },
   ST_MakeValid:     { url: `${SPATIAL}#st_makevalid`,     label: 'ST_MakeValid — DuckDB Spatial' },
+  ST_DWithin:       { url: `${SPATIAL}#st_dwithin`,       label: 'ST_DWithin — DuckDB Spatial' },
+  ST_Transform:     { url: `${SPATIAL}#st_transform`,     label: 'ST_Transform — DuckDB Spatial' },
+  ST_MakeLine:      { url: `${SPATIAL}#st_makeline`,      label: 'ST_MakeLine — DuckDB Spatial' },
+  ST_Extent_Agg:    { url: `${SPATIAL}#st_extent_agg`,    label: 'ST_Extent_Agg — DuckDB Spatial' },
+  ST_Azimuth:       { url: `${SPATIAL}#st_azimuth`,       label: 'ST_Azimuth — DuckDB Spatial' },
   ST_AsText:        { url: `${SPATIAL}#st_astext`,        label: 'ST_AsText — DuckDB Spatial' },
   ST_Perimeter:     { url: `${SPATIAL}#st_perimeter`,     label: 'ST_Perimeter — DuckDB Spatial' },
   // I/O

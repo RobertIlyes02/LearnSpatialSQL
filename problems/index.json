@@ -305,5 +305,86 @@
     ],
     "premium": false,
     "hasExecution": true
+  },
+  {
+    "id": 24,
+    "title": "Rush Hour Fare Analysis",
+    "diff": "Easy",
+    "topic": "Analytics",
+    "icon": "🕕",
+    "tags": [
+      "read_parquet",
+      "GROUP BY",
+      "AVG"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 25,
+    "title": "Sensors Near the Pipeline",
+    "diff": "Easy",
+    "topic": "Predicates",
+    "icon": "📡",
+    "tags": [
+      "ST_DWithin",
+      "ST_Distance"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 26,
+    "title": "Reproject to Web Mercator",
+    "diff": "Medium",
+    "topic": "Projection",
+    "icon": "🌐",
+    "tags": [
+      "ST_Transform",
+      "EPSG"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 27,
+    "title": "Drone Tracks from Pings",
+    "diff": "Medium",
+    "topic": "Geometry",
+    "icon": "🛸",
+    "tags": [
+      "ST_MakeLine",
+      "ST_Length",
+      "GROUP BY"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 28,
+    "title": "Category Bounding Boxes",
+    "diff": "Medium",
+    "topic": "Aggregation",
+    "icon": "📦",
+    "tags": [
+      "ST_Extent_Agg",
+      "ST_Area",
+      "read_parquet"
+    ],
+    "premium": false,
+    "hasExecution": true
+  },
+  {
+    "id": 29,
+    "title": "Compass Bearings Between Hubs",
+    "diff": "Hard",
+    "topic": "Measurement",
+    "icon": "🧭",
+    "tags": [
+      "ST_Azimuth",
+      "JOIN"
+    ],
+    "premium": false,
+    "hasExecution": true
   }
 ]
