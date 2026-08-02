@@ -2,54 +2,68 @@
 
 Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 
+**Status:** 29 problems, all passing `tests/test_solutions.py`. Domain + email + donations
+wired. Remaining blockers are DNS cutover and the launch posts themselves.
+
 ## 👤 Robert's To-Do (needs your accounts — Claude can't do these)
 
-- [x] **Deploy**: connect the GitHub repo on vercel.com (or Netlify) — repo is static, zero config
-- [ ] **Domain**: buy one (~$12/yr) and point it at the deploy
-- [x] **Leaderboard** ✅ 2026-08-02 — schema applied; lives in `supabase/schema.sql`
-  - [ ] Set a **minimum password length (8+)** and required character classes —
-        Supabase → Authentication → **Providers → Email** (available on free)
-  - [ ] Decide on Supabase **Pro ($25/mo)**. It bundles the three open issues:
-        no weekly pauses that break login, leaked-password protection
-        (Pro-only — *not* available on free, so the last security lint can't be
-        cleared until then), and better limits.
-- [x] **Merge PR #2** on GitHub once you're happy with it
-- [ ] **Analytics**: create a Plausible or Vercel Analytics account → then ask Claude to add the snippet
-- [x] **Donate button** ✅ 2026-08-02 — Ko-fi (ko-fi.com/robertilyes) wired into the nav
-  - [ ] ⚠️ Still required: connect PayPal/Stripe in Ko-fi Settings → Payments, or donations can't be received
-- [x] **Social preview image** ✅ 2026-08-02 — `og-image.png` (1200×630) generated & wired up
-  - [ ] Once the domain is live, tell Claude to swap `og:image` to the **absolute**
-        URL (`https://geosql.dev/og-image.png`) — some scrapers reject relative paths
-  - [ ] Also add `og:url` + a canonical link with the real domain
-- [ ] **Test on your actual phone** — automated check passed, but real thumbs are the judge
-- [ ] **Launch posts** (after deploy): r/gis and r/PostGIS first, then Show HN, DuckDB Discord, #gischat
-- [ ] Optional: **blog post** "How I built a spatial SQL playground that runs entirely in the browser"
+- [ ] **Verify DNS cutover** — Cloudflare shows `geosql.dev` as **Active**, and in
+      Cloudflare DNS these exist and are **DNS only (grey cloud, not orange)**:
+      `A @ 76.76.21.21` and `CNAME www cname.vercel-dns.com`.
+      Orange-cloud proxy in front of Vercel breaks SSL issuance.
+      Then add `geosql.dev` in Vercel → Project → Settings → Domains so it issues the cert.
+- [ ] **Ko-fi payouts** ⚠️ — connect PayPal/Stripe in Ko-fi → Settings → Payments.
+      Until then the button works but **no money can actually reach you**.
+- [ ] **Analytics** — create a Plausible or Vercel Analytics account → then ask Claude
+      to add the snippet.
+- [ ] **Test on your actual phone.** The preview pane scales its viewport (reports
+      ~776px when asked for 390px), so my "mobile passed" checks were really tablet
+      checks. Real thumbs required.
+- [ ] **Supabase decisions** (free tier):
+  - [ ] Set a **minimum password length (8+)** + required character classes —
+        Authentication → **Providers → Email** (this part *is* available on free).
+  - [ ] Decide on **Pro ($25/mo)**. Bundles: no weekly pauses that silently break
+        login, leaked-password protection (Pro-only), better limits.
+- [ ] **Launch posts** — r/gis + r/PostGIS first, then Show HN, DuckDB Discord, #gischat.
+- [ ] Optional: **blog post** — "How I built a spatial SQL playground that runs
+      entirely in the browser."
 
-## Phase 1 — Blockers
-- [x] Commit and push all work ✅ 2026-07-29
-- [ ] Deploy to a real URL (Vercel/Netlify/GH Pages) + buy domain
-- [x] Test every problem end-to-end ✅ 2026-07-29 — `tests/test_solutions.py`, ALL 23 pass; also browser-verified in real DuckDB-WASM (P18 H3, P19 QUALIFY, P20 parquet)
-- [x] Finish or hide problems 16–20 ✅ 2026-07-29 — all finished with full statements, setups, expected outputs & solutions. P18 → H3 Hexbin Hotspots, P20 → Load a Parquet Layer
-- [ ] Fix mobile — landing page + problem list must not break
-- [x] Error state when DuckDB WASM fails to load ✅ already existed (30s timeout, file:// detection, dismiss button)
+## ✅ Done
 
-## Phase 2 — First two weeks
+- [x] **Deploy** — Vercel, connected to the GitHub repo
+- [x] **Domain** ✅ 2026-08-02 — `geosql.dev` (Namecheap → Cloudflare nameservers)
+- [x] **Support email** ✅ 2026-08-02 — `support@geosql.dev` via Cloudflare Email
+      Routing; wired into the footer + every problem's bug-report line
+- [x] **Donate button** ✅ 2026-08-02 — Ko-fi in nav (payout connection still pending)
+- [x] **Leaderboard** ✅ 2026-08-02 — schema in `supabase/schema.sql`. Found and fixed
+      a real bug: `submissions.runtime_ms` never existed, so every insert was failing
+      silently. Rebuilt the view around a `profiles` table so it never joins
+      `auth.users` (the original SQL would have published every user's **email**
+      publicly). Solution `code` column blocked from anon. Security advisor: clean
+      except the Pro-only password lint.
+- [x] **Logo** ✅ 2026-08-02 — custom polygon-with-vertices mark (nav + favicon + OG),
+      replacing the 🌐 emoji
+- [x] **Social preview** ✅ 2026-08-02 — `og-image.png` 1200×630, `summary_large_image`
+- [x] **Mobile nav overflow** ✅ 2026-08-02 — nav needed 661px on a 390px screen;
+      wordmark hides, links scroll
+- [x] **All 29 problems** verified end-to-end via `tests/test_solutions.py`
+- [x] **Learning path** — 6 stages, Foundations → Real-World Analytics
+- [x] **Show Solution** per problem
+- [x] **Dead links** — all 20 external links audited, 5 fixed
+- [x] **Fake pagination** removed
+- [x] **Cache headers** — `vercel.json`; stale ES modules were breaking the whole app
+
+## After the domain is live
+
+- [ ] Swap `og:image` to the **absolute** URL (`https://geosql.dev/og-image.png`) —
+      some scrapers reject relative paths
+- [ ] Add `og:url` + a `<link rel="canonical">`
 - [ ] Landing page pitch: "LeetCode for spatial SQL — runs in your browser"
-- [x] Show-solution per problem ✅ 2026-07-29 — collapsible "Show Solution" in Hints tab, all 23 problems
-- [x] Ordered learning path ✅ 2026-07-31 — problem list grouped into 6 stages (Foundations → Real-World Analytics)
-- [ ] Analytics (Plausible / Vercel Analytics)
-- [x] "Report an issue" link per problem ✅ 2026-07-29 — GitHub issue link in Hints tab
-- [x] OG/meta tags ✅ 2026-07-29 — title, description, OG, Twitter card, favicon (social preview image still TODO after deploy)
-
-## Phase 3 — Marketing & growth
-- [ ] Launch posts: r/gis, r/PostGIS → Show HN → DuckDB Discord → #gischat
-- [ ] Companion blog post: "spatial SQL playground entirely in the browser"
-- [ ] More real-dataset parquet problems (each one = a social post)
-- [ ] SEO: crawlable problem URLs, sitemap, homepage copy
-- [ ] Auth/leaderboard polish — anonymous solving first, login = "save progress"
+- [ ] SEO: crawlable problem URLs, sitemap (hash routing is invisible to Google)
 
 ## Explicitly later
+
 - Payments / premium tier
 - Gamification (badges, streaks, comments)
 
-**Critical path:** commit → deploy → test problems → landing pitch → launch posts
+**Critical path:** DNS cutover → phone test → landing pitch → launch posts
