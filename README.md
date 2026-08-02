@@ -58,8 +58,19 @@ python -m http.server 8000
 Then visit http://localhost:8000. Or `npx serve`, or any static host
 (Vercel, Netlify, Cloudflare Pages, GitHub Pages) pointed at this directory.
 
-> **Deploying:** bump the `?v=` query on the `app.js`/`styles.css` tags in
-> `index.html` so returning visitors' browsers pick up the new assets.
+### Caching
+
+`vercel.json` sets `must-revalidate` on `.js` / `.css` / `.json`, and caches
+`/data/*.parquet` for a year (those files never change).
+
+This matters more than it looks. The app is ES modules, so if a browser serves a
+*stale* `supabase.js` next to a *fresh* `app.js`, an import of a name the cached
+file doesn't export yet fails — and the whole app dies at "Loading runtime…"
+rather than degrading. Revalidation is cheap here (small files, mostly 304s).
+
+The `?v=` query on the `app.js` / `styles.css` tags in `index.html` predates that
+header and is now belt-and-braces; bump it if you want to force a refresh, but it
+only versions those two files, not the modules they import.
 
 ## Adding a new problem
 
