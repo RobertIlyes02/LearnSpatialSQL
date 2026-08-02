@@ -15,7 +15,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<!-- ponytail: bump ?v= on every deploy so browsers pick up new assets -->
+<link rel="stylesheet" href="css/styles.css?v=2">
 </head>
 <body>
 
@@ -112,14 +113,6 @@
         </thead>
         <tbody id="problem-body"></tbody>
       </table>
-    </div>
-    <div class="pagination">
-      <button class="page-btn">‹</button>
-      <button class="page-btn current">1</button>
-      <button class="page-btn">2</button>
-      <button class="page-btn">3</button>
-      <button class="page-btn">…</button>
-      <button class="page-btn">›</button>
     </div>
   </main>
 
@@ -481,6 +474,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js"></script>
+<script type="module" src="js/app.js?v=4"></script>
 </body>
 </html>

@@ -25,17 +25,6 @@ const CONFIG = {
   PROBLEMS_DIR: './problems',          // where index.json + {id}.json live
   QUERY_TIMEOUT_MS: 10_000,            // abort a query that hangs longer than this
   MAX_RENDERED_ROWS: 500,              // never render more than this many rows in the table
-  // Table names that get DROP'd before every run, so stale data never leaks
-  // between problems or between repeated Run clicks. Extend this list whenever
-  // a new problem's `setup` introduces a new table name.
-  KNOWN_TABLES: [
-    'parks', 'incidents', 'users', 'shops', 'airports',
-    'zones', 'warehouses', 'routes', 'pings',
-    'zones_old', 'zones_new', 'sightings',
-    'flood_zone', 'properties', 'towers',
-    'neighbourhoods', 'coastlines', 'road', 'gps_pings', 'parcels', 'features',
-    'lake_shores', 'ferry_routes', 'shipping_lane', 'districts', 'stores'
-  ],
 };
 
 // ─── FUNCTION DOCUMENTATION LINKS ───────────────────────────────────────────
@@ -81,18 +70,31 @@ const FUNCTION_DOCS = {
   // Data quality
   ST_IsValid:       { url: `${SPATIAL}#st_isvalid`,       label: 'ST_IsValid — DuckDB Spatial' },
   ST_IsValidReason: { url: `${SPATIAL}#st_isvalidreason`, label: 'ST_IsValidReason — DuckDB Spatial' },
+  ST_MakeValid:     { url: `${SPATIAL}#st_makevalid`,     label: 'ST_MakeValid — DuckDB Spatial' },
+  ST_DWithin:       { url: `${SPATIAL}#st_dwithin`,       label: 'ST_DWithin — DuckDB Spatial' },
+  ST_Transform:     { url: `${SPATIAL}#st_transform`,     label: 'ST_Transform — DuckDB Spatial' },
+  ST_MakeLine:      { url: `${SPATIAL}#st_makeline`,      label: 'ST_MakeLine — DuckDB Spatial' },
+  ST_Extent_Agg:    { url: `${SPATIAL}#st_extent_agg`,    label: 'ST_Extent_Agg — DuckDB Spatial' },
+  ST_Azimuth:       { url: `${SPATIAL}#st_azimuth`,       label: 'ST_Azimuth — DuckDB Spatial' },
+  ST_AsText:        { url: `${SPATIAL}#st_astext`,        label: 'ST_AsText — DuckDB Spatial' },
+  ST_Perimeter:     { url: `${SPATIAL}#st_perimeter`,     label: 'ST_Perimeter — DuckDB Spatial' },
   // I/O
   ST_Read:          { url: `${SPATIAL}#st_read`,          label: 'ST_Read — DuckDB Spatial' },
+  read_parquet:     { url: 'https://duckdb.org/docs/current/data/parquet/overview', label: 'read_parquet — DuckDB Parquet' },
   // H3
+  H3:                   { url: H3_EXT, label: 'H3 — DuckDB Community Extension' },
   h3_latlng_to_cell:    { url: H3_EXT, label: 'h3_latlng_to_cell — DuckDB H3 Extension' },
   h3_grid_ring_unsafe:  { url: H3_EXT, label: 'h3_grid_ring_unsafe — DuckDB H3 Extension' },
   h3_compact_cells:     { url: H3_EXT, label: 'h3_compact_cells — DuckDB H3 Extension' },
   // SQL constructs
   'ORDER BY':    { url: `${SQL}/orderby`,    label: 'ORDER BY — DuckDB SQL' },
+  'GROUP BY':    { url: `${SQL}/groupby`,    label: 'GROUP BY — DuckDB SQL' },
   'JOIN':        { url: `${SQL}/from`,       label: 'JOIN — DuckDB SQL' },
+  'LATERAL':     { url: `${SQL}/from`,       label: 'LATERAL Joins — DuckDB SQL' },
   'CTE':         { url: `${SQL}/with`,       label: 'CTEs (WITH) — DuckDB SQL' },
   'FLOOR':       { url: NUMERIC,             label: 'Numeric Functions — DuckDB SQL' },
   'PARTITION BY':{ url: WINDOW,              label: 'Window Functions — DuckDB SQL' },
+  'RANK':        { url: WINDOW,              label: 'RANK — DuckDB Window Functions' },
 };
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -262,10 +264,15 @@ function withTimeout(promise, ms) {
 }
 
 async function resetTables(conn) {
-  // Defensive cleanup: drop every table this app knows about before each run,
-  // so leftover state from a previous problem/run never bleeds into the next.
-  const drops = CONFIG.KNOWN_TABLES.map(t => `DROP TABLE IF EXISTS ${t};`).join(' ');
-  await conn.query(drops);
+  // Defensive cleanup: drop every user table before each run, so leftover state
+  // from a previous problem/run never bleeds into the next. Queried dynamically
+  // so new problems never need a hand-maintained table list.
+  const res = await conn.query(
+    "SELECT table_name FROM information_schema.tables WHERE table_schema = 'main' AND table_type = 'BASE TABLE'"
+  );
+  const drops = res.toArray()
+    .map(r => `DROP TABLE IF EXISTS "${r.table_name}";`).join(' ');
+  if (drops) await conn.query(drops);
 }
 
 async function runQuery(isSubmit) {
@@ -432,14 +439,15 @@ function escapeHtml(val) {
 
 // ─── PROBLEM DATA FETCHING ───────────────────────────────────────────────────
 async function loadProblemIndex() {
-  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/index.json`);
+  // no-cache: revalidate with the server so problem edits show up without a hard refresh
+  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/index.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load problem index (${res.status})`);
   const data = await res.json();
   return data.map(p => ({ ...p, solved: solvedIds.has(p.id) }));
 }
 
 async function loadProblemDetail(id) {
-  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/${id}.json`);
+  const res = await fetch(`${CONFIG.PROBLEMS_DIR}/${id}.json`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Failed to load problem ${id} (${res.status})`);
   return res.json();
 }
@@ -538,18 +546,38 @@ function switchResTab(btn, panelId) {
 }
 
 // ─── PROBLEM TABLE (list screen) ────────────────────────────────────────────
+// Suggested learning order — stages of increasing difficulty/prerequisites.
+// Problems not listed here are appended at the end automatically.
+const LEARNING_PATH = [
+  ['🧭 Foundations',              [20, 1, 3, 5, 8, 11, 14]],
+  ['📍 Distance & Proximity',     [2, 25, 9, 13, 22]],
+  ['🔗 Joins & Aggregation',      [4, 6, 10, 17, 27, 28, 24]],
+  ['✂️ Editing & Data Quality',   [7, 12, 16, 15]],
+  ['🌐 Projections & Bearings',   [26, 29]],
+  ['📊 Real-World Analytics',     [21, 23, 18, 19]],
+];
+
 function renderTable() {
   const tbody = document.getElementById('problem-body');
-  const rows = problemIndex.filter(p => {
+  const matches = p => {
     const matchDiff = currentDiff === 'all' || p.diff === currentDiff;
     const q = currentSearch.toLowerCase();
     const matchSearch = !q || p.title.toLowerCase().includes(q)
       || (p.tags || []).some(t => t.toLowerCase().includes(q))
       || (p.topic || '').toLowerCase().includes(q);
     return matchDiff && matchSearch;
-  });
+  };
+  const byId = new Map(problemIndex.map(p => [p.id, p]));
+  const inPath = new Set(LEARNING_PATH.flatMap(([, ids]) => ids));
+  const stages = LEARNING_PATH
+    .map(([label, ids]) => [label, ids.map(id => byId.get(id)).filter(p => p && matches(p))])
+    .filter(([, ps]) => ps.length);
+  const extra = problemIndex.filter(p => !inPath.has(p.id) && matches(p));
+  if (extra.length) stages.push(['✨ More', extra]);
 
-  tbody.innerHTML = rows.map(p => `
+  tbody.innerHTML = stages.map(([label, ps]) =>
+    `<tr class="path-header"><td colspan="6">${label}</td></tr>` +
+    ps.map(p => `
     <tr class="${p.solved ? 'solved-row' : ''}" data-id="${p.id}">
       <td class="td-status">${p.solved ? '<span class="check-icon">✓</span>' : ''}</td>
       <td class="td-id">${p.id}</td>
@@ -561,9 +589,9 @@ function renderTable() {
       <td class="td-topic"><span class="topic-chip"><span>${p.icon || ''}</span>${escapeHtml(p.topic)}</span></td>
       <td class="td-premium">${p.premium ? '<span class="premium-lock">🔒</span>' : ''}</td>
     </tr>
-  `).join('');
+  `).join('')).join('');
 
-  tbody.querySelectorAll('tr').forEach(tr => {
+  tbody.querySelectorAll('tr[data-id]').forEach(tr => {
     tr.addEventListener('click', (e) => {
       e.preventDefault();
       openProblem(Number(tr.dataset.id));
@@ -921,6 +949,11 @@ function initGraph() {
       openProblem(d.pid);
     } else if (d.type === 'fn' && FUNCTION_DOCS[d.label]) {
       window.open(FUNCTION_DOCS[d.label].url, '_blank', 'noopener');
+    } else if (d.type === 'fn') {
+      // ponytail: no docs page for this tag — filter the problem list by it instead of dead-clicking
+      currentSearch = d.label;
+      currentDiff   = 'all';
+      goHome();
     } else {
       currentSearch = d.label;
       currentDiff   = 'all';

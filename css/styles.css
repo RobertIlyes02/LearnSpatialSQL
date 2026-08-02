@@ -214,16 +214,12 @@ td { padding: 13px 16px; font-size: 0.875rem; vertical-align: middle; }
 .topic-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--muted2); font-weight: 500; }
 .td-premium { width: 80px; text-align: center; }
 .premium-lock { color: var(--amber); font-size: 0.85rem; }
-.pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 1.75rem; }
-.page-btn {
-  width: 34px; height: 34px; border-radius: 7px;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--muted2); font-size: 0.8rem; font-weight: 500;
-  cursor: pointer; font-family: 'Space Grotesk', sans-serif;
-  transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+.path-header td {
+  padding: 1.1rem 1rem 0.45rem; font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2);
+  border-bottom: 1px solid var(--border); background: transparent;
 }
-.page-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-.page-btn.current { background: var(--cyan); color: #0B1220; border-color: var(--cyan); font-weight: 600; }
+.path-header:hover td { background: transparent; cursor: default; }
 
 /* ─── PROBLEM DETAIL ─── */
 #screen-problem {

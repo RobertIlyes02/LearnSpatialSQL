@@ -22,6 +22,7 @@ A LeetCode-style platform for learning geospatial SQL with DuckDB-WASM.
 - [[Clustering]]
 - [[I/O]]
 - [[Analytics]]
+- [[Projection]]
 
 ## All Problems
 
@@ -44,9 +45,18 @@ A LeetCode-style platform for learning geospatial SQL with DuckDB-WASM.
 | 15 | [[Detect Invalid Geometries]] | [[Data Quality]] | Easy |
 | 16 | [[Simplify Dense Geometry]] | [[Geometry]] | Medium |
 | 17 | [[LineString Intersection]] | [[Set Ops]] | Medium |
-| 18 | [[H3 Compact Resolution]] | [[H3 Grid]] | Hard |
+| 18 | [[H3 Hexbin Hotspots]] | [[H3 Grid]] | Hard |
 | 19 | [[Spatial Window Function]] | [[Analytics]] | Hard |
-| 20 | [[Load Shapefile Layer]] | [[I/O]] | Easy |
+| 20 | [[Load a Parquet Layer]] | [[I/O]] | Easy |
+| 21 | [[NYC Taxi Pickup Hotspots]] | [[Geocoding]] | Medium |
+| 22 | [[Nearest Restaurant per Hotel]] | [[Distance]] | Hard |
+| 23 | [[Busiest US Flight Routes]] | [[Measurement]] | Medium |
+| 24 | [[Rush Hour Fare Analysis]] | [[Analytics]] | Easy |
+| 25 | [[Sensors Near the Pipeline]] | [[Predicates]] | Easy |
+| 26 | [[Reproject to Web Mercator]] | [[Projection]] | Medium |
+| 27 | [[Drone Tracks from Pings]] | [[Geometry]] | Medium |
+| 28 | [[Category Bounding Boxes]] | [[Aggregation]] | Medium |
+| 29 | [[Compass Bearings Between Hubs]] | [[Measurement]] | Hard |
 
 ## Core Concepts
 

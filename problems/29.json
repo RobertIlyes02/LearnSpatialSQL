@@ -1,0 +1,23 @@
+{
+  "id": 29,
+  "title": "Compass Bearings Between Hubs",
+  "diff": "Hard",
+  "topic": "Measurement",
+  "tags": ["ST_Azimuth", "JOIN"],
+  "premium": false,
+  "hasExecution": true,
+  "description": "<p>Flight planners quote routes by <strong>compass bearing</strong>. Compute the initial bearing between every pair of airport hubs.</p><h3>Goal</h3><p>Self-join the <code>hubs</code> table to form each <em>unordered</em> pair exactly once (use <code>a.code &lt; b.code</code>), and return the bearing from A to B in degrees.</p><p>Return <code>from_ap</code>, <code>to_ap</code>, <code>bearing_deg</code> (rounded to 1 decimal place), ordered by <code>from_ap</code>, <code>to_ap</code>.</p><h3>Expected Output</h3><pre>from_ap  to_ap  bearing_deg\n-------  -----  -----------\nJFK      LAX    261.5\nJFK      MIA    203.7\nJFK      SEA    278.0\nLAX      MIA    102.1\nLAX      SEA    343.9\nMIA      SEA    297.3</pre>",
+  "schema": "<h3>Table: hubs</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>code</td><td>VARCHAR</td><td>IATA airport code</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Airport point (lon, lat)</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_Azimuth(a, b)</code> returns the bearing from point <code>a</code> to point <code>b</code> in <strong>radians</strong>, measured clockwise from north. DuckDB's <code>degrees()</code> converts radians to degrees.</p>",
+  "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> A self-join with <code>ON a.code &lt; b.code</code> generates each pair once (JFK–LAX but not LAX–JFK) with no self-pairs.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ST_Azimuth</code> returns radians — wrap it: <code>ROUND(degrees(ST_Azimuth(a.geom, b.geom)), 1)</code>.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 3</strong> Sanity check: LAX is west of JFK, so JFK→LAX should be roughly 260° (west-southwest), not 80°.</div>",
+  "starterCode": "LOAD spatial;\n\n-- Compass bearing (degrees, clockwise from north) between every hub pair.\n-- Return: from_ap, to_ap, bearing_deg (1dp) ordered by from_ap, to_ap\nSELECT\n  a.code AS from_ap,\n  b.code AS to_ap,\n\nFROM hubs a\nJOIN hubs b ON\nORDER BY from_ap, to_ap;",
+  "setup": "CREATE TABLE hubs AS SELECT * FROM (VALUES\n  ('JFK', ST_Point(-73.7781, 40.6413)),\n  ('LAX', ST_Point(-118.408, 33.9425)),\n  ('MIA', ST_Point(-80.2870, 25.7959)),\n  ('SEA', ST_Point(-122.309, 47.4502))\n) t(code, geom);",
+  "expected": [
+    { "from_ap": "JFK", "to_ap": "LAX", "bearing_deg": "261.5" },
+    { "from_ap": "JFK", "to_ap": "MIA", "bearing_deg": "203.7" },
+    { "from_ap": "JFK", "to_ap": "SEA", "bearing_deg": "278"   },
+    { "from_ap": "LAX", "to_ap": "MIA", "bearing_deg": "102.1" },
+    { "from_ap": "LAX", "to_ap": "SEA", "bearing_deg": "343.9" },
+    { "from_ap": "MIA", "to_ap": "SEA", "bearing_deg": "297.3" }
+  ],
+  "solution": "LOAD spatial;\n\nSELECT a.code AS from_ap,\n       b.code AS to_ap,\n       ROUND(degrees(ST_Azimuth(a.geom, b.geom)), 1) AS bearing_deg\nFROM hubs a\nJOIN hubs b ON a.code < b.code\nORDER BY from_ap, to_ap;"
+}

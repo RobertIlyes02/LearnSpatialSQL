@@ -2,7 +2,6 @@
   "id": 11,
   "title": "Neighbourhood Centroids",
   "diff": "Easy",
-  "acc": 74,
   "topic": "Geometry",
   "tags": [
     "ST_Centroid",

@@ -2,7 +2,6 @@
   "id": 14,
   "title": "Perimeter of Land Parcels",
   "diff": "Easy",
-  "acc": 78,
   "topic": "Measurement",
   "tags": [
     "ST_Boundary",
