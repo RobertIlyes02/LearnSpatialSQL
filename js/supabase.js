@@ -195,25 +195,12 @@ export async function recordSubmission({ problemId, code, passed, runtimeMs }) {
  * Returns the single fastest passing submission per user, sorted by runtime_ms.
  * We use a Postgres view defined in Supabase for this — see SQL below.
  *
- * Run this once in the Supabase SQL editor to create the view:
+ * The view is already applied. The full schema lives in supabase/schema.sql —
+ * edit and re-run that, not a copy pasted from here.
  *
- *   CREATE VIEW leaderboard AS
- *   SELECT DISTINCT ON (s.user_id, s.problem_id)
- *     s.problem_id,
- *     s.runtime_ms,
- *     s.submitted_at,
- *     COALESCE(u.raw_user_meta_data->>'full_name',
- *              u.raw_user_meta_data->>'user_name',
- *              u.email) AS display_name,
- *     u.raw_user_meta_data->>'avatar_url' AS avatar_url
- *   FROM submissions s
- *   JOIN auth.users u ON u.id = s.user_id
- *   WHERE s.passed = true
- *     AND s.runtime_ms IS NOT NULL
- *   ORDER BY s.user_id, s.problem_id, s.runtime_ms ASC;
- *
- *   -- Let anyone read the leaderboard view
- *   GRANT SELECT ON leaderboard TO anon, authenticated;
+ * Do NOT recreate this view by joining auth.users directly: that trips
+ * Supabase's auth_users_exposed linter and risks publishing user emails. The
+ * view reads public.profiles instead, which only ever holds a display name.
  */
 export async function fetchLeaderboard(problemId) {
   if (!supabase) return [];
