@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplify Dense Coastline — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A GIS analyst has a table of coastline segments with very high vertex density — too detailed for small-scale map rendering. They want to simplify each…">
+<link rel="canonical" href="https://geosql.dev/p/12.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Simplify Dense Coastline — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A GIS analyst has a table of coastline segments with very high vertex density — too detailed for small-scale map rendering. They want to simplify each…">
+<meta property="og:url" content="https://geosql.dev/p/12.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Simplify Dense Coastline", "description": "A GIS analyst has a table of coastline segments with very high vertex density \u2014 too detailed for small-scale map rendering. They want to simplify each\u2026", "url": "https://geosql.dev/p/12.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Simplify", "ST_NPoints"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Simplify Dense Coastline</nav>
+
+<h1>Simplify Dense Coastline</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Geometry</span>
+  <span class="tag">ST_Simplify</span><span class="tag">ST_NPoints</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/12">Solve this in your browser →</a></p>
+
+<section><p>A GIS analyst has a table of <strong>coastline segments</strong> with very high vertex density — too detailed for small-scale map rendering. They want to simplify each segment and compare the vertex count before and after.</p><h3>Goal</h3><p>Return <code>segment_name</code>, <code>points_before</code> (vertex count of the original), and <code>points_after</code> (vertex count after simplifying with a tolerance of <code>1.8</code>), ordered by <code>segment_name</code>.</p><h3>Example Output</h3><pre>segment_name   points_before  points_after
+-------------  -------------  ------------
+North Coast    6              2
+South Cove     5              3</pre></section>
+<section><h3>Table: coastlines</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>segment_name</td><td>VARCHAR</td><td>Name of coastline segment</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>LineString geometry (many vertices)</td></tr></table><p style="margin-top:0.75rem"><code>ST_NPoints(geom)</code> counts the number of vertices. <code>ST_Simplify(geom, tolerance)</code> uses the Douglas-Peucker algorithm to reduce vertex count while preserving overall shape.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Apply <code>ST_NPoints</code> twice: once on the original <code>geom</code> and once on <code>ST_Simplify(geom, 1.8)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> You can use both in the same SELECT — no subquery needed.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/12">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Simplify, ST_NPoints.</p>
+
+<nav class="seo-prevnext"><a href="/p/11.html">← Neighbourhood Centroids</a> · <a href="/p/13.html">Snap Points to Road →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

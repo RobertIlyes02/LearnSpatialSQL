@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perimeter of Land Parcels — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A land registry stores parcel polygons. Fencing contractors need the perimeter of each parcel to estimate materials. Return parcel_id and perimeter (total…">
+<link rel="canonical" href="https://geosql.dev/p/14.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Perimeter of Land Parcels — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A land registry stores parcel polygons. Fencing contractors need the perimeter of each parcel to estimate materials. Return parcel_id and perimeter (total…">
+<meta property="og:url" content="https://geosql.dev/p/14.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Perimeter of Land Parcels", "description": "A land registry stores parcel polygons. Fencing contractors need the perimeter of each parcel to estimate materials. Return parcel_id and perimeter (total\u2026", "url": "https://geosql.dev/p/14.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Boundary", "ST_Length"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Perimeter of Land Parcels</nav>
+
+<h1>Perimeter of Land Parcels</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Measurement</span>
+  <span class="tag">ST_Boundary</span><span class="tag">ST_Length</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/14">Solve this in your browser →</a></p>
+
+<section><p>A land registry stores <strong>parcel polygons</strong>. Fencing contractors need the perimeter of each parcel to estimate materials.</p><h3>Goal</h3><p>Return <code>parcel_id</code> and <code>perimeter</code> (total boundary length, rounded to 2 decimal places), ordered by <code>perimeter</code> descending.</p><h3>Example Output</h3><pre>parcel_id  perimeter
+---------  ---------
+2          40.00
+1          24.00</pre></section>
+<section><h3>Table: parcels</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>parcel_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Parcel polygon</td></tr></table><p style="margin-top:0.75rem">Two approaches work here: <code>ST_Perimeter(geom)</code> directly, or <code>ST_Length(ST_Boundary(geom))</code> — <code>ST_Boundary</code> converts a polygon to its outer ring as a LineString, then <code>ST_Length</code> measures it.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> The simplest approach: <code>ST_Perimeter(geom)</code> returns the perimeter of a polygon directly.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Alternatively, <code>ST_Length(ST_Boundary(geom))</code> produces the same result and is good practice for understanding how boundary extraction works.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/14">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Boundary, ST_Length.</p>
+
+<nav class="seo-prevnext"><a href="/p/13.html">← Snap Points to Road</a> · <a href="/p/15.html">Detect Invalid Geometries →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

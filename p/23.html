@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Busiest US Flight Routes — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A Parquet file holds 1,500 US domestic flights with origin/destination airport codes and coordinates. Find the 5 busiest route pairs by flight count.…">
+<link rel="canonical" href="https://geosql.dev/p/23.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Busiest US Flight Routes — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A Parquet file holds 1,500 US domestic flights with origin/destination airport codes and coordinates. Find the 5 busiest route pairs by flight count.…">
+<meta property="og:url" content="https://geosql.dev/p/23.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Busiest US Flight Routes", "description": "A Parquet file holds 1,500 US domestic flights with origin/destination airport codes and coordinates. Find the 5 busiest route pairs by flight count.\u2026", "url": "https://geosql.dev/p/23.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["read_parquet", "ST_Distance", "GROUP BY"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Busiest US Flight Routes</nav>
+
+<h1>Busiest US Flight Routes</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Measurement</span>
+  <span class="tag">read_parquet</span><span class="tag">ST_Distance</span><span class="tag">GROUP BY</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/23">Solve this in your browser →</a></p>
+
+<section><p>A Parquet file holds <strong>1,500 US domestic flights</strong> with origin/destination airport codes and coordinates.</p><h3>Goal</h3><p>Find the <strong>5 busiest route pairs</strong> by flight count. Treat JFK→LAX and LAX→JFK as the <em>same</em> route by normalising direction with <code>LEAST</code> / <code>GREATEST</code>.</p><p>Only include routes with <strong>at least 5 flights</strong>. Break ties by average distance descending.</p><h3>Expected Output</h3><pre>airport_1  airport_2  total_flights  avg_distance_km
+---------  ---------  -------------  ---------------
+EWR        PHL        19             128
+ORD        SFO        16             2964
+BOS        MSP        16             1804
+CLT        LAS        15             3077
+ATL        SEA        14             3505</pre></section>
+<section><h3>Parquet file: <code>./data/us_flights_sample.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>flight_id</td><td>INTEGER</td><td>Unique flight ID</td></tr><tr><td>callsign</td><td>VARCHAR</td><td>Airline + flight number</td></tr><tr><td>origin</td><td>VARCHAR</td><td>Origin IATA code</td></tr><tr><td>destination</td><td>VARCHAR</td><td>Destination IATA code</td></tr><tr><td>origin_lat / origin_lon</td><td>DOUBLE</td><td>Origin airport coordinates</td></tr><tr><td>dest_lat / dest_lon</td><td>DOUBLE</td><td>Destination airport coordinates</td></tr><tr><td>distance_km</td><td>DOUBLE</td><td>Haversine great-circle distance</td></tr><tr><td>altitude_ft</td><td>INTEGER</td><td>Cruise altitude</td></tr><tr><td>speed_kt</td><td>INTEGER</td><td>Airspeed in knots</td></tr></table></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> <code>LEAST(origin, destination)</code> and <code>GREATEST(origin, destination)</code> give you a canonical alphabetical order regardless of flight direction.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Use <code>HAVING COUNT(*) &gt;= 5</code> to filter out thin routes before sorting.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> <code>ROUND(AVG(distance_km), 0)</code> gives a clean integer-like distance. Order by <code>total_flights DESC, avg_distance_km DESC</code>.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/23">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+read_parquet, ST_Distance, GROUP BY.</p>
+
+<nav class="seo-prevnext"><a href="/p/22.html">← Nearest Restaurant per Hotel</a> · <a href="/p/24.html">Rush Hour Fare Analysis →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

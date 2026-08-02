@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compass Bearings Between Hubs — Hard Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Flight planners quote routes by compass bearing. Compute the initial bearing between every pair of airport hubs. Self-join the hubs table to form each…">
+<link rel="canonical" href="https://geosql.dev/p/29.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Compass Bearings Between Hubs — Hard Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Flight planners quote routes by compass bearing. Compute the initial bearing between every pair of airport hubs. Self-join the hubs table to form each…">
+<meta property="og:url" content="https://geosql.dev/p/29.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Compass Bearings Between Hubs", "description": "Flight planners quote routes by compass bearing. Compute the initial bearing between every pair of airport hubs. Self-join the hubs table to form each\u2026", "url": "https://geosql.dev/p/29.html", "educationalLevel": "Hard", "learningResourceType": "Exercise", "teaches": ["ST_Azimuth", "JOIN"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Compass Bearings Between Hubs</nav>
+
+<h1>Compass Bearings Between Hubs</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-hard">Hard</span>
+  <span class="seo-topic">Measurement</span>
+  <span class="tag">ST_Azimuth</span><span class="tag">JOIN</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/29">Solve this in your browser →</a></p>
+
+<section><p>Flight planners quote routes by <strong>compass bearing</strong>. Compute the initial bearing between every pair of airport hubs.</p><h3>Goal</h3><p>Self-join the <code>hubs</code> table to form each <em>unordered</em> pair exactly once (use <code>a.code &lt; b.code</code>), and return the bearing from A to B in degrees.</p><p>Return <code>from_ap</code>, <code>to_ap</code>, <code>bearing_deg</code> (rounded to 1 decimal place), ordered by <code>from_ap</code>, <code>to_ap</code>.</p><h3>Expected Output</h3><pre>from_ap  to_ap  bearing_deg
+-------  -----  -----------
+JFK      LAX    261.5
+JFK      MIA    203.7
+JFK      SEA    278.0
+LAX      MIA    102.1
+LAX      SEA    343.9
+MIA      SEA    297.3</pre></section>
+<section><h3>Table: hubs</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>code</td><td>VARCHAR</td><td>IATA airport code</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Airport point (lon, lat)</td></tr></table><p style="margin-top:0.75rem"><code>ST_Azimuth(a, b)</code> returns the bearing from point <code>a</code> to point <code>b</code> in <strong>radians</strong>, measured clockwise from north. DuckDB's <code>degrees()</code> converts radians to degrees.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> A self-join with <code>ON a.code &lt; b.code</code> generates each pair once (JFK–LAX but not LAX–JFK) with no self-pairs.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_Azimuth</code> returns radians — wrap it: <code>ROUND(degrees(ST_Azimuth(a.geom, b.geom)), 1)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> Sanity check: LAX is west of JFK, so JFK→LAX should be roughly 260° (west-southwest), not 80°.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/29">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Azimuth, JOIN.</p>
+
+<nav class="seo-prevnext"><a href="/p/28.html">← Category Bounding Boxes</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

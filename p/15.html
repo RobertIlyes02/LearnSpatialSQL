@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detect Invalid Geometries — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A spatial database has been populated from multiple sources and some geometries are malformed — self-intersecting polygons, bowtie shapes, and so on.…">
+<link rel="canonical" href="https://geosql.dev/p/15.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Detect Invalid Geometries — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A spatial database has been populated from multiple sources and some geometries are malformed — self-intersecting polygons, bowtie shapes, and so on.…">
+<meta property="og:url" content="https://geosql.dev/p/15.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Detect Invalid Geometries", "description": "A spatial database has been populated from multiple sources and some geometries are malformed \u2014 self-intersecting polygons, bowtie shapes, and so on.\u2026", "url": "https://geosql.dev/p/15.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_IsValid", "ST_MakeValid"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Detect Invalid Geometries</nav>
+
+<h1>Detect Invalid Geometries</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Data Quality</span>
+  <span class="tag">ST_IsValid</span><span class="tag">ST_MakeValid</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/15">Solve this in your browser →</a></p>
+
+<section><p>A spatial database has been populated from multiple sources and some geometries are malformed — self-intersecting polygons, bowtie shapes, and so on. Before running any analysis you need to flag the bad rows and check whether they can be repaired automatically.</p><h3>Goal</h3><p>Return the <code>feature_id</code> of every geometry that fails the validity check, plus a <code>fixable</code> column: <code>true</code> if <code>ST_MakeValid</code> produces a valid geometry from it. Order by <code>feature_id</code>.</p><h3>Example Output</h3><pre>feature_id  fixable
+----------  -------
+2           true
+4           true</pre></section>
+<section><h3>Table: features</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>feature_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Geometry to validate</td></tr></table><p style="margin-top:0.75rem"><code>ST_IsValid(geom)</code> returns TRUE/FALSE. <code>ST_MakeValid(geom)</code> attempts to repair an invalid geometry — re-checking the result with <code>ST_IsValid</code> tells you if the repair succeeded.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Filter with <code>WHERE NOT ST_IsValid(geom)</code> to keep only the invalid rows.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_IsValid(ST_MakeValid(geom))</code> — repair, then re-validate — gives you the <code>fixable</code> flag in one expression.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/15">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_IsValid, ST_MakeValid.</p>
+
+<nav class="seo-prevnext"><a href="/p/14.html">← Perimeter of Land Parcels</a> · <a href="/p/16.html">Simplify Dense Geometry →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

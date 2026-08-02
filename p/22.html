@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nearest Restaurant per Hotel — Hard Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A Parquet file contains 43 NYC points of interest across hotels, museums, parks, and restaurants. For each hotel, find its nearest restaurant and the…">
+<link rel="canonical" href="https://geosql.dev/p/22.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nearest Restaurant per Hotel — Hard Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A Parquet file contains 43 NYC points of interest across hotels, museums, parks, and restaurants. For each hotel, find its nearest restaurant and the…">
+<meta property="og:url" content="https://geosql.dev/p/22.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Nearest Restaurant per Hotel", "description": "A Parquet file contains 43 NYC points of interest across hotels, museums, parks, and restaurants. For each hotel, find its nearest restaurant and the\u2026", "url": "https://geosql.dev/p/22.html", "educationalLevel": "Hard", "learningResourceType": "Exercise", "teaches": ["read_parquet", "ST_Distance", "LATERAL"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Nearest Restaurant per Hotel</nav>
+
+<h1>Nearest Restaurant per Hotel</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-hard">Hard</span>
+  <span class="seo-topic">Distance</span>
+  <span class="tag">read_parquet</span><span class="tag">ST_Distance</span><span class="tag">LATERAL</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/22">Solve this in your browser →</a></p>
+
+<section><p>A Parquet file contains <strong>43 NYC points of interest</strong> across hotels, museums, parks, and restaurants.</p><h3>Goal</h3><p>For each <strong>hotel</strong>, find its <strong>nearest restaurant</strong> and the approximate walking distance in metres.</p><p>Use a <strong>LATERAL join</strong> to run a correlated subquery per hotel row. Approximate metres with <code>ST_Distance(...) * 111000</code>.</p><h3>Expected Output</h3><pre>hotel                 nearest_restaurant  dist_m
+--------------------  ------------------  ------
+The Bowery Hotel      Wildair             522
+The High Line Hotel   Don Angie           1100
+The Plaza             The Smith           717</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_pois.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>poi_id</td><td>INTEGER</td><td>Row ID</td></tr><tr><td>name</td><td>VARCHAR</td><td>Venue name</td></tr><tr><td>category</td><td>VARCHAR</td><td>'hotel' | 'museum' | 'park' | 'restaurant'</td></tr><tr><td>lat</td><td>DOUBLE</td><td>Latitude (WGS84)</td></tr><tr><td>lon</td><td>DOUBLE</td><td>Longitude (WGS84)</td></tr></table></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> A LATERAL join lets the subquery reference columns from the outer row. Syntax: <code>FROM outer_table t, LATERAL (SELECT ... FROM ... ORDER BY ... LIMIT 1) sub</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Inside the LATERAL, filter for <code>category = 'restaurant'</code>, order by <code>ST_Distance(ST_Point(t.lon, t.lat), ST_Point(r.lon, r.lat))</code> ASC, LIMIT 1.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> Multiply the degree distance by 111000 to get approximate metres: <code>ROUND(ST_Distance(...) * 111000)</code>.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/22">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+read_parquet, ST_Distance, LATERAL.</p>
+
+<nav class="seo-prevnext"><a href="/p/21.html">← NYC Taxi Pickup Hotspots</a> · <a href="/p/23.html">Busiest US Flight Routes →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

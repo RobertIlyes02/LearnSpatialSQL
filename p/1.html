@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Point in Polygon — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="You have a table of city parks (polygons) and a table of incident reports (points). Find all incidents that fall inside any park. Return the incident_id…">
+<link rel="canonical" href="https://geosql.dev/p/1.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Point in Polygon — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="You have a table of city parks (polygons) and a table of incident reports (points). Find all incidents that fall inside any park. Return the incident_id…">
+<meta property="og:url" content="https://geosql.dev/p/1.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Point in Polygon", "description": "You have a table of city parks (polygons) and a table of incident reports (points). Find all incidents that fall inside any park. Return the incident_id\u2026", "url": "https://geosql.dev/p/1.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Within", "Polygon"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Point in Polygon</nav>
+
+<h1>Point in Polygon</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Predicates</span>
+  <span class="tag">ST_Within</span><span class="tag">Polygon</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/1">Solve this in your browser →</a></p>
+
+<section><p>You have a table of <strong>city parks</strong> (polygons) and a table of <strong>incident reports</strong> (points). Find all incidents that fall <em>inside</em> any park.</p><h3>Goal</h3><p>Return the <code>incident_id</code> and <code>park_name</code> for every incident that lies within a park boundary, ordered by <code>incident_id</code>.</p><h3>Example Output</h3><pre>incident_id  park_name
+-----------  --------------------
+1            Riverside Park
+3            Central Commons
+5            Riverside Park</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>parks.park_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>parks.park_name</td><td>VARCHAR</td><td>Name of park</td></tr><tr><td>parks.geom</td><td>GEOMETRY</td><td>Polygon boundary (EPSG:4326)</td></tr><tr><td>incidents.incident_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>incidents.geom</td><td>GEOMETRY</td><td>Point location</td></tr></table><h3>DuckDB Spatial Functions</h3><p>Load the extension first: <code>LOAD spatial;</code></p><p>Use <code>ST_Within(point, polygon)</code> to test containment, or <code>ST_Intersects</code>.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Join the two tables with a spatial predicate instead of an equality condition.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_Within(a.geom, b.geom)</code> returns TRUE when geometry A is completely inside B.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> Don't forget <code>LOAD spatial;</code> at the top of your query.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/1">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Within, Polygon.</p>
+
+<nav class="seo-prevnext"><a href="/p/2.html">Nearest Neighbor Search →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

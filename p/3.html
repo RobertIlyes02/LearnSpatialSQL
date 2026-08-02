@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bounding Box Filter — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="You have a table of worldwide airports as points. Return all airports that fall inside the bounding box of Western Europe: longitudes -10° to 20°,…">
+<link rel="canonical" href="https://geosql.dev/p/3.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bounding Box Filter — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="You have a table of worldwide airports as points. Return all airports that fall inside the bounding box of Western Europe: longitudes -10° to 20°,…">
+<meta property="og:url" content="https://geosql.dev/p/3.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Bounding Box Filter", "description": "You have a table of worldwide airports as points. Return all airports that fall inside the bounding box of Western Europe: longitudes -10\u00b0 to 20\u00b0,\u2026", "url": "https://geosql.dev/p/3.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Envelope", "ST_Intersects"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Bounding Box Filter</nav>
+
+<h1>Bounding Box Filter</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Indexing</span>
+  <span class="tag">ST_Envelope</span><span class="tag">ST_Intersects</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/3">Solve this in your browser →</a></p>
+
+<section><p>You have a table of worldwide <strong>airports</strong> as points. Return all airports that fall inside the bounding box of <strong>Western Europe</strong>: longitudes <code>-10° to 20°</code>, latitudes <code>35° to 60°</code>.</p><h3>Goal</h3><p>Return <code>iata_code</code> and <code>airport_name</code>, ordered by <code>iata_code</code>.</p><h3>Example Output</h3><pre>iata_code  airport_name
+---------  ----------------------
+CDG        Charles de Gaulle
+FRA        Frankfurt Airport
+LHR        Heathrow Airport</pre></section>
+<section><h3>Table: airports</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>iata_code</td><td>VARCHAR</td><td>3-letter IATA code</td></tr><tr><td>airport_name</td><td>VARCHAR</td><td>Full name</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Point (lng, lat)</td></tr></table><p style="margin-top:0.75rem">Tip: create the bounding box with <code>ST_MakeEnvelope(xmin, ymin, xmax, ymax)</code> and test with <code>ST_Intersects</code>.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> <code>ST_MakeEnvelope(-10, 35, 20, 60)</code> creates the bounding box polygon.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> You can also use <code>ST_X(geom) BETWEEN -10 AND 20 AND ST_Y(geom) BETWEEN 35 AND 60</code>.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/3">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Envelope, ST_Intersects.</p>
+
+<nav class="seo-prevnext"><a href="/p/2.html">← Nearest Neighbor Search</a> · <a href="/p/4.html">Spatial Join Two Layers →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Category Bounding Boxes — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="How spread out is each POI category across NYC? Compute the bounding box of each category&#x27;s points and compare their areas. For each category in the POI…">
+<link rel="canonical" href="https://geosql.dev/p/28.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Category Bounding Boxes — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="How spread out is each POI category across NYC? Compute the bounding box of each category&#x27;s points and compare their areas. For each category in the POI…">
+<meta property="og:url" content="https://geosql.dev/p/28.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Category Bounding Boxes", "description": "How spread out is each POI category across NYC? Compute the bounding box of each category's points and compare their areas. For each category in the POI\u2026", "url": "https://geosql.dev/p/28.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Extent_Agg", "ST_Area", "read_parquet"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Category Bounding Boxes</nav>
+
+<h1>Category Bounding Boxes</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Aggregation</span>
+  <span class="tag">ST_Extent_Agg</span><span class="tag">ST_Area</span><span class="tag">read_parquet</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/28">Solve this in your browser →</a></p>
+
+<section><p>How spread out is each POI category across NYC? Compute the <strong>bounding box</strong> of each category's points and compare their areas.</p><h3>Goal</h3><p>For each <code>category</code> in the POI Parquet file, aggregate all its points into one bounding-box polygon with <code>ST_Extent_Agg</code>, and return its area <strong>× 10,000</strong> (to scale square-degrees into readable numbers), rounded to 1 decimal place.</p><p>Return <code>category</code>, <code>bbox_area</code>, ordered by <code>bbox_area</code> descending.</p><h3>Expected Output</h3><pre>category    bbox_area
+----------  ---------
+restaurant  109.4
+museum      55.7
+park        19.8
+hotel       11.9</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_pois.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>category</td><td>VARCHAR</td><td>'hotel' | 'museum' | 'park' | 'restaurant'</td></tr><tr><td>lat / lon</td><td>DOUBLE</td><td>WGS84 coordinates</td></tr></table><p style="margin-top:0.75rem"><code>ST_Extent_Agg(geom)</code> is an aggregate that returns the minimal bounding rectangle covering all input geometries — the spatial equivalent of MIN/MAX in one shot.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Build points with <code>ST_Point(lon, lat)</code>, aggregate with <code>ST_Extent_Agg(...)</code> under a GROUP BY category.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ROUND(ST_Area(...) * 10000, 1)</code> — degrees² are tiny numbers, the ×10000 just makes them readable.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/28">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Extent_Agg, ST_Area, read_parquet.</p>
+
+<nav class="seo-prevnext"><a href="/p/27.html">← Drone Tracks from Pings</a> · <a href="/p/29.html">Compass Bearings Between Hubs →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

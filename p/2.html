@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nearest Neighbor Search — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Given a table of coffee shops and a table of users, find the 5 nearest coffee shops to user with id = 1, sorted by distance ascending (break ties…">
+<link rel="canonical" href="https://geosql.dev/p/2.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nearest Neighbor Search — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Given a table of coffee shops and a table of users, find the 5 nearest coffee shops to user with id = 1, sorted by distance ascending (break ties…">
+<meta property="og:url" content="https://geosql.dev/p/2.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Nearest Neighbor Search", "description": "Given a table of coffee shops and a table of users, find the 5 nearest coffee shops to user with id = 1, sorted by distance ascending (break ties\u2026", "url": "https://geosql.dev/p/2.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Distance", "ORDER BY"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Nearest Neighbor Search</nav>
+
+<h1>Nearest Neighbor Search</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Distance</span>
+  <span class="tag">ST_Distance</span><span class="tag">ORDER BY</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/2">Solve this in your browser →</a></p>
+
+<section><p>Given a table of <strong>coffee shops</strong> and a table of <strong>users</strong>, find the <strong>5 nearest coffee shops</strong> to user with <code>id = 1</code>, sorted by distance ascending (break ties alphabetically by shop name).</p><h3>Goal</h3><p>Return <code>shop_name</code> and <code>dist_km</code> (distance in kilometres, rounded to 2 decimal places), ordered nearest-first.</p><h3>Example Output</h3><pre>shop_name       dist_km
+--------------  -------
+Brew &amp; Co.      0.31
+The Daily Grind 0.87
+...</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>users.id</td><td>INTEGER</td><td>User ID</td></tr><tr><td>users.lat / lng</td><td>DOUBLE</td><td>User location</td></tr><tr><td>shops.shop_id</td><td>INTEGER</td><td>Shop ID</td></tr><tr><td>shops.shop_name</td><td>VARCHAR</td><td>Shop name</td></tr><tr><td>shops.geom</td><td>GEOMETRY</td><td>Point (EPSG:4326)</td></tr></table><p style="margin-top:0.75rem"><code>ST_Distance</code> in DuckDB spatial returns degrees by default for geographic coordinates. Multiply by ~111.195 to convert to kilometres.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Use a cross join (JOIN … ON TRUE) to compare one user against all shops.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_Distance(ST_Point(lng, lat), shops.geom) * 111.195</code> gives approximate km.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/2">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Distance, ORDER BY.</p>
+
+<nav class="seo-prevnext"><a href="/p/1.html">← Point in Polygon</a> · <a href="/p/3.html">Bounding Box Filter →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

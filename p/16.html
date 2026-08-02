@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplify Dense Geometry — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Cartographers simplify jagged lake shorelines before rendering small-scale maps — but simplification distorts the shape. Quantify that distortion by…">
+<link rel="canonical" href="https://geosql.dev/p/16.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Simplify Dense Geometry — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Cartographers simplify jagged lake shorelines before rendering small-scale maps — but simplification distorts the shape. Quantify that distortion by…">
+<meta property="og:url" content="https://geosql.dev/p/16.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Simplify Dense Geometry", "description": "Cartographers simplify jagged lake shorelines before rendering small-scale maps \u2014 but simplification distorts the shape. Quantify that distortion by\u2026", "url": "https://geosql.dev/p/16.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Simplify", "ST_Area"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Simplify Dense Geometry</nav>
+
+<h1>Simplify Dense Geometry</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Geometry</span>
+  <span class="tag">ST_Simplify</span><span class="tag">ST_Area</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/16">Solve this in your browser →</a></p>
+
+<section><p>Cartographers simplify jagged lake shorelines before rendering small-scale maps — but simplification distorts the shape. Quantify that distortion by comparing each lake's <strong>area before and after</strong> simplification.</p><h3>Goal</h3><p>Return <code>lake_name</code>, <code>area_before</code>, and <code>area_after</code> (area after <code>ST_Simplify</code> with tolerance <code>1.0</code>), both rounded to 2 decimal places, ordered by <code>lake_name</code>.</p><h3>Expected Output</h3><pre>lake_name   area_before  area_after
+----------  -----------  ----------
+Lake Arrow  56.3         57.5
+Lake Bell   98.0         100.0</pre></section>
+<section><h3>Table: lake_shores</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>lake_name</td><td>VARCHAR</td><td>Lake name</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Shoreline polygon (jagged, many vertices)</td></tr></table><p style="margin-top:0.75rem"><code>ST_Simplify(geom, tolerance)</code> removes vertices whose deviation is under the tolerance (Douglas-Peucker). Simplifying a polygon can grow or shrink its area — that's the distortion you're measuring.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Compute <code>ST_Area</code> twice in one SELECT: once on <code>geom</code>, once on <code>ST_Simplify(geom, 1.0)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Wrap both with <code>ROUND(..., 2)</code> to match the expected precision.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/16">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Simplify, ST_Area.</p>
+
+<nav class="seo-prevnext"><a href="/p/15.html">← Detect Invalid Geometries</a> · <a href="/p/17.html">LineString Intersection →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spatial Join Two Layers — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="You have a table of delivery zones (polygons) and a table of warehouses (points). Some warehouses are positioned right on a zone boundary and may…">
+<link rel="canonical" href="https://geosql.dev/p/4.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spatial Join Two Layers — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="You have a table of delivery zones (polygons) and a table of warehouses (points). Some warehouses are positioned right on a zone boundary and may…">
+<meta property="og:url" content="https://geosql.dev/p/4.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Spatial Join Two Layers", "description": "You have a table of delivery zones (polygons) and a table of warehouses (points). Some warehouses are positioned right on a zone boundary and may\u2026", "url": "https://geosql.dev/p/4.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Intersects", "JOIN"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Spatial Join Two Layers</nav>
+
+<h1>Spatial Join Two Layers</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Joins</span>
+  <span class="tag">ST_Intersects</span><span class="tag">JOIN</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/4">Solve this in your browser →</a></p>
+
+<section><p>You have a table of <strong>delivery zones</strong> (polygons) and a table of <strong>warehouses</strong> (points). Some warehouses are positioned right on a zone boundary and may intersect more than one zone.</p><h3>Goal</h3><p>For every warehouse, return <code>warehouse_name</code>, <code>zone_name</code> for each zone it intersects. If a warehouse intersects no zone, omit it. Order by <code>warehouse_name</code>, then <code>zone_name</code>.</p><h3>Example Output</h3><pre>warehouse_name   zone_name
+---------------  ---------
+Depot Alpha      North
+Depot Alpha      East
+Depot Beta       South</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>zones.zone_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>zones.zone_name</td><td>VARCHAR</td><td>Zone label</td></tr><tr><td>zones.geom</td><td>GEOMETRY</td><td>Polygon</td></tr><tr><td>warehouses.warehouse_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>warehouses.warehouse_name</td><td>VARCHAR</td><td>Warehouse label</td></tr><tr><td>warehouses.geom</td><td>GEOMETRY</td><td>Point</td></tr></table><p style="margin-top:0.75rem">Unlike <code>ST_Within</code>, <code>ST_Intersects</code> also matches geometries that merely touch or overlap a boundary — which is why one warehouse can match multiple zones here.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> This is a standard inner join — but with a spatial predicate as the ON condition instead of an equality.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> A point sitting exactly on a shared edge will intersect both adjacent polygons — that's expected, not a bug.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/4">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Intersects, JOIN.</p>
+
+<nav class="seo-prevnext"><a href="/p/3.html">← Bounding Box Filter</a> · <a href="/p/5.html">Route Length from WKT →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

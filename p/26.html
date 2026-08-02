@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reproject to Web Mercator — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Web maps (Google, OSM) draw in Web Mercator (EPSG:3857), but GPS data arrives in WGS84 (EPSG:4326). Reproject three NYC landmarks so they can be plotted…">
+<link rel="canonical" href="https://geosql.dev/p/26.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reproject to Web Mercator — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Web maps (Google, OSM) draw in Web Mercator (EPSG:3857), but GPS data arrives in WGS84 (EPSG:4326). Reproject three NYC landmarks so they can be plotted…">
+<meta property="og:url" content="https://geosql.dev/p/26.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Reproject to Web Mercator", "description": "Web maps (Google, OSM) draw in Web Mercator (EPSG:3857), but GPS data arrives in WGS84 (EPSG:4326). Reproject three NYC landmarks so they can be plotted\u2026", "url": "https://geosql.dev/p/26.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Transform", "EPSG"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Reproject to Web Mercator</nav>
+
+<h1>Reproject to Web Mercator</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Projection</span>
+  <span class="tag">ST_Transform</span><span class="tag">EPSG</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/26">Solve this in your browser →</a></p>
+
+<section><p>Web maps (Google, OSM) draw in <strong>Web Mercator (EPSG:3857)</strong>, but GPS data arrives in <strong>WGS84 (EPSG:4326)</strong>. Reproject three NYC landmarks so they can be plotted on a web map.</p><h3>Goal</h3><p>Return <code>name</code>, <code>merc_x</code>, <code>merc_y</code> — the Web Mercator coordinates rounded to whole metres — ordered by <code>name</code>.</p><p>⚠️ <strong>The classic gotcha:</strong> DuckDB's <code>ST_Transform</code> follows the official EPSG:4326 axis order, which is <em>latitude first</em>. Build your input point as <code>ST_Point(lat, lon)</code> — not the usual (lon, lat) — or your landmarks will land in the Indian Ocean.</p><h3>Expected Output</h3><pre>name               merc_x    merc_y
+-----------------  --------  -------
+Brooklyn Bridge    -8237297  4969088
+Empire State       -8236050  4975301
+Statue of Liberty  -8242596  4966606</pre></section>
+<section><h3>Table: landmarks</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>name</td><td>VARCHAR</td><td>Landmark name</td></tr><tr><td>lat</td><td>DOUBLE</td><td>Latitude (WGS84)</td></tr><tr><td>lon</td><td>DOUBLE</td><td>Longitude (WGS84)</td></tr></table><p style="margin-top:0.75rem"><code>ST_Transform(geom, 'EPSG:4326', 'EPSG:3857')</code> reprojects. Sanity check: all of NYC should come out near x ≈ −8.24 million, y ≈ +4.97 million metres.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Build the point <em>latitude-first</em>: <code>ST_Point(lat, lon)</code>. EPSG:4326's official axis order surprises everyone once.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Extract with <code>ST_X</code>/<code>ST_Y</code> after transforming, then <code>ROUND(...)</code> to whole metres.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> If your x comes out around +4.5 million, you've got the axis order backwards.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/26">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Transform, EPSG.</p>
+
+<nav class="seo-prevnext"><a href="/p/25.html">← Sensors Near the Pipeline</a> · <a href="/p/27.html">Drone Tracks from Pings →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

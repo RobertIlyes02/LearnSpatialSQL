@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rush Hour Fare Analysis — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="City planners want to know when taxi demand peaks. The NYC taxi Parquet file tags every trip with its pickup_hour (0–23). Find the 3 busiest pickup hours.…">
+<link rel="canonical" href="https://geosql.dev/p/24.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rush Hour Fare Analysis — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="City planners want to know when taxi demand peaks. The NYC taxi Parquet file tags every trip with its pickup_hour (0–23). Find the 3 busiest pickup hours.…">
+<meta property="og:url" content="https://geosql.dev/p/24.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Rush Hour Fare Analysis", "description": "City planners want to know when taxi demand peaks. The NYC taxi Parquet file tags every trip with its pickup_hour (0\u201323). Find the 3 busiest pickup hours.\u2026", "url": "https://geosql.dev/p/24.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["read_parquet", "GROUP BY", "AVG"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Rush Hour Fare Analysis</nav>
+
+<h1>Rush Hour Fare Analysis</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Analytics</span>
+  <span class="tag">read_parquet</span><span class="tag">GROUP BY</span><span class="tag">AVG</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/24">Solve this in your browser →</a></p>
+
+<section><p>City planners want to know when taxi demand peaks. The NYC taxi Parquet file tags every trip with its <code>pickup_hour</code> (0–23).</p><h3>Goal</h3><p>Find the <strong>3 busiest pickup hours</strong>. For each, return the trip count and the average fare.</p><p>Return <code>pickup_hour</code>, <code>trips</code>, and <code>avg_fare</code> (rounded to 2 decimal places), ordered by <code>trips</code> descending, ties broken by <code>pickup_hour</code> ascending.</p><h3>Expected Output</h3><pre>pickup_hour  trips  avg_fare
+-----------  -----  --------
+18           218    4.49
+22           214    4.65
+20           209    4.46</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_taxi_sample.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pickup_hour</td><td>INTEGER</td><td>Hour of pickup (0–23)</td></tr><tr><td>fare_usd</td><td>DOUBLE</td><td>Fare amount</td></tr><tr><td colspan="3">(other columns omitted — see Problem 21)</td></tr></table></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> This is pure SQL aggregation — no spatial functions needed. GROUP BY <code>pickup_hour</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ROUND(AVG(fare_usd), 2)</code> for the fare; <code>ORDER BY trips DESC, pickup_hour</code> keeps ties deterministic.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/24">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+read_parquet, GROUP BY, AVG.</p>
+
+<nav class="seo-prevnext"><a href="/p/23.html">← Busiest US Flight Routes</a> · <a href="/p/25.html">Sensors Near the Pipeline →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

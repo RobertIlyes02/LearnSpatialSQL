@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H3 Hexbin Hotspots — Hard Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Rectangular grids distort area away from the equator — that&#x27;s why ride-share companies aggregate into H3 hexagons instead. Re-analyze the NYC taxi pickups…">
+<link rel="canonical" href="https://geosql.dev/p/18.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="H3 Hexbin Hotspots — Hard Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Rectangular grids distort area away from the equator — that&#x27;s why ride-share companies aggregate into H3 hexagons instead. Re-analyze the NYC taxi pickups…">
+<meta property="og:url" content="https://geosql.dev/p/18.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "H3 Hexbin Hotspots", "description": "Rectangular grids distort area away from the equator \u2014 that's why ride-share companies aggregate into H3 hexagons instead. Re-analyze the NYC taxi pickups\u2026", "url": "https://geosql.dev/p/18.html", "educationalLevel": "Hard", "learningResourceType": "Exercise", "teaches": ["h3_latlng_to_cell", "H3", "read_parquet"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › H3 Hexbin Hotspots</nav>
+
+<h1>H3 Hexbin Hotspots</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-hard">Hard</span>
+  <span class="seo-topic">H3 Grid</span>
+  <span class="tag">h3_latlng_to_cell</span><span class="tag">H3</span><span class="tag">read_parquet</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/18">Solve this in your browser →</a></p>
+
+<section><p>Rectangular grids distort area away from the equator — that's why ride-share companies aggregate into <strong>H3 hexagons</strong> instead. Re-analyze the NYC taxi pickups from a Parquet file using H3 cells.</p><h3>Goal</h3><p>Assign each pickup to its H3 cell at <strong>resolution 7</strong> (~1.2 km hexagons), and return the <strong>top 5 cells</strong> by pickup count as hex strings.</p><p>⚠️ This problem needs the H3 community extension: <code>INSTALL h3 FROM community; LOAD h3;</code> (already in the starter code).</p><h3>Expected Output</h3><pre>h3_cell          pickups
+---------------  -------
+872a100d6ffffff  455
+872a1072cffffff  445
+872a100d2ffffff  286
+872a100d8ffffff  238
+872a10728ffffff  148</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_taxi_sample.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pickup_lat</td><td>DOUBLE</td><td>Pickup latitude</td></tr><tr><td>pickup_lon</td><td>DOUBLE</td><td>Pickup longitude</td></tr><tr><td colspan="3">(other columns omitted — see Problem 21)</td></tr></table><p style="margin-top:0.75rem"><code>h3_latlng_to_cell(lat, lng, resolution)</code> returns the cell as a UINT64. <code>h3_h3_to_string(cell)</code> converts it to the familiar 15-character hex form.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Argument order matters: <code>h3_latlng_to_cell(pickup_lat, pickup_lon, 7)</code> — latitude first, unlike ST_Point.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Wrap with <code>h3_h3_to_string(...)</code> to get the hex string, then GROUP BY it.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> Order by <code>pickups DESC, h3_cell</code> for a deterministic top 5.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/18">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+h3_latlng_to_cell, H3, read_parquet.</p>
+
+<nav class="seo-prevnext"><a href="/p/17.html">← LineString Intersection</a> · <a href="/p/19.html">Spatial Window Function →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polygon Difference Delta — Hard Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A city re-zoned some land. The zones_old and zones_new tables hold the boundary polygon for the same zone before and after the change. Find the area of…">
+<link rel="canonical" href="https://geosql.dev/p/7.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Polygon Difference Delta — Hard Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A city re-zoned some land. The zones_old and zones_new tables hold the boundary polygon for the same zone before and after the change. Find the area of…">
+<meta property="og:url" content="https://geosql.dev/p/7.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Polygon Difference Delta", "description": "A city re-zoned some land. The zones_old and zones_new tables hold the boundary polygon for the same zone before and after the change. Find the area of\u2026", "url": "https://geosql.dev/p/7.html", "educationalLevel": "Hard", "learningResourceType": "Exercise", "teaches": ["ST_Difference", "CTE"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Polygon Difference Delta</nav>
+
+<h1>Polygon Difference Delta</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-hard">Hard</span>
+  <span class="seo-topic">Set Ops</span>
+  <span class="tag">ST_Difference</span><span class="tag">CTE</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/7">Solve this in your browser →</a></p>
+
+<section><p>A city re-zoned some land. The <strong>zones_old</strong> and <strong>zones_new</strong> tables hold the boundary polygon for the same zone before and after the change. Find the area of land that was <em>removed</em> from each zone (present in the old boundary but not the new one).</p><h3>Goal</h3><p>Return <code>zone_name</code> and <code>removed_area</code> (area of <code>old - new</code>), ordered by <code>removed_area</code> descending. Only include zones where <code>removed_area &gt; 0</code>.</p><h3>Example Output</h3><pre>zone_name  removed_area
+---------  ------------
+Zone B     20.0
+Zone A     10.0</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>zones_old.zone_name</td><td>VARCHAR</td><td>Zone identifier (shared key)</td></tr><tr><td>zones_old.geom</td><td>GEOMETRY</td><td>Old boundary polygon</td></tr><tr><td>zones_new.zone_name</td><td>VARCHAR</td><td>Zone identifier (shared key)</td></tr><tr><td>zones_new.geom</td><td>GEOMETRY</td><td>New boundary polygon</td></tr></table><p style="margin-top:0.75rem"><code>ST_Difference(a, b)</code> returns the part of geometry <code>a</code> that does not overlap with <code>b</code>.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Join old and new boundaries on <code>zone_name</code>, then compute <code>ST_Difference(old.geom, new.geom)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Wrap the difference in <code>ST_Area(...)</code> to get a number, then filter with <code>HAVING</code> or a <code>WHERE</code> on a CTE since you can't reference a SELECT alias directly in some clause positions.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> A CTE makes this readable: compute the area first, then filter and sort in the outer query.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/7">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Difference, CTE.</p>
+
+<nav class="seo-prevnext"><a href="/p/6.html">← Convex Hull of Cluster</a> · <a href="/p/8.html">Reverse Geocode Grid →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

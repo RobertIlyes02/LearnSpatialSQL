@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Taxi Pickup Hotspots — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="You have a sample of 2,000 NYC taxi trips stored in a Parquet file. Each row has a pickup latitude and longitude. Bin pickups into a 0.01° grid (roughly 1…">
+<link rel="canonical" href="https://geosql.dev/p/21.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NYC Taxi Pickup Hotspots — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="You have a sample of 2,000 NYC taxi trips stored in a Parquet file. Each row has a pickup latitude and longitude. Bin pickups into a 0.01° grid (roughly 1…">
+<meta property="og:url" content="https://geosql.dev/p/21.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "NYC Taxi Pickup Hotspots", "description": "You have a sample of 2,000 NYC taxi trips stored in a Parquet file. Each row has a pickup latitude and longitude. Bin pickups into a 0.01\u00b0 grid (roughly 1\u2026", "url": "https://geosql.dev/p/21.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["read_parquet", "ST_Point", "FLOOR"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › NYC Taxi Pickup Hotspots</nav>
+
+<h1>NYC Taxi Pickup Hotspots</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Geocoding</span>
+  <span class="tag">read_parquet</span><span class="tag">ST_Point</span><span class="tag">FLOOR</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/21">Solve this in your browser →</a></p>
+
+<section><p>You have a sample of <strong>2,000 NYC taxi trips</strong> stored in a Parquet file. Each row has a pickup latitude and longitude.</p><h3>Goal</h3><p>Bin pickups into a <strong>0.01° grid</strong> (roughly 1 km cells) and return the <strong>top 5 cells</strong> by pickup count.</p><p>Use <code>FLOOR(col / 0.01) * 0.01</code> to snap each coordinate to the nearest grid corner, and <code>ROUND(..., 2)</code> to clean up floating-point noise.</p><h3>Expected Output</h3><pre>grid_lat  grid_lon  pickups
+--------  --------  -------
+40.75    -73.98     129
+40.75    -73.99     126
+40.72    -74.0      122
+40.76    -73.98     95
+40.72    -74.01     91</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_taxi_sample.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pickup_lat</td><td>DOUBLE</td><td>Pickup latitude</td></tr><tr><td>pickup_lon</td><td>DOUBLE</td><td>Pickup longitude</td></tr><tr><td>dropoff_lat</td><td>DOUBLE</td><td>Dropoff latitude</td></tr><tr><td>dropoff_lon</td><td>DOUBLE</td><td>Dropoff longitude</td></tr><tr><td>trip_distance_km</td><td>DOUBLE</td><td>Euclidean trip distance</td></tr><tr><td>fare_usd</td><td>DOUBLE</td><td>Fare amount</td></tr><tr><td>passenger_count</td><td>INTEGER</td><td>Number of passengers</td></tr><tr><td>pickup_hour</td><td>INTEGER</td><td>Hour of pickup (0–23)</td></tr></table></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Read the file directly in your query: <code>FROM read_parquet('./data/nyc_taxi_sample.parquet')</code> — no setup needed.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ROUND(FLOOR(pickup_lat / 0.01) * 0.01, 2)</code> snaps latitude to the grid and removes floating-point noise in one step.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> GROUP BY both grid columns, then ORDER BY COUNT(*) DESC LIMIT 5.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/21">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+read_parquet, ST_Point, FLOOR.</p>
+
+<nav class="seo-prevnext"><a href="/p/20.html">← Load a Parquet Layer</a> · <a href="/p/22.html">Nearest Restaurant per Hotel →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

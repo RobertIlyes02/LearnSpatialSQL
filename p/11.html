@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neighbourhood Centroids — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A city stores its neighbourhood boundaries as polygons. Urban planners need the centre point (centroid) of each neighbourhood to place service facilities.…">
+<link rel="canonical" href="https://geosql.dev/p/11.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neighbourhood Centroids — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A city stores its neighbourhood boundaries as polygons. Urban planners need the centre point (centroid) of each neighbourhood to place service facilities.…">
+<meta property="og:url" content="https://geosql.dev/p/11.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Neighbourhood Centroids", "description": "A city stores its neighbourhood boundaries as polygons. Urban planners need the centre point (centroid) of each neighbourhood to place service facilities.\u2026", "url": "https://geosql.dev/p/11.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Centroid", "ST_X", "ST_Y"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Neighbourhood Centroids</nav>
+
+<h1>Neighbourhood Centroids</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Geometry</span>
+  <span class="tag">ST_Centroid</span><span class="tag">ST_X</span><span class="tag">ST_Y</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/11">Solve this in your browser →</a></p>
+
+<section><p>A city stores its <strong>neighbourhood boundaries</strong> as polygons. Urban planners need the centre point (centroid) of each neighbourhood to place service facilities.</p><h3>Goal</h3><p>Return <code>name</code>, <code>cx</code> (centroid longitude, rounded to 4 decimal places), and <code>cy</code> (centroid latitude, rounded to 4 decimal places) for every neighbourhood, ordered by <code>name</code>.</p><h3>Example Output</h3><pre>name           cx       cy
+-------------  -------  ------
+Eastside       25.0     2.6667
+Westside        5.0     3.3333</pre></section>
+<section><h3>Table: neighbourhoods</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>name</td><td>VARCHAR</td><td>Neighbourhood name</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Boundary polygon</td></tr></table><p style="margin-top:0.75rem"><code>ST_Centroid(geom)</code> returns a POINT geometry at the geometric centre of the input. Use <code>ST_X()</code> and <code>ST_Y()</code> to extract the coordinates.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Chain the functions: <code>ST_X(ST_Centroid(geom))</code> gives you the x-coordinate of the centroid.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Wrap with <code>ROUND(..., 4)</code> to match the expected output precision.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/11">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Centroid, ST_X, ST_Y.</p>
+
+<nav class="seo-prevnext"><a href="/p/10.html">← Merge Coverage Areas</a> · <a href="/p/12.html">Simplify Dense Coastline →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snap Points to Road — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="GPS devices often record positions slightly off the road network due to signal error. Given a table of GPS pings and a single road segment, snap each ping…">
+<link rel="canonical" href="https://geosql.dev/p/13.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Snap Points to Road — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="GPS devices often record positions slightly off the road network due to signal error. Given a table of GPS pings and a single road segment, snap each ping…">
+<meta property="og:url" content="https://geosql.dev/p/13.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Snap Points to Road", "description": "GPS devices often record positions slightly off the road network due to signal error. Given a table of GPS pings and a single road segment, snap each ping\u2026", "url": "https://geosql.dev/p/13.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_ClosestPoint", "ST_X", "ST_Y"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Snap Points to Road</nav>
+
+<h1>Snap Points to Road</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Snapping</span>
+  <span class="tag">ST_ClosestPoint</span><span class="tag">ST_X</span><span class="tag">ST_Y</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/13">Solve this in your browser →</a></p>
+
+<section><p>GPS devices often record positions slightly off the road network due to signal error. Given a table of <strong>GPS pings</strong> and a single <strong>road segment</strong>, snap each ping to its closest point on the road.</p><h3>Goal</h3><p>Return <code>ping_id</code>, <code>snapped_x</code> and <code>snapped_y</code> (coordinates of the closest point on the road, rounded to 2 decimal places), ordered by <code>ping_id</code>.</p><h3>Example Output</h3><pre>ping_id  snapped_x  snapped_y
+-------  ---------  ---------
+1        3.00       0.00
+2        7.00       0.00
+3        10.00      0.00</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>road.geom</td><td>GEOMETRY</td><td>The road as a LineString</td></tr><tr><td>gps_pings.ping_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>gps_pings.geom</td><td>GEOMETRY</td><td>Raw GPS point</td></tr></table><p style="margin-top:0.75rem"><code>ST_ClosestPoint(line, point)</code> returns the point on <code>line</code> that is nearest to <code>point</code>. Wrap with <code>ST_X()</code> / <code>ST_Y()</code> to extract coordinates.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Cross join GPS pings with the road (<code>JOIN road ON TRUE</code>) so you can reference both geometries in the same row.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ROUND(ST_X(ST_ClosestPoint(r.geom, p.geom)), 2)</code> gives you the snapped x-coordinate.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/13">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_ClosestPoint, ST_X, ST_Y.</p>
+
+<nav class="seo-prevnext"><a href="/p/12.html">← Simplify Dense Coastline</a> · <a href="/p/14.html">Perimeter of Land Parcels →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

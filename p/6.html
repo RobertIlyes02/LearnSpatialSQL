@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convex Hull of Cluster — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A table of sensor pings records GPS points from a fleet of drones, each tagged with a mission_id. For each mission, compute the convex hull polygon…">
+<link rel="canonical" href="https://geosql.dev/p/6.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Convex Hull of Cluster — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A table of sensor pings records GPS points from a fleet of drones, each tagged with a mission_id. For each mission, compute the convex hull polygon…">
+<meta property="og:url" content="https://geosql.dev/p/6.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Convex Hull of Cluster", "description": "A table of sensor pings records GPS points from a fleet of drones, each tagged with a mission_id. For each mission, compute the convex hull polygon\u2026", "url": "https://geosql.dev/p/6.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_ConvexHull", "ST_Collect"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Convex Hull of Cluster</nav>
+
+<h1>Convex Hull of Cluster</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Aggregation</span>
+  <span class="tag">ST_ConvexHull</span><span class="tag">ST_Collect</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/6">Solve this in your browser →</a></p>
+
+<section><p>A table of <strong>sensor pings</strong> records GPS points from a fleet of drones, each tagged with a <code>mission_id</code>. For each mission, compute the convex hull polygon enclosing all of its pings, and report its area.</p><h3>Goal</h3><p>Return <code>mission_id</code> and <code>hull_area</code> (planar area of the convex hull), ordered by <code>mission_id</code>.</p><h3>Example Output</h3><pre>mission_id  hull_area
+----------  ---------
+1           50.0
+2           12.5</pre></section>
+<section><h3>Table: pings</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>ping_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>mission_id</td><td>INTEGER</td><td>Groups pings by mission</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Point location</td></tr></table><p style="margin-top:0.75rem">You'll need to aggregate points per mission into a single multi-point geometry before computing a hull. <code>ST_Collect</code> takes a LIST of geometries (e.g. via <code>list(geom)</code> after a GROUP BY) and combines them into one.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> First <code>GROUP BY mission_id</code> and use <code>list(geom)</code> to collect all points per mission into an array.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Wrap that list with <code>ST_Collect(...)</code> to get one multi-geometry, then <code>ST_ConvexHull(...)</code>, then <code>ST_Area(...)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> Full chain: <code>ST_Area(ST_ConvexHull(ST_Collect(list(geom))))</code>.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/6">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_ConvexHull, ST_Collect.</p>
+
+<nav class="seo-prevnext"><a href="/p/5.html">← Route Length from WKT</a> · <a href="/p/7.html">Polygon Difference Delta →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

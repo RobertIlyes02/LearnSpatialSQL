@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LineString Intersection — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A port authority tracks ferry routes and a north-south shipping lane, all stored as LineStrings. For safety planning they need the exact point where each…">
+<link rel="canonical" href="https://geosql.dev/p/17.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LineString Intersection — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A port authority tracks ferry routes and a north-south shipping lane, all stored as LineStrings. For safety planning they need the exact point where each…">
+<meta property="og:url" content="https://geosql.dev/p/17.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "LineString Intersection", "description": "A port authority tracks ferry routes and a north-south shipping lane, all stored as LineStrings. For safety planning they need the exact point where each\u2026", "url": "https://geosql.dev/p/17.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Intersection", "ST_AsText"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › LineString Intersection</nav>
+
+<h1>LineString Intersection</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Set Ops</span>
+  <span class="tag">ST_Intersection</span><span class="tag">ST_AsText</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/17">Solve this in your browser →</a></p>
+
+<section><p>A port authority tracks <strong>ferry routes</strong> and a north-south <strong>shipping lane</strong>, all stored as LineStrings. For safety planning they need the exact point where each ferry route crosses the shipping lane.</p><h3>Goal</h3><p>Return <code>route_name</code> and <code>crossing_point</code> (the intersection as WKT text via <code>ST_AsText</code>) for every ferry route that intersects the shipping lane, ordered by <code>route_name</code>.</p><h3>Expected Output</h3><pre>route_name      crossing_point
+--------------  --------------
+Coastal Loop    POINT (5 20)
+Harbor Express  POINT (5 5)
+Island Hopper   POINT (5 5)</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>ferry_routes.route_name</td><td>VARCHAR</td><td>Route label</td></tr><tr><td>ferry_routes.geom</td><td>GEOMETRY</td><td>Route LineString</td></tr><tr><td>shipping_lane.geom</td><td>GEOMETRY</td><td>The shipping lane LineString</td></tr></table><p style="margin-top:0.75rem"><code>ST_Intersection(a, b)</code> returns the shared geometry of two inputs — for two crossing lines, that's a POINT. <code>ST_AsText</code> converts a geometry back to WKT for display.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Join ferry routes to the shipping lane with <code>ST_Intersects</code> as the join condition — routes that don't cross are filtered out automatically.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_AsText(ST_Intersection(f.geom, s.geom))</code> gives the crossing point as readable WKT.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/17">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Intersection, ST_AsText.</p>
+
+<nav class="seo-prevnext"><a href="/p/16.html">← Simplify Dense Geometry</a> · <a href="/p/18.html">H3 Hexbin Hotspots →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

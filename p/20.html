@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Load a Parquet Layer — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="Real GIS work starts with loading data. DuckDB can query a Parquet file directly — no import step, no CREATE TABLE. This is the gentlest introduction to…">
+<link rel="canonical" href="https://geosql.dev/p/20.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Load a Parquet Layer — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="Real GIS work starts with loading data. DuckDB can query a Parquet file directly — no import step, no CREATE TABLE. This is the gentlest introduction to…">
+<meta property="og:url" content="https://geosql.dev/p/20.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Load a Parquet Layer", "description": "Real GIS work starts with loading data. DuckDB can query a Parquet file directly \u2014 no import step, no CREATE TABLE. This is the gentlest introduction to\u2026", "url": "https://geosql.dev/p/20.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["read_parquet", "GROUP BY"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Load a Parquet Layer</nav>
+
+<h1>Load a Parquet Layer</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">I/O</span>
+  <span class="tag">read_parquet</span><span class="tag">GROUP BY</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/20">Solve this in your browser →</a></p>
+
+<section><p>Real GIS work starts with loading data. DuckDB can query a Parquet file <em>directly</em> — no import step, no CREATE TABLE. This is the gentlest introduction to the file-based problems.</p><h3>Goal</h3><p>Query the NYC points-of-interest Parquet file and count how many POIs exist in each <code>category</code>.</p><p>Return <code>category</code> and <code>n</code>, ordered by <code>n</code> descending, then <code>category</code> alphabetically.</p><h3>Expected Output</h3><pre>category    n
+----------  --
+restaurant  32
+museum      5
+hotel       3
+park        3</pre></section>
+<section><h3>Parquet file: <code>./data/nyc_pois.parquet</code></h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>poi_id</td><td>INTEGER</td><td>Row ID</td></tr><tr><td>name</td><td>VARCHAR</td><td>Venue name</td></tr><tr><td>category</td><td>VARCHAR</td><td>'hotel' | 'museum' | 'park' | 'restaurant'</td></tr><tr><td>lat / lon</td><td>DOUBLE</td><td>WGS84 coordinates</td></tr></table><p style="margin-top:0.75rem"><code>read_parquet('path')</code> works anywhere a table name can appear — <code>FROM</code>, joins, subqueries. DuckDB reads only the columns your query touches.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> <code>FROM read_parquet('./data/nyc_pois.parquet')</code> — the file path replaces a table name.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> A plain <code>GROUP BY category</code> with <code>COUNT(*)</code> finishes the job. Remember the two-level ORDER BY for deterministic output.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/20">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+read_parquet, GROUP BY.</p>
+
+<nav class="seo-prevnext"><a href="/p/19.html">← Spatial Window Function</a> · <a href="/p/21.html">NYC Taxi Pickup Hotspots →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

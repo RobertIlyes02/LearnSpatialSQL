@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flood Risk Buffer — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A city has mapped a flood zone polygon. Properties within 500 metres of the flood zone boundary are considered at-risk and must be notified. Return the…">
+<link rel="canonical" href="https://geosql.dev/p/9.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flood Risk Buffer — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A city has mapped a flood zone polygon. Properties within 500 metres of the flood zone boundary are considered at-risk and must be notified. Return the…">
+<meta property="og:url" content="https://geosql.dev/p/9.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Flood Risk Buffer", "description": "A city has mapped a flood zone polygon. Properties within 500 metres of the flood zone boundary are considered at-risk and must be notified. Return the\u2026", "url": "https://geosql.dev/p/9.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Buffer", "ST_Within"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Flood Risk Buffer</nav>
+
+<h1>Flood Risk Buffer</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Buffering</span>
+  <span class="tag">ST_Buffer</span><span class="tag">ST_Within</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/9">Solve this in your browser →</a></p>
+
+<section><p>A city has mapped a <strong>flood zone</strong> polygon. Properties within <strong>500 metres</strong> of the flood zone boundary are considered at-risk and must be notified.</p><h3>Goal</h3><p>Return the <code>property_id</code> and <code>address</code> of every property that falls within a 500-unit buffer of the flood zone, ordered by <code>property_id</code>.</p><h3>Example Output</h3><pre>property_id  address
+-----------  ---------------
+1            12 River St
+2            45 Valley Rd
+3            7 Creek Ave
+4            88 Lowland Dr</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>flood_zone.geom</td><td>GEOMETRY</td><td>The flood zone polygon</td></tr><tr><td>properties.property_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>properties.address</td><td>VARCHAR</td><td>Street address</td></tr><tr><td>properties.geom</td><td>GEOMETRY</td><td>Point location</td></tr></table><p style="margin-top:0.75rem"><code>ST_Buffer(geom, distance)</code> expands a geometry outward by <code>distance</code> units in all directions, returning a new polygon. You can then use <code>ST_Within</code> or <code>ST_Intersects</code> to test containment against that expanded shape.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> First expand the flood zone using <code>ST_Buffer(geom, 500)</code>, then test which properties fall within it.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> You can use a subquery or CTE: <code>SELECT ST_Buffer(geom, 500) FROM flood_zone</code> to get the buffered shape, then join properties against it.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/9">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Buffer, ST_Within.</p>
+
+<nav class="seo-prevnext"><a href="/p/8.html">← Reverse Geocode Grid</a> · <a href="/p/10.html">Merge Coverage Areas →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

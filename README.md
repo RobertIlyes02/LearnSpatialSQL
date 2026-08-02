@@ -94,6 +94,20 @@ only versions those two files, not the modules they import.
 - Expected values are compared as JS strings: `String(-74.0)` is `"-74"`, and
   booleans are `"true"`/`"false"`.
 
+## SEO pages
+
+The app uses hash routing (`#/problems/21`), and everything after `#` is never sent
+to a server — so search engines cannot see any problem content. `tools/build_seo.py`
+generates crawlable static counterparts:
+
+```bash
+python tools/build_seo.py
+```
+
+That writes `p/1.html` … `p/29.html` (real problem prose, JSON-LD, links into the
+app), `p/index.html`, and `sitemap.xml`. **Re-run it whenever you add or edit a
+problem**, otherwise the indexed copy goes stale.
+
 ## Testing
 
 ```bash

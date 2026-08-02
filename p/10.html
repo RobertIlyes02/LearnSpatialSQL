@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merge Coverage Areas — Medium Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A telecoms company has a table of cell tower coverage polygons. Some towers overlap. The company wants to know the total number of distinct merged…">
+<link rel="canonical" href="https://geosql.dev/p/10.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Merge Coverage Areas — Medium Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A telecoms company has a table of cell tower coverage polygons. Some towers overlap. The company wants to know the total number of distinct merged…">
+<meta property="og:url" content="https://geosql.dev/p/10.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Merge Coverage Areas", "description": "A telecoms company has a table of cell tower coverage polygons. Some towers overlap. The company wants to know the total number of distinct merged\u2026", "url": "https://geosql.dev/p/10.html", "educationalLevel": "Medium", "learningResourceType": "Exercise", "teaches": ["ST_Union", "ST_GeomFromText"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Merge Coverage Areas</nav>
+
+<h1>Merge Coverage Areas</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-medium">Medium</span>
+  <span class="seo-topic">Aggregation</span>
+  <span class="tag">ST_Union</span><span class="tag">ST_GeomFromText</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/10">Solve this in your browser →</a></p>
+
+<section><p>A telecoms company has a table of <strong>cell tower coverage polygons</strong>. Some towers overlap. The company wants to know the <strong>total number of distinct merged coverage blobs</strong> after unioning all polygons together.</p><h3>Goal</h3><p>Union all coverage polygons into a single geometry, then count how many distinct non-overlapping sub-geometries it contains. Return a single row with column <code>coverage_blobs</code>.</p><h3>Example Output</h3><pre>coverage_blobs
+--------------
+2</pre></section>
+<section><h3>Table: towers</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>tower_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Coverage polygon</td></tr></table><p style="margin-top:0.75rem"><code>ST_Union</code> can be used as an aggregate just like <code>SUM</code> — no <code>GROUP BY</code> needed to merge all rows into one geometry. The result may be a <code>MULTIPOLYGON</code> if the inputs don't all touch. <code>ST_NumGeometries(geom)</code> counts how many sub-geometries a multi-geometry contains.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> <code>ST_Union(geom)</code> as an aggregate merges all polygons, dissolving shared boundaries.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_NumGeometries(ST_Union(geom))</code> gives you the count of disconnected blobs in one expression.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/10">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Union, ST_GeomFromText.</p>
+
+<nav class="seo-prevnext"><a href="/p/9.html">← Flood Risk Buffer</a> · <a href="/p/11.html">Neighbourhood Centroids →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

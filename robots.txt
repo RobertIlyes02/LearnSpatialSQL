@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geosql.dev/sitemap.xml

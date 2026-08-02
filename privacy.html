@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | GeoSQL</title>
+<meta name="description" content="What GeoSQL stores, what it doesn't, and how to delete your data. Your SQL runs entirely in your browser and is never sent to a server unless you submit it.">
+<link rel="canonical" href="https://geosql.dev/privacy.html">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › Privacy</nav>
+
+<h1>Privacy Policy</h1>
+<p class="seo-note">Last updated 2 August 2026.</p>
+
+<h2>The short version</h2>
+<p>Your SQL runs inside your own browser. GeoSQL has no application server that
+executes queries, so the code you write is never transmitted anywhere — unless you
+press <strong>Submit</strong> while signed in, which saves that one submission so it
+can appear on the leaderboard.</p>
+
+<h2>If you don't create an account</h2>
+<p>Nothing about you is stored on our side. Which problems you've solved are kept in
+your browser's <code>localStorage</code>, on your device only. Clearing your browser
+data erases it, and we never see it.</p>
+
+<h2>If you create an account</h2>
+<p>Accounts are handled by <a href="https://supabase.com" rel="noopener" target="_blank">Supabase</a>.
+We store:</p>
+<ul>
+  <li>Your <strong>email address</strong> — used only to sign you in. It is never
+      displayed publicly and never shared or sold.</li>
+  <li>A <strong>display name</strong> for the leaderboard. This is a generated
+      pseudonym such as <code>SwiftPolygon420</code>, never your email. If you sign in
+      with GitHub, your public GitHub username is used instead. You can change it at
+      any time on the Leaderboard page.</li>
+  <li>Your <strong>submissions</strong>: the problem, the SQL you submitted, whether it
+      passed, and how long it took. Only the timing and your display name are public —
+      the SQL itself is readable only by you and is blocked at the database level from
+      anyone else.</li>
+</ul>
+<p>Passwords are hashed by Supabase and are never visible to us.</p>
+
+<h2>Sign-in with GitHub</h2>
+<p>If you use GitHub sign-in, GitHub shares your email address and public username
+with us. GeoSQL requests the minimum scope (<code>user:email</code>) and cannot read
+your repositories or act on your behalf.</p>
+
+<h2>Analytics</h2>
+<p>We use privacy-preserving, cookieless analytics to count page views and see which
+sites link to us. No cookies are set, no cross-site tracking happens, and no individual
+is profiled. This is why you don't see a cookie banner — there are no tracking cookies
+to consent to.</p>
+
+<h2>What we never do</h2>
+<ul>
+  <li>Sell or share your data with advertisers.</li>
+  <li>Publish your email address anywhere.</li>
+  <li>Send marketing email. The only mail you may receive is sign-in or password
+      confirmation.</li>
+</ul>
+
+<h2>Deleting your data</h2>
+<p>Email <a href="mailto:support@geosql.dev">support@geosql.dev</a> and ask. Your
+account, profile, and submissions will be deleted permanently. No justification
+needed and no attempt to talk you out of it.</p>
+
+<h2>Third parties</h2>
+<p>GeoSQL relies on: <strong>Supabase</strong> (accounts and database),
+<strong>Vercel</strong> and <strong>Cloudflare</strong> (hosting and delivery), and
+<strong>jsDelivr</strong> (serving the DuckDB WebAssembly runtime). Each sees standard
+technical data such as your IP address in order to serve requests.</p>
+
+<h2>Contact</h2>
+<p>Questions or corrections: <a href="mailto:support@geosql.dev">support@geosql.dev</a>.</p>
+
+<footer class="seo-footer"><a href="/">← Back to GeoSQL</a></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensors Near the Pipeline — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A gas company monitors a pipeline (LineString) with field sensors (points). Sensors more than 50 units from the pipeline are out of radio range and need…">
+<link rel="canonical" href="https://geosql.dev/p/25.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sensors Near the Pipeline — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A gas company monitors a pipeline (LineString) with field sensors (points). Sensors more than 50 units from the pipeline are out of radio range and need…">
+<meta property="og:url" content="https://geosql.dev/p/25.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Sensors Near the Pipeline", "description": "A gas company monitors a pipeline (LineString) with field sensors (points). Sensors more than 50 units from the pipeline are out of radio range and need\u2026", "url": "https://geosql.dev/p/25.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_DWithin", "ST_Distance"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Sensors Near the Pipeline</nav>
+
+<h1>Sensors Near the Pipeline</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Predicates</span>
+  <span class="tag">ST_DWithin</span><span class="tag">ST_Distance</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/25">Solve this in your browser →</a></p>
+
+<section><p>A gas company monitors a <strong>pipeline</strong> (LineString) with field <strong>sensors</strong> (points). Sensors more than <strong>50 units</strong> from the pipeline are out of radio range and need relocating.</p><h3>Goal</h3><p>Return the <code>sensor_id</code> and <code>sensor_name</code> of every sensor <strong>within 50 units</strong> of the pipeline, ordered by <code>sensor_id</code>.</p><p>Use <code>ST_DWithin</code> — it's clearer (and often faster) than computing <code>ST_Distance</code> and comparing.</p><h3>Expected Output</h3><pre>sensor_id  sensor_name
+---------  -----------
+1          S-Alpha
+2          S-Bravo
+4          S-Delta</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pipeline.geom</td><td>GEOMETRY</td><td>The pipeline LineString</td></tr><tr><td>sensors.sensor_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>sensors.sensor_name</td><td>VARCHAR</td><td>Sensor label</td></tr><tr><td>sensors.geom</td><td>GEOMETRY</td><td>Sensor point</td></tr></table><p style="margin-top:0.75rem"><code>ST_DWithin(a, b, dist)</code> returns TRUE when the geometries are within <code>dist</code> of each other. Note that distance to a LineString is measured to the <em>nearest point on the line</em> — a sensor below the line counts just like one above it.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> Cross join sensors with the pipeline (only one pipeline row), then filter with <code>ST_DWithin(s.geom, p.geom, 50)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> Careful: S-Delta sits at y = -45, <em>below</em> the pipeline — but it's still within 50 units of it.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/25">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_DWithin, ST_Distance.</p>
+
+<nav class="seo-prevnext"><a href="/p/24.html">← Rush Hour Fare Analysis</a> · <a href="/p/26.html">Reproject to Web Mercator →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

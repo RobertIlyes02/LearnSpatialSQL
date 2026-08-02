@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spatial Window Function — Hard Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A retail chain has store locations (points, with annual revenue) and district boundaries (polygons). Management wants the top 2 stores by revenue in each…">
+<link rel="canonical" href="https://geosql.dev/p/19.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spatial Window Function — Hard Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A retail chain has store locations (points, with annual revenue) and district boundaries (polygons). Management wants the top 2 stores by revenue in each…">
+<meta property="og:url" content="https://geosql.dev/p/19.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Spatial Window Function", "description": "A retail chain has store locations (points, with annual revenue) and district boundaries (polygons). Management wants the top 2 stores by revenue in each\u2026", "url": "https://geosql.dev/p/19.html", "educationalLevel": "Hard", "learningResourceType": "Exercise", "teaches": ["PARTITION BY", "ST_Within", "RANK"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Spatial Window Function</nav>
+
+<h1>Spatial Window Function</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-hard">Hard</span>
+  <span class="seo-topic">Analytics</span>
+  <span class="tag">PARTITION BY</span><span class="tag">ST_Within</span><span class="tag">RANK</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/19">Solve this in your browser →</a></p>
+
+<section><p>A retail chain has <strong>store locations</strong> (points, with annual revenue) and <strong>district boundaries</strong> (polygons). Management wants the <strong>top 2 stores by revenue in each district</strong>.</p><h3>Goal</h3><p>Spatially assign each store to its district with <code>ST_Within</code>, rank stores by revenue within each district using a window function, and return only ranks 1–2.</p><p>Return <code>district_name</code>, <code>store_name</code>, <code>revenue</code>, <code>rnk</code>, ordered by <code>district_name</code>, then <code>rnk</code>.</p><h3>Expected Output</h3><pre>district_name  store_name   revenue  rnk
+-------------  -----------  -------  ---
+Downtown       Beta Shop    340000   1
+Downtown       Gamma Store  210000   2
+Uptown         Delta Mart   500000   1
+Uptown         Zeta Corner  430000   2</pre></section>
+<section><h3>Tables</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>districts.district_name</td><td>VARCHAR</td><td>District label</td></tr><tr><td>districts.geom</td><td>GEOMETRY</td><td>District polygon</td></tr><tr><td>stores.store_name</td><td>VARCHAR</td><td>Store label</td></tr><tr><td>stores.geom</td><td>GEOMETRY</td><td>Store point</td></tr><tr><td>stores.revenue</td><td>INTEGER</td><td>Annual revenue</td></tr></table><p style="margin-top:0.75rem">Window functions like <code>RANK() OVER (PARTITION BY ... ORDER BY ...)</code> compute per-group rankings without collapsing rows. DuckDB's <code>QUALIFY</code> clause filters on a window result directly — no subquery needed.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> First get each store's district: <code>JOIN districts d ON ST_Within(s.geom, d.geom)</code>.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>RANK() OVER (PARTITION BY district_name ORDER BY revenue DESC)</code> ranks within each district.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 3</strong> DuckDB's <code>QUALIFY</code> clause filters on a window expression without a subquery: <code>QUALIFY RANK() OVER (...) &lt;= 2</code>. (Referencing the SELECT alias in QUALIFY needs a newer DuckDB than the browser runtime — repeat the full expression.)</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/19">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+PARTITION BY, ST_Within, RANK.</p>
+
+<nav class="seo-prevnext"><a href="/p/18.html">← H3 Hexbin Hotspots</a> · <a href="/p/20.html">Load a Parquet Layer →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>

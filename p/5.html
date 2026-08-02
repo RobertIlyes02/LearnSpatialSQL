@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Route Length from WKT — Easy Spatial SQL Problem | GeoSQL</title>
+<meta name="description" content="A table of delivery routes stores each path as a WKT LINESTRING. Compute the total length of each route. Return route_name and length_units (the raw…">
+<link rel="canonical" href="https://geosql.dev/p/5.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Route Length from WKT — Easy Spatial SQL Problem | GeoSQL">
+<meta property="og:description" content="A table of delivery routes stores each path as a WKT LINESTRING. Compute the total length of each route. Return route_name and length_units (the raw…">
+<meta property="og:url" content="https://geosql.dev/p/5.html">
+<meta property="og:image" content="https://geosql.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Route Length from WKT", "description": "A table of delivery routes stores each path as a WKT LINESTRING. Compute the total length of each route. Return route_name and length_units (the raw\u2026", "url": "https://geosql.dev/p/5.html", "educationalLevel": "Easy", "learningResourceType": "Exercise", "teaches": ["ST_Length", "ST_GeomFromText"], "isAccessibleForFree": true, "inLanguage": "en", "isPartOf": {"@type": "WebSite", "name": "GeoSQL", "url": "https://geosql.dev/"}}</script>
+</head>
+<body>
+<div class="seo-page">
+
+<nav class="seo-nav"><a href="/">GeoSQL</a> › <a href="/p/">Problems</a> › Route Length from WKT</nav>
+
+<h1>Route Length from WKT</h1>
+<p class="seo-meta">
+  <span class="diff-badge diff-easy">Easy</span>
+  <span class="seo-topic">Measurement</span>
+  <span class="tag">ST_Length</span><span class="tag">ST_GeomFromText</span>
+</p>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/5">Solve this in your browser →</a></p>
+
+<section><p>A table of delivery <strong>routes</strong> stores each path as a WKT <code>LINESTRING</code>. Compute the total length of each route.</p><h3>Goal</h3><p>Return <code>route_name</code> and <code>length_units</code> (the raw planar length DuckDB computes — no unit conversion needed for this problem), ordered by <code>length_units</code> descending.</p><h3>Example Output</h3><pre>route_name   length_units
+-----------  ------------
+Route C      20.0
+Route A      10.0
+Route B      7.071068</pre></section>
+<section><h3>Table: routes</h3><table class="schema-table"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>route_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>route_name</td><td>VARCHAR</td><td>Route label</td></tr><tr><td>wkt</td><td>VARCHAR</td><td>Raw WKT LINESTRING text</td></tr></table><p style="margin-top:0.75rem">Use <code>ST_GeomFromText(wkt)</code> to parse the WKT string into a GEOMETRY, then <code>ST_Length(geom)</code>.</p></section>
+
+<h2>Hints</h2>
+<section><div class="hint-block"><strong>💡 Hint 1</strong> You'll need to convert the WKT text to GEOMETRY before measuring it.</div><div class="hint-block" style="margin-top:0.75rem"><strong>💡 Hint 2</strong> <code>ST_Length</code> sums the Euclidean distance between consecutive vertices of the LineString.</div></section>
+
+<p class="seo-cta"><a class="btn-primary" href="/#/problems/5">Open the SQL editor →</a></p>
+
+<p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
+WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
+ST_Length, ST_GeomFromText.</p>
+
+<nav class="seo-prevnext"><a href="/p/4.html">← Spatial Join Two Layers</a> · <a href="/p/6.html">Convex Hull of Cluster →</a></nav>
+<footer class="seo-footer"><a href="/">← All 29 spatial SQL problems</a></footer>
+
+</div>
+</body>
+</html>
