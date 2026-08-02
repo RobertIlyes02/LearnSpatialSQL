@@ -28,7 +28,7 @@ const CONFIG = {
   // OAuth providers actually ENABLED in Supabase → Authentication → Providers.
   // Buttons for anything not listed here are hidden, so users never click a
   // login option that can't work. Add 'github' / 'google' once each is enabled.
-  OAUTH_PROVIDERS: [],
+  OAUTH_PROVIDERS: ['github'],
 };
 
 // ─── FUNCTION DOCUMENTATION LINKS ───────────────────────────────────────────
