@@ -3,17 +3,28 @@
   "title": "Simplify Dense Geometry",
   "diff": "Medium",
   "topic": "Geometry",
-  "tags": ["ST_Simplify", "ST_Area"],
+  "tags": [
+    "ST_Simplify",
+    "ST_Area"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>Cartographers simplify jagged lake shorelines before rendering small-scale maps — but simplification distorts the shape. Quantify that distortion by comparing each lake's <strong>area before and after</strong> simplification.</p><h3>Goal</h3><p>Return <code>lake_name</code>, <code>area_before</code>, and <code>area_after</code> (area after <code>ST_Simplify</code> with tolerance <code>1.0</code>), both rounded to 2 decimal places, ordered by <code>lake_name</code>.</p><h3>Expected Output</h3><pre>lake_name   area_before  area_after\n----------  -----------  ----------\nLake Arrow  56.3         57.5\nLake Bell   98.0         100.0</pre>",
   "schema": "<h3>Table: lake_shores</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>lake_name</td><td>VARCHAR</td><td>Lake name</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Shoreline polygon (jagged, many vertices)</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_Simplify(geom, tolerance)</code> removes vertices whose deviation is under the tolerance (Douglas-Peucker). Simplifying a polygon can grow or shrink its area — that's the distortion you're measuring.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Compute <code>ST_Area</code> twice in one SELECT: once on <code>geom</code>, once on <code>ST_Simplify(geom, 1.0)</code>.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Wrap both with <code>ROUND(..., 2)</code> to match the expected precision.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Compare each lake's area before and after ST_Simplify (tolerance 1.0).\n-- Return: lake_name, area_before, area_after (both rounded 2dp) ordered by lake_name\nSELECT\n  lake_name,\n\nFROM lake_shores\nORDER BY lake_name;",
+  "starterCode": "LOAD spatial;\n\n-- Compare each lake's area before and after ST_Simplify (tolerance 1.0).\n-- Return: lake_name, area_before, area_after (both rounded 2dp) ordered by lake_name\n\n",
   "setup": "CREATE TABLE lake_shores AS SELECT * FROM (VALUES\n  ('Lake Arrow', ST_GeomFromText('POLYGON((0 0, 2 0.4, 4 0, 6 0.5, 8 0, 10 0.3, 10 6, 8 5.7, 6 6, 4 5.6, 2 6, 0 5.8, 0 0))')),\n  ('Lake Bell',  ST_GeomFromText('POLYGON((0 0, 5 0.2, 10 0, 10 10, 5 9.8, 0 10, 0 0))'))\n) t(lake_name, geom);",
   "expected": [
-    { "lake_name": "Lake Arrow", "area_before": "56.3", "area_after": "57.5" },
-    { "lake_name": "Lake Bell",  "area_before": "98",   "area_after": "100"  }
+    {
+      "lake_name": "Lake Arrow",
+      "area_before": "56.3",
+      "area_after": "57.5"
+    },
+    {
+      "lake_name": "Lake Bell",
+      "area_before": "98",
+      "area_after": "100"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT lake_name,\n       ROUND(ST_Area(geom), 2) AS area_before,\n       ROUND(ST_Area(ST_Simplify(geom, 1.0)), 2) AS area_after\nFROM lake_shores\nORDER BY lake_name;"
 }

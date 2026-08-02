@@ -3,18 +3,33 @@
   "title": "Reproject to Web Mercator",
   "diff": "Medium",
   "topic": "Projection",
-  "tags": ["ST_Transform", "EPSG"],
+  "tags": [
+    "ST_Transform",
+    "EPSG"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>Web maps (Google, OSM) draw in <strong>Web Mercator (EPSG:3857)</strong>, but GPS data arrives in <strong>WGS84 (EPSG:4326)</strong>. Reproject three NYC landmarks so they can be plotted on a web map.</p><h3>Goal</h3><p>Return <code>name</code>, <code>merc_x</code>, <code>merc_y</code> — the Web Mercator coordinates rounded to whole metres — ordered by <code>name</code>.</p><p>⚠️ <strong>The classic gotcha:</strong> DuckDB's <code>ST_Transform</code> follows the official EPSG:4326 axis order, which is <em>latitude first</em>. Build your input point as <code>ST_Point(lat, lon)</code> — not the usual (lon, lat) — or your landmarks will land in the Indian Ocean.</p><h3>Expected Output</h3><pre>name               merc_x    merc_y\n-----------------  --------  -------\nBrooklyn Bridge    -8237297  4969088\nEmpire State       -8236050  4975301\nStatue of Liberty  -8242596  4966606</pre>",
   "schema": "<h3>Table: landmarks</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>name</td><td>VARCHAR</td><td>Landmark name</td></tr><tr><td>lat</td><td>DOUBLE</td><td>Latitude (WGS84)</td></tr><tr><td>lon</td><td>DOUBLE</td><td>Longitude (WGS84)</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_Transform(geom, 'EPSG:4326', 'EPSG:3857')</code> reprojects. Sanity check: all of NYC should come out near x ≈ −8.24 million, y ≈ +4.97 million metres.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Build the point <em>latitude-first</em>: <code>ST_Point(lat, lon)</code>. EPSG:4326's official axis order surprises everyone once.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Extract with <code>ST_X</code>/<code>ST_Y</code> after transforming, then <code>ROUND(...)</code> to whole metres.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 3</strong> If your x comes out around +4.5 million, you've got the axis order backwards.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Reproject each landmark from WGS84 to Web Mercator (EPSG:3857).\n-- Return: name, merc_x, merc_y (rounded to whole metres) ordered by name\nSELECT\n  name,\n\nFROM landmarks\nORDER BY name;",
+  "starterCode": "LOAD spatial;\n\n-- Reproject each landmark from WGS84 to Web Mercator (EPSG:3857).\n-- Return: name, merc_x, merc_y (rounded to whole metres) ordered by name\n\n",
   "setup": "CREATE TABLE landmarks AS SELECT * FROM (VALUES\n  ('Statue of Liberty', 40.6892, -74.0445),\n  ('Empire State',      40.7484, -73.9857),\n  ('Brooklyn Bridge',   40.7061, -73.9969)\n) t(name, lat, lon);",
   "expected": [
-    { "name": "Brooklyn Bridge",   "merc_x": "-8237297", "merc_y": "4969088" },
-    { "name": "Empire State",      "merc_x": "-8236050", "merc_y": "4975301" },
-    { "name": "Statue of Liberty", "merc_x": "-8242596", "merc_y": "4966606" }
+    {
+      "name": "Brooklyn Bridge",
+      "merc_x": "-8237297",
+      "merc_y": "4969088"
+    },
+    {
+      "name": "Empire State",
+      "merc_x": "-8236050",
+      "merc_y": "4975301"
+    },
+    {
+      "name": "Statue of Liberty",
+      "merc_x": "-8242596",
+      "merc_y": "4966606"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT name,\n       ROUND(ST_X(ST_Transform(ST_Point(lat, lon), 'EPSG:4326', 'EPSG:3857'))) AS merc_x,\n       ROUND(ST_Y(ST_Transform(ST_Point(lat, lon), 'EPSG:4326', 'EPSG:3857'))) AS merc_y\nFROM landmarks\nORDER BY name;"
 }

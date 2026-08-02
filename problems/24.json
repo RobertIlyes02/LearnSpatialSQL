@@ -3,18 +3,34 @@
   "title": "Rush Hour Fare Analysis",
   "diff": "Easy",
   "topic": "Analytics",
-  "tags": ["read_parquet", "GROUP BY", "AVG"],
+  "tags": [
+    "read_parquet",
+    "GROUP BY",
+    "AVG"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>City planners want to know when taxi demand peaks. The NYC taxi Parquet file tags every trip with its <code>pickup_hour</code> (0–23).</p><h3>Goal</h3><p>Find the <strong>3 busiest pickup hours</strong>. For each, return the trip count and the average fare.</p><p>Return <code>pickup_hour</code>, <code>trips</code>, and <code>avg_fare</code> (rounded to 2 decimal places), ordered by <code>trips</code> descending, ties broken by <code>pickup_hour</code> ascending.</p><h3>Expected Output</h3><pre>pickup_hour  trips  avg_fare\n-----------  -----  --------\n18           218    4.49\n22           214    4.65\n20           209    4.46</pre>",
   "schema": "<h3>Parquet file: <code>./data/nyc_taxi_sample.parquet</code></h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pickup_hour</td><td>INTEGER</td><td>Hour of pickup (0–23)</td></tr><tr><td>fare_usd</td><td>DOUBLE</td><td>Fare amount</td></tr><tr><td colspan=\"3\">(other columns omitted — see Problem 21)</td></tr></table>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> This is pure SQL aggregation — no spatial functions needed. GROUP BY <code>pickup_hour</code>.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ROUND(AVG(fare_usd), 2)</code> for the fare; <code>ORDER BY trips DESC, pickup_hour</code> keeps ties deterministic.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Top 3 pickup hours by trip count, with average fare.\n-- Return: pickup_hour, trips, avg_fare — ordered by trips DESC, pickup_hour\nSELECT\n\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY pickup_hour\nORDER BY trips DESC, pickup_hour\nLIMIT 3;",
+  "starterCode": "LOAD spatial;\n\n-- Top 3 pickup hours by trip count, with average fare.\n-- Return: pickup_hour, trips, avg_fare — ordered by trips DESC, pickup_hour\n\n",
   "setup": "",
   "expected": [
-    { "pickup_hour": "18", "trips": "218", "avg_fare": "4.49" },
-    { "pickup_hour": "22", "trips": "214", "avg_fare": "4.65" },
-    { "pickup_hour": "20", "trips": "209", "avg_fare": "4.46" }
+    {
+      "pickup_hour": "18",
+      "trips": "218",
+      "avg_fare": "4.49"
+    },
+    {
+      "pickup_hour": "22",
+      "trips": "214",
+      "avg_fare": "4.65"
+    },
+    {
+      "pickup_hour": "20",
+      "trips": "209",
+      "avg_fare": "4.46"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT pickup_hour,\n       COUNT(*) AS trips,\n       ROUND(AVG(fare_usd), 2) AS avg_fare\nFROM read_parquet('./data/nyc_taxi_sample.parquet')\nGROUP BY pickup_hour\nORDER BY trips DESC, pickup_hour\nLIMIT 3;"
 }

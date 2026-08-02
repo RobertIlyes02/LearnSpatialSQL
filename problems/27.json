@@ -3,18 +3,31 @@
   "title": "Drone Tracks from Pings",
   "diff": "Medium",
   "topic": "Geometry",
-  "tags": ["ST_MakeLine", "ST_Length", "GROUP BY"],
+  "tags": [
+    "ST_MakeLine",
+    "ST_Length",
+    "GROUP BY"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A drone fleet logs GPS <strong>pings</strong> with a sequence number. Reconstruct each drone's flight track as a LineString and measure how far it flew.</p><h3>Goal</h3><p>For each drone, connect its pings <em>in sequence order</em> into a track, and return <code>drone_id</code> and <code>track_length</code> (rounded to 2 decimal places), ordered by <code>track_length</code> descending.</p><h3>Expected Output</h3><pre>drone_id  track_length\n--------  ------------\n3         16.0\n2         13.0\n1         10.0</pre>",
   "schema": "<h3>Table: drone_pings</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>drone_id</td><td>INTEGER</td><td>Which drone</td></tr><tr><td>seq</td><td>INTEGER</td><td>Ping order within the flight</td></tr><tr><td>geom</td><td>GEOMETRY</td><td>Ping location (point)</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_MakeLine(list)</code> builds a LineString from a LIST of points. DuckDB's <code>list(x ORDER BY y)</code> aggregate controls element order — critical here, since a shuffled track would zigzag and measure wrong.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Aggregate points per drone with <code>list(geom ORDER BY seq)</code> — the ORDER BY inside the aggregate is what keeps the track in flight order.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Full chain: <code>ROUND(ST_Length(ST_MakeLine(list(geom ORDER BY seq))), 2)</code>.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Rebuild each drone's track from its pings (in seq order) and measure it.\n-- Return: drone_id, track_length (rounded 2dp) ordered by track_length DESC\nSELECT\n  drone_id,\n\nFROM drone_pings\nGROUP BY drone_id\nORDER BY track_length DESC;",
+  "starterCode": "LOAD spatial;\n\n-- Rebuild each drone's track from its pings (in seq order) and measure it.\n-- Return: drone_id, track_length (rounded 2dp) ordered by track_length DESC\n\n",
   "setup": "CREATE TABLE drone_pings AS SELECT * FROM (VALUES\n  (1, 1, ST_Point(0, 0)),\n  (1, 2, ST_Point(3, 4)),\n  (1, 3, ST_Point(6, 8)),\n  (2, 1, ST_Point(0, 0)),\n  (2, 2, ST_Point(5, 12)),\n  (3, 1, ST_Point(1, 1)),\n  (3, 2, ST_Point(4, 5)),\n  (3, 3, ST_Point(4, 10)),\n  (3, 4, ST_Point(10, 10))\n) t(drone_id, seq, geom);",
   "expected": [
-    { "drone_id": 3, "track_length": "16" },
-    { "drone_id": 2, "track_length": "13" },
-    { "drone_id": 1, "track_length": "10" }
+    {
+      "drone_id": 3,
+      "track_length": "16"
+    },
+    {
+      "drone_id": 2,
+      "track_length": "13"
+    },
+    {
+      "drone_id": 1,
+      "track_length": "10"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT drone_id,\n       ROUND(ST_Length(ST_MakeLine(list(geom ORDER BY seq))), 2) AS track_length\nFROM drone_pings\nGROUP BY drone_id\nORDER BY track_length DESC;"
 }

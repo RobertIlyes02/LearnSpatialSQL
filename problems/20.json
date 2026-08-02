@@ -3,19 +3,34 @@
   "title": "Load a Parquet Layer",
   "diff": "Easy",
   "topic": "I/O",
-  "tags": ["read_parquet", "GROUP BY"],
+  "tags": [
+    "read_parquet",
+    "GROUP BY"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>Real GIS work starts with loading data. DuckDB can query a Parquet file <em>directly</em> — no import step, no CREATE TABLE. This is the gentlest introduction to the file-based problems.</p><h3>Goal</h3><p>Query the NYC points-of-interest Parquet file and count how many POIs exist in each <code>category</code>.</p><p>Return <code>category</code> and <code>n</code>, ordered by <code>n</code> descending, then <code>category</code> alphabetically.</p><h3>Expected Output</h3><pre>category    n\n----------  --\nrestaurant  32\nmuseum      5\nhotel       3\npark        3</pre>",
   "schema": "<h3>Parquet file: <code>./data/nyc_pois.parquet</code></h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>poi_id</td><td>INTEGER</td><td>Row ID</td></tr><tr><td>name</td><td>VARCHAR</td><td>Venue name</td></tr><tr><td>category</td><td>VARCHAR</td><td>'hotel' | 'museum' | 'park' | 'restaurant'</td></tr><tr><td>lat / lon</td><td>DOUBLE</td><td>WGS84 coordinates</td></tr></table><p style=\"margin-top:0.75rem\"><code>read_parquet('path')</code> works anywhere a table name can appear — <code>FROM</code>, joins, subqueries. DuckDB reads only the columns your query touches.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> <code>FROM read_parquet('./data/nyc_pois.parquet')</code> — the file path replaces a table name.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> A plain <code>GROUP BY category</code> with <code>COUNT(*)</code> finishes the job. Remember the two-level ORDER BY for deterministic output.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Count POIs per category straight from the Parquet file.\n-- Return: category, n — ordered by n DESC, then category\nSELECT\n\nFROM read_parquet('./data/nyc_pois.parquet')\nGROUP BY category\nORDER BY n DESC, category;",
+  "starterCode": "LOAD spatial;\n\n-- Count POIs per category straight from the Parquet file.\n-- Return: category, n — ordered by n DESC, then category\n\n",
   "setup": "",
   "expected": [
-    { "category": "restaurant", "n": "32" },
-    { "category": "museum",     "n": "5"  },
-    { "category": "hotel",      "n": "3"  },
-    { "category": "park",       "n": "3"  }
+    {
+      "category": "restaurant",
+      "n": "32"
+    },
+    {
+      "category": "museum",
+      "n": "5"
+    },
+    {
+      "category": "hotel",
+      "n": "3"
+    },
+    {
+      "category": "park",
+      "n": "3"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT category, COUNT(*) AS n\nFROM read_parquet('./data/nyc_pois.parquet')\nGROUP BY category\nORDER BY n DESC, category;"
 }

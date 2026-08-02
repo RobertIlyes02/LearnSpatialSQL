@@ -3,18 +3,30 @@
   "title": "Sensors Near the Pipeline",
   "diff": "Easy",
   "topic": "Predicates",
-  "tags": ["ST_DWithin", "ST_Distance"],
+  "tags": [
+    "ST_DWithin",
+    "ST_Distance"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A gas company monitors a <strong>pipeline</strong> (LineString) with field <strong>sensors</strong> (points). Sensors more than <strong>50 units</strong> from the pipeline are out of radio range and need relocating.</p><h3>Goal</h3><p>Return the <code>sensor_id</code> and <code>sensor_name</code> of every sensor <strong>within 50 units</strong> of the pipeline, ordered by <code>sensor_id</code>.</p><p>Use <code>ST_DWithin</code> — it's clearer (and often faster) than computing <code>ST_Distance</code> and comparing.</p><h3>Expected Output</h3><pre>sensor_id  sensor_name\n---------  -----------\n1          S-Alpha\n2          S-Bravo\n4          S-Delta</pre>",
   "schema": "<h3>Tables</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>pipeline.geom</td><td>GEOMETRY</td><td>The pipeline LineString</td></tr><tr><td>sensors.sensor_id</td><td>INTEGER</td><td>Primary key</td></tr><tr><td>sensors.sensor_name</td><td>VARCHAR</td><td>Sensor label</td></tr><tr><td>sensors.geom</td><td>GEOMETRY</td><td>Sensor point</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_DWithin(a, b, dist)</code> returns TRUE when the geometries are within <code>dist</code> of each other. Note that distance to a LineString is measured to the <em>nearest point on the line</em> — a sensor below the line counts just like one above it.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Cross join sensors with the pipeline (only one pipeline row), then filter with <code>ST_DWithin(s.geom, p.geom, 50)</code>.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> Careful: S-Delta sits at y = -45, <em>below</em> the pipeline — but it's still within 50 units of it.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Find all sensors within 50 units of the pipeline.\n-- Return: sensor_id, sensor_name ordered by sensor_id\nSELECT\n\nFROM sensors s, pipeline p\nWHERE\n\nORDER BY s.sensor_id;",
+  "starterCode": "LOAD spatial;\n\n-- Find all sensors within 50 units of the pipeline.\n-- Return: sensor_id, sensor_name ordered by sensor_id\n\n",
   "setup": "CREATE TABLE pipeline AS SELECT * FROM (VALUES\n  (ST_GeomFromText('LINESTRING(0 0, 100 0, 200 50)'))\n) t(geom);\n\nCREATE TABLE sensors AS SELECT * FROM (VALUES\n  (1, 'S-Alpha',   ST_Point(50, 30)),\n  (2, 'S-Bravo',   ST_Point(120, 20)),\n  (3, 'S-Charlie', ST_Point(150, 90)),\n  (4, 'S-Delta',   ST_Point(10, -45)),\n  (5, 'S-Echo',    ST_Point(300, 60))\n) t(sensor_id, sensor_name, geom);",
   "expected": [
-    { "sensor_id": 1, "sensor_name": "S-Alpha" },
-    { "sensor_id": 2, "sensor_name": "S-Bravo" },
-    { "sensor_id": 4, "sensor_name": "S-Delta" }
+    {
+      "sensor_id": 1,
+      "sensor_name": "S-Alpha"
+    },
+    {
+      "sensor_id": 2,
+      "sensor_name": "S-Bravo"
+    },
+    {
+      "sensor_id": 4,
+      "sensor_name": "S-Delta"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT s.sensor_id, s.sensor_name\nFROM sensors s, pipeline p\nWHERE ST_DWithin(s.geom, p.geom, 50)\nORDER BY s.sensor_id;"
 }

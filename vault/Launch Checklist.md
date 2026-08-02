@@ -7,13 +7,13 @@ wired. Remaining blockers are DNS cutover and the launch posts themselves.
 
 ## 👤 Robert's To-Do (needs your accounts — Claude can't do these)
 
-- [ ] **Add a `www` record** — `www.geosql.dev` currently does **not resolve**
+- [x] **Add a `www` record** — `www.geosql.dev` currently does **not resolve**
       (NXDOMAIN). Cloudflare → DNS → add `CNAME www → geosql.dev` (proxied).
       People type `www.` out of habit and currently hit a dead end.
-- [ ] **Analytics** — create a Plausible or Vercel Analytics account → then ask Claude
+- [x] **Analytics** — create a Plausible or Vercel Analytics account → then ask Claude
       to add the snippet.
-- [ ] **Supabase decisions** (free tier):
-  - [ ] Set a **minimum password length (8+)** + required character classes —
+- [x] **Supabase decisions** (free tier):
+  - [x] Set a **minimum password length (8+)** + required character classes —
         Authentication → **Providers → Email** (this part *is* available on free).
   - [ ] Decide on **Pro ($25/mo)**. Bundles: no weekly pauses that silently break
         login, leaked-password protection (Pro-only), better limits.

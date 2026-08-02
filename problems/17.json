@@ -3,18 +3,30 @@
   "title": "LineString Intersection",
   "diff": "Medium",
   "topic": "Set Ops",
-  "tags": ["ST_Intersection", "ST_AsText"],
+  "tags": [
+    "ST_Intersection",
+    "ST_AsText"
+  ],
   "premium": false,
   "hasExecution": true,
   "description": "<p>A port authority tracks <strong>ferry routes</strong> and a north-south <strong>shipping lane</strong>, all stored as LineStrings. For safety planning they need the exact point where each ferry route crosses the shipping lane.</p><h3>Goal</h3><p>Return <code>route_name</code> and <code>crossing_point</code> (the intersection as WKT text via <code>ST_AsText</code>) for every ferry route that intersects the shipping lane, ordered by <code>route_name</code>.</p><h3>Expected Output</h3><pre>route_name      crossing_point\n--------------  --------------\nCoastal Loop    POINT (5 20)\nHarbor Express  POINT (5 5)\nIsland Hopper   POINT (5 5)</pre>",
   "schema": "<h3>Tables</h3><table class=\"schema-table\"><tr><th>Column</th><th>Type</th><th>Description</th></tr><tr><td>ferry_routes.route_name</td><td>VARCHAR</td><td>Route label</td></tr><tr><td>ferry_routes.geom</td><td>GEOMETRY</td><td>Route LineString</td></tr><tr><td>shipping_lane.geom</td><td>GEOMETRY</td><td>The shipping lane LineString</td></tr></table><p style=\"margin-top:0.75rem\"><code>ST_Intersection(a, b)</code> returns the shared geometry of two inputs — for two crossing lines, that's a POINT. <code>ST_AsText</code> converts a geometry back to WKT for display.</p>",
   "hints": "<div class=\"hint-block\"><strong>💡 Hint 1</strong> Join ferry routes to the shipping lane with <code>ST_Intersects</code> as the join condition — routes that don't cross are filtered out automatically.</div><div class=\"hint-block\" style=\"margin-top:0.75rem\"><strong>💡 Hint 2</strong> <code>ST_AsText(ST_Intersection(f.geom, s.geom))</code> gives the crossing point as readable WKT.</div>",
-  "starterCode": "LOAD spatial;\n\n-- Find where each ferry route crosses the shipping lane.\n-- Return: route_name, crossing_point (WKT text) ordered by route_name\nSELECT\n  f.route_name,\n\nFROM ferry_routes f\nJOIN shipping_lane s ON\nORDER BY f.route_name;",
+  "starterCode": "LOAD spatial;\n\n-- Find where each ferry route crosses the shipping lane.\n-- Return: route_name, crossing_point (WKT text) ordered by route_name\n\n",
   "setup": "CREATE TABLE ferry_routes AS SELECT * FROM (VALUES\n  ('Harbor Express', ST_GeomFromText('LINESTRING(0 0, 10 10)')),\n  ('Island Hopper',  ST_GeomFromText('LINESTRING(0 10, 10 0)')),\n  ('Coastal Loop',   ST_GeomFromText('LINESTRING(0 20, 10 20)'))\n) t(route_name, geom);\n\nCREATE TABLE shipping_lane AS SELECT * FROM (VALUES\n  (ST_GeomFromText('LINESTRING(5 -5, 5 25)'))\n) t(geom);",
   "expected": [
-    { "route_name": "Coastal Loop",   "crossing_point": "POINT (5 20)" },
-    { "route_name": "Harbor Express", "crossing_point": "POINT (5 5)"  },
-    { "route_name": "Island Hopper",  "crossing_point": "POINT (5 5)"  }
+    {
+      "route_name": "Coastal Loop",
+      "crossing_point": "POINT (5 20)"
+    },
+    {
+      "route_name": "Harbor Express",
+      "crossing_point": "POINT (5 5)"
+    },
+    {
+      "route_name": "Island Hopper",
+      "crossing_point": "POINT (5 5)"
+    }
   ],
   "solution": "LOAD spatial;\n\nSELECT f.route_name,\n       ST_AsText(ST_Intersection(f.geom, s.geom)) AS crossing_point\nFROM ferry_routes f\nJOIN shipping_lane s ON ST_Intersects(f.geom, s.geom)\nORDER BY f.route_name;"
 }
