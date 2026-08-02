@@ -56,6 +56,12 @@ nav {
   background: var(--cyan); color: #0B1220 !important;
   padding: 6px 16px; border-radius: 6px; font-weight: 600 !important;
 }
+/* Donate link — visible but deliberately quieter than the auth CTA */
+.nav-support {
+  padding: 5px 12px; border-radius: 6px;
+  border: 1px solid var(--border); font-size: 0.8rem !important;
+}
+.nav-support:hover { border-color: var(--amber); color: var(--amber) !important; }
 .nav-breadcrumb {
   display: flex; align-items: center; gap: 8px;
   font-size: 0.82rem; color: var(--muted2);
