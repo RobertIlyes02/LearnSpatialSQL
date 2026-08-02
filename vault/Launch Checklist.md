@@ -7,8 +7,12 @@ Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 - [x] **Deploy**: connect the GitHub repo on vercel.com (or Netlify) — repo is static, zero config
 - [ ] **Domain**: buy one (~$12/yr) and point it at the deploy
 - [x] **Leaderboard** ✅ 2026-08-02 — schema applied; lives in `supabase/schema.sql`
-  - [ ] Enable **Leaked Password Protection** (Supabase → Authentication → Policies) — last open security lint
-  - [ ] Decide on Supabase **Pro ($25/mo)** vs accepting weekly free-tier pauses that break login
+  - [ ] Set a **minimum password length (8+)** and required character classes —
+        Supabase → Authentication → **Providers → Email** (available on free)
+  - [ ] Decide on Supabase **Pro ($25/mo)**. It bundles the three open issues:
+        no weekly pauses that break login, leaked-password protection
+        (Pro-only — *not* available on free, so the last security lint can't be
+        cleared until then), and better limits.
 - [x] **Merge PR #2** on GitHub once you're happy with it
 - [ ] **Analytics**: create a Plausible or Vercel Analytics account → then ask Claude to add the snippet
 - [x] **Donate button** ✅ 2026-08-02 — Ko-fi (ko-fi.com/robertilyes) wired into the nav
