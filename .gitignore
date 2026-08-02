@@ -1,0 +1,11 @@
+# Obsidian UI state — pane layout, cursor position, recent files.
+# Rewritten constantly while the vault is open; nothing worth versioning.
+vault/.obsidian/workspace.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS noise
+.DS_Store
+Thumbs.db
