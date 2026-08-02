@@ -55,6 +55,12 @@ CREATE POLICY "Users update own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 
+-- Only display_name is user-editable. avatar_url renders in an <img src> on the
+-- public leaderboard, so letting users set it freely would turn the board into an
+-- IP-harvesting beacon for whoever they point it at.
+REVOKE UPDATE ON public.profiles FROM authenticated, anon;
+GRANT  UPDATE (display_name) ON public.profiles TO authenticated;
+
 ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS display_name_sane;
 ALTER TABLE public.profiles ADD CONSTRAINT display_name_sane
   CHECK (char_length(display_name) BETWEEN 2 AND 24 AND display_name !~ '@');

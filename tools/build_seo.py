@@ -87,6 +87,24 @@ def build():
         if next_p:
             nav.append(f'<a href="/p/{next_p["id"]}.html">{html.escape(next_p["title"])} →</a>')
 
+        # Related problems: shared topic first, then shared tags. Dense internal
+        # linking helps crawlers understand topic clusters (and helps humans).
+        mytags = set(p.get('tags') or [])
+        scored = []
+        for q in problems:
+            if q['id'] == pid:
+                continue
+            score = (2 if q['topic'] == p['topic'] else 0) + len(mytags & set(q.get('tags') or []))
+            if score:
+                scored.append((score, q))
+        scored.sort(key=lambda x: (-x[0], x[1]['id']))
+        related = ''.join(
+            f'<li><a href="/p/{q["id"]}.html">{html.escape(q["title"])}</a>'
+            f' <span class="diff-badge diff-{q["diff"].lower()}">{q["diff"]}</span></li>'
+            for _, q in scored[:5])
+        related_html = (f'<h2>Related problems</h2><ul class="seo-list">{related}</ul>'
+                        if related else '')
+
         # JSON-LD helps search engines understand this is a learning exercise
         ld = {
             "@context": "https://schema.org",
@@ -126,6 +144,8 @@ def build():
 <p class="seo-note">This problem runs entirely in your browser using DuckDB compiled to
 WebAssembly — nothing is installed and no query leaves your machine. Concepts covered:
 {html.escape(tags)}.</p>
+
+{related_html}
 
 <nav class="seo-prevnext">{' · '.join(nav)}</nav>
 <footer class="seo-footer"><a href="/">← All {len(problems)} spatial SQL problems</a></footer>

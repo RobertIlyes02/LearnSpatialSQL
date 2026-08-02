@@ -872,3 +872,27 @@ footer a { color: var(--cyan); text-decoration: none; }
 .seo-page .schema-table th, .seo-page .schema-table td {
   text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--muted2);
 }
+
+/* Crawlable homepage prose below the problem table. */
+.home-copy { margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 760px; }
+.home-copy h2 { font-size: 1.15rem; margin: 1.75rem 0 0.5rem; }
+.home-copy h3 { font-size: 0.92rem; margin: 1.1rem 0 0.3rem; color: var(--text); }
+.home-copy p, .home-copy li { color: var(--muted2); font-size: 0.9rem; line-height: 1.7; }
+.home-copy ul { padding-left: 1.2rem; }
+.home-copy li { margin-bottom: 0.3rem; }
+.home-copy code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; color: var(--cyan); }
+.home-copy a { color: var(--cyan); }
+.home-copy-cta { margin-top: 1.5rem; font-weight: 600; }
+
+/* "Why GeoSQL exists" — motivation section on the Resources screen. */
+.about-section {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--border); max-width: 720px;
+}
+.about-section p { color: var(--muted2); font-size: 0.92rem; line-height: 1.75; margin-bottom: 1rem; }
+.about-section em { color: var(--text); font-style: italic; }
+.about-links { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.5rem !important; }
+.about-links a { color: var(--cyan); text-decoration: none; font-weight: 600; font-size: 0.88rem; }
+.about-links a:hover { text-decoration: underline; }
+.about-note { font-size: 0.82rem !important; color: var(--muted) !important; margin-top: 1.25rem !important; }
+.about-note a { color: var(--cyan); }

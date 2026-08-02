@@ -20,10 +20,25 @@
 <meta name="twitter:description" content="LeetCode for spatial SQL. Hands-on geospatial problems running entirely in your browser with DuckDB-WASM.">
 <meta name="twitter:image" content="https://geosql.dev/og-image.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%234FC3F7%22/><polygon points=%2212,3.5 20.1,9.4 17,18.9 7,18.9 3.9,9.4%22 fill=%22none%22 stroke=%22%230B1220%22 stroke-width=%222%22 stroke-linejoin=%22round%22/><circle cx=%2212%22 cy=%223.5%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2220.1%22 cy=%229.4%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2217%22 cy=%2218.9%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%227%22 cy=%2218.9%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%223.9%22 cy=%229.4%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2212%22 cy=%2212.2%22 r=%221.6%22 fill=%22%230B1220%22/></svg>">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","name":"GeoSQL","url":"https://geosql.dev/",
+ "description":"Free spatial SQL practice problems that run entirely in your browser with DuckDB-WASM."},
+{"@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Do I need to install anything to practise spatial SQL?",
+  "acceptedAnswer":{"@type":"Answer","text":"No. DuckDB is compiled to WebAssembly and runs inside your browser tab. There is no server executing your SQL, so your queries never leave your machine."}},
+ {"@type":"Question","name":"Do I need an account?",
+  "acceptedAnswer":{"@type":"Answer","text":"No. Every problem is free and works signed out; progress is saved in your browser. Signing in only adds cross-device progress and the leaderboard."}},
+ {"@type":"Question","name":"Is this PostGIS or DuckDB?",
+  "acceptedAnswer":{"@type":"Answer","text":"The exercises run on DuckDB's spatial extension, but the ST_ functions follow the OGC standard, so nearly everything transfers directly to PostGIS, BigQuery GIS, Snowflake and Spatialite."}},
+ {"@type":"Question","name":"I am new to SQL. Can I start here?",
+  "acceptedAnswer":{"@type":"Answer","text":"You'll want comfort with SELECT, WHERE, JOIN and GROUP BY first. Given that, start with Load a Parquet Layer and follow the Foundations track."}}
+]}]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- ponytail: bump ?v= on every deploy so browsers pick up new assets -->
-<link rel="stylesheet" href="css/styles.css?v=11">
+<link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
 
@@ -133,6 +148,56 @@
         <tbody id="problem-body"></tbody>
       </table>
     </div>
+
+    <!-- Crawlable prose: the table above is rendered by JS, so without this the
+         homepage has almost no indexable text. Also serves readers deciding
+         whether the site is for them. -->
+    <section class="home-copy">
+      <h2>What is spatial SQL?</h2>
+      <p>Spatial SQL extends ordinary SQL with geometry types and functions, so you can
+      ask questions about <em>where</em> things are — which deliveries fall inside a zone,
+      which sensors sit within 50 metres of a pipeline, how far apart two airports are.
+      It's the language behind PostGIS, DuckDB's spatial extension, BigQuery GIS,
+      Snowflake geospatial, and most GIS work that isn't done by clicking around in a
+      desktop app.</p>
+
+      <h2>What you'll practise here</h2>
+      <ul>
+        <li><strong>Predicates</strong> — <code>ST_Within</code>, <code>ST_Intersects</code>,
+            <code>ST_DWithin</code> for point-in-polygon and proximity tests</li>
+        <li><strong>Spatial joins</strong> — joining tables on geometry instead of keys</li>
+        <li><strong>Measurement</strong> — <code>ST_Distance</code>, <code>ST_Length</code>,
+            <code>ST_Area</code>, <code>ST_Perimeter</code>, <code>ST_Azimuth</code></li>
+        <li><strong>Geometry construction &amp; repair</strong> — <code>ST_Buffer</code>,
+            <code>ST_Simplify</code>, <code>ST_MakeLine</code>, <code>ST_MakeValid</code></li>
+        <li><strong>Projections</strong> — <code>ST_Transform</code> between WGS84 (EPSG:4326)
+            and Web Mercator (EPSG:3857), including the axis-order trap that catches everyone</li>
+        <li><strong>H3 hexagons</strong> and grid binning for aggregating point data</li>
+        <li><strong>Real Parquet datasets</strong> — NYC taxi trips, points of interest,
+            US flight routes — queried directly with <code>read_parquet</code></li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Do I need to install anything?</h3>
+      <p>No. DuckDB is compiled to WebAssembly and runs inside your browser tab. There is no
+      server executing your SQL, so your queries never leave your machine.</p>
+
+      <h3>Do I need an account?</h3>
+      <p>No. Every problem is free and works signed out; your progress is saved in your
+      browser. Signing in only adds cross-device progress and the leaderboard.</p>
+
+      <h3>Is this PostGIS or DuckDB?</h3>
+      <p>The exercises run on DuckDB's spatial extension, but the <code>ST_</code> functions
+      follow the OGC standard, so nearly everything transfers directly to PostGIS,
+      BigQuery GIS, Snowflake, and Spatialite.</p>
+
+      <h3>I'm new to SQL. Can I start here?</h3>
+      <p>You'll want comfort with <code>SELECT</code>, <code>WHERE</code>,
+      <code>JOIN</code> and <code>GROUP BY</code> first. Given that, start at
+      <a href="/p/20.html">Load a Parquet Layer</a> and follow the Foundations track.</p>
+
+      <p class="home-copy-cta"><a href="/p/">Browse all 29 problems →</a></p>
+    </section>
   </main>
 
   <footer>Built for spatial data engineers · Powered by <a href="https://duckdb.org/docs/api/wasm/overview" target="_blank">DuckDB WASM</a> · © GeoSQL · <a href="/p/">All Problems</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:support@geosql.dev">Contact</a></footer>
@@ -410,6 +475,40 @@
       </div>
 
     </div>
+
+    <section class="about-section" id="about">
+      <div class="resource-section-header">
+        <span class="resource-section-icon">👋</span>
+        <h2 class="resource-section-title">Why GeoSQL exists</h2>
+      </div>
+
+      <p>Spatial SQL is one of those skills that's hard to pick up not because the ideas are
+      difficult, but because <em>getting started</em> is. The usual first step is installing
+      PostGIS, wrestling with a database server, finding a dataset, and loading it — and most
+      people give up somewhere in there, before writing a single interesting query.</p>
+
+      <p>That felt like the wrong obstacle. The concepts — point-in-polygon, spatial joins,
+      buffers, projections — are genuinely learnable in an afternoon. The setup is what takes
+      the week.</p>
+
+      <p>So GeoSQL removes it entirely. DuckDB compiled to WebAssembly means a real spatial
+      database runs in your browser tab: no install, no server, no signup, no cost. Open a
+      problem and you're writing spatial SQL against real data in about ten seconds.</p>
+
+      <p>Everything here is free and stays free. The problems, the solutions, the datasets,
+      and the source code are all open — if this saves someone the week I'd have spent on
+      setup, it did its job. If it helps you land a GIS or data-engineering role, even better.</p>
+
+      <p class="about-links">
+        <a href="https://robertilyes.xyz" target="_blank" rel="noopener">About me →</a>
+        <a href="https://github.com/RobertIlyes02/LearnSpatialSQL" target="_blank" rel="noopener">Source on GitHub →</a>
+        <a href="mailto:support@geosql.dev">Send feedback →</a>
+      </p>
+
+      <p class="about-note">Found a mistake in a problem, or have one you'd like to see added?
+      I genuinely want to hear it — <a href="mailto:support@geosql.dev">email me</a> or
+      <a href="https://github.com/RobertIlyes02/LearnSpatialSQL/issues/new" target="_blank" rel="noopener">open an issue</a>.</p>
+    </section>
   </div>
   <footer>Built for spatial data engineers · Powered by <a href="https://duckdb.org/docs/api/wasm/overview" target="_blank">DuckDB WASM</a> · © GeoSQL · <a href="/p/">All Problems</a> · <a href="/privacy.html">Privacy</a> · <a href="mailto:support@geosql.dev">Contact</a></footer>
 </div>
