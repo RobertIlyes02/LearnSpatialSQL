@@ -503,7 +503,8 @@ async function openProblem(id) {
     ? `<details class="solution-block"><summary>🔓 Show Solution</summary><pre class="solution-code">${escapeHtml(p.solution)}</pre></details>`
     : '';
   const issueUrl = `https://github.com/RobertIlyes02/LearnSpatialSQL/issues/new?title=${encodeURIComponent(`Problem ${p.id}: ${p.title}`)}`;
-  const issueLink = `<p class="report-issue"><a href="${issueUrl}" target="_blank" rel="noopener">🐛 Report an issue with this problem</a></p>`;
+  const mailUrl = `mailto:support@geosql.dev?subject=${encodeURIComponent(`Problem ${p.id}: ${p.title}`)}`;
+  const issueLink = `<p class="report-issue">🐛 Found a bug? <a href="${issueUrl}" target="_blank" rel="noopener">Open a GitHub issue</a> or <a href="${mailUrl}">email us</a></p>`;
   document.getElementById('prob-hints').innerHTML =
     (p.hints || '<p class="results-placeholder">Hints coming soon.</p>') +
     buildFunctionRefs(p.tags || []) +
