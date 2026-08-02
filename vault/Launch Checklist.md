@@ -17,7 +17,10 @@ Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 - [ ] **Analytics**: create a Plausible or Vercel Analytics account → then ask Claude to add the snippet
 - [x] **Donate button** ✅ 2026-08-02 — Ko-fi (ko-fi.com/robertilyes) wired into the nav
   - [ ] ⚠️ Still required: connect PayPal/Stripe in Ko-fi Settings → Payments, or donations can't be received
-- [ ] **Social preview image**: after deploy, screenshot the editor and ask Claude to add it as og:image
+- [x] **Social preview image** ✅ 2026-08-02 — `og-image.png` (1200×630) generated & wired up
+  - [ ] Once the domain is live, tell Claude to swap `og:image` to the **absolute**
+        URL (`https://geosql.dev/og-image.png`) — some scrapers reject relative paths
+  - [ ] Also add `og:url` + a canonical link with the real domain
 - [ ] **Test on your actual phone** — automated check passed, but real thumbs are the judge
 - [ ] **Launch posts** (after deploy): r/gis and r/PostGIS first, then Show HN, DuckDB Discord, #gischat
 - [ ] Optional: **blog post** "How I built a spatial SQL playground that runs entirely in the browser"
