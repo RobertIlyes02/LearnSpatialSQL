@@ -17,11 +17,11 @@
 <meta name="twitter:title" content="GeoSQL — Learn Spatial SQL in Your Browser">
 <meta name="twitter:description" content="LeetCode for spatial SQL. Hands-on geospatial problems running entirely in your browser with DuckDB-WASM.">
 <meta name="twitter:image" content="og-image.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect width=%2224%22 height=%2224%22 rx=%226%22 fill=%22%234FC3F7%22/><polygon points=%2212,3.5 20.1,9.4 17,18.9 7,18.9 3.9,9.4%22 fill=%22none%22 stroke=%22%230B1220%22 stroke-width=%222%22 stroke-linejoin=%22round%22/><circle cx=%2212%22 cy=%223.5%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2220.1%22 cy=%229.4%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2217%22 cy=%2218.9%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%227%22 cy=%2218.9%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%223.9%22 cy=%229.4%22 r=%222%22 fill=%22%230B1220%22/><circle cx=%2212%22 cy=%2212.2%22 r=%221.6%22 fill=%22%230B1220%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- ponytail: bump ?v= on every deploy so browsers pick up new assets -->
-<link rel="stylesheet" href="css/styles.css?v=8">
+<link rel="stylesheet" href="css/styles.css?v=9">
 </head>
 <body>
 
@@ -36,7 +36,18 @@
 <!-- NAV -->
 <nav>
   <div class="logo" id="logo-home">
-    <div class="logo-icon">🌐</div>
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false">
+        <polygon points="12,3.5 20.1,9.4 17,18.9 7,18.9 3.9,9.4"
+                 fill="none" stroke="#0B1220" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="12"   cy="3.5"  r="2"   fill="#0B1220"/>
+        <circle cx="20.1" cy="9.4"  r="2"   fill="#0B1220"/>
+        <circle cx="17"   cy="18.9" r="2"   fill="#0B1220"/>
+        <circle cx="7"    cy="18.9" r="2"   fill="#0B1220"/>
+        <circle cx="3.9"  cy="9.4"  r="2"   fill="#0B1220"/>
+        <circle cx="12"   cy="12.2" r="1.6" fill="#0B1220"/>
+      </svg>
+    </div>
     <span class="logo-text">Geo<em>SQL</em></span>
   </div>
   <div id="nav-center"></div>
