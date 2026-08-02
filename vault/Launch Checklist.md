@@ -7,18 +7,11 @@ wired. Remaining blockers are DNS cutover and the launch posts themselves.
 
 ## 👤 Robert's To-Do (needs your accounts — Claude can't do these)
 
-- [ ] **Verify DNS cutover** — Cloudflare shows `geosql.dev` as **Active**, and in
-      Cloudflare DNS these exist and are **DNS only (grey cloud, not orange)**:
-      `A @ 76.76.21.21` and `CNAME www cname.vercel-dns.com`.
-      Orange-cloud proxy in front of Vercel breaks SSL issuance.
-      Then add `geosql.dev` in Vercel → Project → Settings → Domains so it issues the cert.
-- [ ] **Ko-fi payouts** ⚠️ — connect PayPal/Stripe in Ko-fi → Settings → Payments.
-      Until then the button works but **no money can actually reach you**.
+- [ ] **Add a `www` record** — `www.geosql.dev` currently does **not resolve**
+      (NXDOMAIN). Cloudflare → DNS → add `CNAME www → geosql.dev` (proxied).
+      People type `www.` out of habit and currently hit a dead end.
 - [ ] **Analytics** — create a Plausible or Vercel Analytics account → then ask Claude
       to add the snippet.
-- [ ] **Test on your actual phone.** The preview pane scales its viewport (reports
-      ~776px when asked for 390px), so my "mobile passed" checks were really tablet
-      checks. Real thumbs required.
 - [ ] **Supabase decisions** (free tier):
   - [ ] Set a **minimum password length (8+)** + required character classes —
         Authentication → **Providers → Email** (this part *is* available on free).
@@ -34,7 +27,12 @@ wired. Remaining blockers are DNS cutover and the launch posts themselves.
 - [x] **Domain** ✅ 2026-08-02 — `geosql.dev` (Namecheap → Cloudflare nameservers)
 - [x] **Support email** ✅ 2026-08-02 — `support@geosql.dev` via Cloudflare Email
       Routing; wired into the footer + every problem's bug-report line
-- [x] **Donate button** ✅ 2026-08-02 — Ko-fi in nav (payout connection still pending)
+- [x] **Donate button** ✅ 2026-08-02 — Ko-fi in nav, **PayPal connected** — donations
+      can actually be received
+- [x] **DNS cutover** ✅ 2026-08-02 — `geosql.dev` live on Cloudflare NS, HTTPS 200,
+      serving latest build, proxied through Cloudflare → Vercel
+- [x] **Phone test** ✅ 2026-08-02 — confirmed good on a real device
+- [x] **Absolute `og:image` / `og:url` / canonical** ✅ 2026-08-02
 - [x] **Leaderboard** ✅ 2026-08-02 — schema in `supabase/schema.sql`. Found and fixed
       a real bug: `submissions.runtime_ms` never existed, so every insert was failing
       silently. Rebuilt the view around a `profiles` table so it never joins
@@ -53,13 +51,17 @@ wired. Remaining blockers are DNS cutover and the launch posts themselves.
 - [x] **Fake pagination** removed
 - [x] **Cache headers** — `vercel.json`; stale ES modules were breaking the whole app
 
-## After the domain is live
+## Polish before/around launch
 
-- [ ] Swap `og:image` to the **absolute** URL (`https://geosql.dev/og-image.png`) —
-      some scrapers reject relative paths
-- [ ] Add `og:url` + a `<link rel="canonical">`
 - [ ] Landing page pitch: "LeetCode for spatial SQL — runs in your browser"
 - [ ] SEO: crawlable problem URLs, sitemap (hash routing is invisible to Google)
+- [ ] Re-check the social card renders once deployed — paste `https://geosql.dev`
+      into the [OG debugger](https://www.opengraph.xyz/) or a Slack/Discord message
+
+**Note:** Cloudflare's Email Obfuscation rewrites the footer `mailto:` into a
+`/cdn-cgi/l/email-protection` link and decodes it with JS. That's anti-spam, not a
+bug — the link works for real visitors. Disable it under Scrape Shield if you ever
+want the raw address in the HTML.
 
 ## Explicitly later
 
