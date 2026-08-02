@@ -25,6 +25,10 @@ const CONFIG = {
   PROBLEMS_DIR: './problems',          // where index.json + {id}.json live
   QUERY_TIMEOUT_MS: 10_000,            // abort a query that hangs longer than this
   MAX_RENDERED_ROWS: 500,              // never render more than this many rows in the table
+  // OAuth providers actually ENABLED in Supabase → Authentication → Providers.
+  // Buttons for anything not listed here are hidden, so users never click a
+  // login option that can't work. Add 'github' / 'google' once each is enabled.
+  OAUTH_PROVIDERS: [],
 };
 
 // ─── FUNCTION DOCUMENTATION LINKS ───────────────────────────────────────────
@@ -771,7 +775,7 @@ async function handleAuthSubmit(e) {
     closeAuthModal();
   } catch (err) {
     errEl.style.color = '';
-    errEl.textContent = err.message;
+    errEl.textContent = friendlyAuthError(err);
   } finally {
     submitEl.disabled = false;
     submitEl.textContent = mode === 'signin' ? 'Sign in' : 'Create account';
@@ -785,8 +789,20 @@ async function handleOAuth(provider) {
     await signInWithOAuth(provider);
     // Page will redirect to OAuth provider — nothing else needed here
   } catch (err) {
-    errEl.textContent = err.message;
+    errEl.textContent = friendlyAuthError(err);
   }
+}
+
+// Supabase surfaces an unreachable backend as a bare "NetworkError"/"Failed to
+// fetch", which means nothing to a user. On the free tier the usual cause is the
+// project being paused after inactivity — it takes a minute or two to wake up.
+function friendlyAuthError(err) {
+  const msg = err?.message || String(err);
+  if (/NetworkError|Failed to fetch|ERR_NAME_NOT_RESOLVED|NetworkError when/i.test(msg)) {
+    return 'Can’t reach the accounts server right now — it may be waking up. ' +
+           'Try again in a minute. Your solved problems are still saved in this browser either way.';
+  }
+  return msg;
 }
 
 
@@ -995,8 +1011,22 @@ function initGraph() {
     if (e.target === e.currentTarget) closeAuthModal();
   });
   document.getElementById('auth-close-btn').addEventListener('click', closeAuthModal);
-  document.getElementById('auth-github-btn').addEventListener('click', () => handleOAuth('github'));
-  document.getElementById('auth-google-btn').addEventListener('click', () => handleOAuth('google'));
+
+  // Only show OAuth buttons for providers actually enabled in Supabase — a button
+  // for an unconfigured provider just dead-ends on a Supabase error page.
+  const oauthBtns = { github: 'auth-github-btn', google: 'auth-google-btn' };
+  for (const [provider, id] of Object.entries(oauthBtns)) {
+    const btn = document.getElementById(id);
+    if (CONFIG.OAUTH_PROVIDERS.includes(provider)) {
+      btn.addEventListener('click', () => handleOAuth(provider));
+    } else {
+      btn.remove();
+    }
+  }
+  if (!CONFIG.OAUTH_PROVIDERS.length) {
+    document.querySelector('.auth-oauth')?.remove();
+    document.querySelector('.auth-divider')?.remove();
+  }
 
   if (location.protocol === 'file:') {
     document.getElementById('problem-body').innerHTML =

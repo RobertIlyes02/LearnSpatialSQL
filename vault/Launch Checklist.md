@@ -4,10 +4,10 @@ Roadmap to publish [[GeoSQL Knowledge Base|GeoSQL]] and start marketing it.
 
 ## 👤 Robert's To-Do (needs your accounts — Claude can't do these)
 
-- [ ] **Deploy**: connect the GitHub repo on vercel.com (or Netlify) — repo is static, zero config
+- [x] **Deploy**: connect the GitHub repo on vercel.com (or Netlify) — repo is static, zero config
 - [ ] **Domain**: buy one (~$12/yr) and point it at the deploy
 - [ ] **Leaderboard**: paste the two SQL statements from the comment block in `js/supabase.js` (~line 196) into the Supabase SQL editor (CREATE VIEW leaderboard + GRANT)
-- [ ] **Merge PR #2** on GitHub once you're happy with it
+- [x] **Merge PR #2** on GitHub once you're happy with it
 - [ ] **Analytics**: create a Plausible or Vercel Analytics account → then ask Claude to add the snippet
 - [x] **Donate button** ✅ 2026-08-02 — Ko-fi (ko-fi.com/robertilyes) wired into the nav
   - [ ] ⚠️ Still required: connect PayPal/Stripe in Ko-fi Settings → Payments, or donations can't be received

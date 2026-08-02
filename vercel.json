@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [
+    {
+      "comment": "Revalidate app code and problem data on every load. These are small, and serving a stale copy alongside a fresh one breaks the app (an ES module importing a name its cached dependency doesn't export yet fails outright). Vercel still answers unchanged files with a cheap 304.",
+      "source": "/(.*)\\.(js|css|json)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    },
+    {
+      "comment": "Parquet datasets are content-stable — safe to cache hard.",
+      "source": "/data/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    }
+  ]
+}

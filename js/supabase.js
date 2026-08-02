@@ -48,6 +48,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 // ─── PASTE YOUR VALUES HERE ──────────────────────────────────────────────────
 const SUPABASE_URL      = 'https://nosguilaomfrnuuhdwcd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_TmtiPwRxWSysirtzovWGcA_dvNX8Zho';
+// NOTE: which OAuth buttons to show lives in CONFIG.OAUTH_PROVIDERS in app.js.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CONFIGURED = (
