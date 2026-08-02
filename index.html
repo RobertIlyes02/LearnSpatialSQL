@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <!-- ponytail: bump ?v= on every deploy so browsers pick up new assets -->
-<link rel="stylesheet" href="css/styles.css?v=9">
+<link rel="stylesheet" href="css/styles.css?v=10">
 </head>
 <body>
 
@@ -429,6 +429,10 @@
       <div class="lb-auth-note" id="lb-auth-note" style="display:none">
         <span>Sign in to appear on the leaderboard</span>
       </div>
+      <div class="lb-identity" id="lb-identity" style="display:none">
+        <span>You appear as <strong id="lb-display-name">…</strong></span>
+        <button type="button" class="lb-rename-btn" id="lb-rename-btn">Change</button>
+      </div>
     </div>
 
     <div id="lb-content">
@@ -493,6 +497,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=8"></script>
+<script type="module" src="js/app.js?v=9"></script>
 </body>
 </html>

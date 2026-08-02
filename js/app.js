@@ -811,9 +811,11 @@ function friendlyAuthError(err) {
 async function initLeaderboard() {
   const select = document.getElementById('lb-problem-select');
   const authNote = document.getElementById('lb-auth-note');
+  const signedIn = SUPABASE_CONFIGURED && currentUser;
 
   // Show sign-in nudge if not logged in
-  if (authNote) authNote.style.display = (!SUPABASE_CONFIGURED || !currentUser) ? 'flex' : 'none';
+  if (authNote) authNote.style.display = signedIn ? 'none' : 'flex';
+  renderLeaderboardIdentity(signedIn);
 
   // Populate problem dropdown from index (only problems with execution)
   if (select && select.options.length <= 1 && problemIndex.length > 0) {
@@ -829,6 +831,41 @@ async function initLeaderboard() {
       if (select.value) loadLeaderboard(Number(select.value));
     });
   }
+}
+
+// Shows the pseudonymous handle the user is publicly listed under, and lets them
+// change it. Names are generated (never email-derived) because the leaderboard is
+// world-readable.
+async function renderLeaderboardIdentity(signedIn) {
+  const box = document.getElementById('lb-identity');
+  if (!box) return;
+  if (!signedIn) { box.style.display = 'none'; return; }
+
+  const { getMyDisplayName, updateDisplayName } = await import('./supabase.js');
+  const nameEl = document.getElementById('lb-display-name');
+  const btn = document.getElementById('lb-rename-btn');
+
+  const current = await getMyDisplayName();
+  if (!current) { box.style.display = 'none'; return; }
+  nameEl.textContent = current;
+  box.style.display = 'flex';
+
+  if (btn.dataset.wired) return;
+  btn.dataset.wired = '1';
+  btn.addEventListener('click', async () => {
+    const proposed = prompt(
+      'Public leaderboard name (2–24 characters).\n\nThis is visible to everyone — don’t use your email.',
+      nameEl.textContent
+    );
+    if (proposed === null) return;
+    btn.disabled = true;
+    const err = await updateDisplayName(proposed);
+    btn.disabled = false;
+    if (err) { alert(err); return; }
+    nameEl.textContent = proposed.trim();
+    const sel = document.getElementById('lb-problem-select');
+    if (sel?.value) loadLeaderboard(Number(sel.value));
+  });
 }
 
 async function loadLeaderboard(problemId) {

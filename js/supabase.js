@@ -202,6 +202,47 @@ export async function recordSubmission({ problemId, code, passed, runtimeMs }) {
  * Supabase's auth_users_exposed linter and risks publishing user emails. The
  * view reads public.profiles instead, which only ever holds a display name.
  */
+/**
+ * The current user's public leaderboard name.
+ * Defaults to a generated handle (e.g. "SwiftPolygon420") — never the email,
+ * since the leaderboard is world-readable.
+ */
+export async function getMyDisplayName() {
+  if (!supabase) return null;
+  const session = await getSession();
+  if (!session) return null;
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('display_name')
+    .eq('user_id', session.user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.warn('[GeoSQL] Could not load profile:', error.message);
+    return null;
+  }
+  return data?.display_name ?? null;
+}
+
+/** Set the current user's public leaderboard name. Returns an error string, or null on success. */
+export async function updateDisplayName(name) {
+  if (!supabase) return 'Not configured.';
+  const session = await getSession();
+  if (!session) return 'You need to be signed in.';
+
+  const clean = (name || '').trim();
+  if (clean.length < 2 || clean.length > 24) return 'Name must be 2–24 characters.';
+  if (clean.includes('@')) return 'Name can’t contain “@”.';
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ display_name: clean })
+    .eq('user_id', session.user.id);
+
+  return error ? error.message : null;
+}
+
 export async function fetchLeaderboard(problemId) {
   if (!supabase) return [];
 

@@ -730,6 +730,21 @@ footer a { color: var(--cyan); text-decoration: none; }
   padding: 7px 12px; border-radius: 8px;
 }
 
+.lb-identity {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.78rem; color: var(--muted2);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 7px 12px; border-radius: 8px;
+}
+.lb-identity strong { color: var(--cyan); font-weight: 600; }
+.lb-rename-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted2); font-family: inherit; font-size: 0.72rem;
+  padding: 3px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s;
+}
+.lb-rename-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.lb-rename-btn:disabled { opacity: 0.5; cursor: default; }
+
 .lb-empty {
   text-align: center; padding: 4rem 2rem;
   color: var(--muted2); font-size: 0.9rem; line-height: 1.7;

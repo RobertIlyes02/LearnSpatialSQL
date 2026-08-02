@@ -55,7 +55,26 @@ CREATE POLICY "Users update own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
 
--- Only ever copies the LOCAL PART of the email, never the full address.
+ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS display_name_sane;
+ALTER TABLE public.profiles ADD CONSTRAINT display_name_sane
+  CHECK (char_length(display_name) BETWEEN 2 AND 24 AND display_name !~ '@');
+
+-- Pseudonymous handles like "SwiftPolygon420".
+CREATE OR REPLACE FUNCTION public.generate_handle()
+RETURNS text LANGUAGE sql VOLATILE AS $$
+  SELECT (ARRAY['Swift','Quiet','Clever','Brave','Lucky','Sharp','Calm','Bold',
+                'Nimble','Wandering','Curious','Steady','Bright','Silent'])
+           [floor(random()*14)+1]
+      || (ARRAY['Polygon','Hexagon','Vertex','Centroid','Raster','Geodesic',
+                'Meridian','Contour','Isoline','Quadtree','Buffer','Transect'])
+           [floor(random()*12)+1]
+      || floor(random()*900 + 100)::text
+$$;
+
+-- The leaderboard is world-readable, so the default name must never be derived
+-- from the email (alice@gmail.com -> "alice" is not what anyone expects to be
+-- published) nor from full_name (real names). A public OAuth handle is fine;
+-- otherwise generate one. Users can change it from the leaderboard screen.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = '' AS $$
 BEGIN
@@ -63,15 +82,17 @@ BEGIN
   VALUES (
     NEW.id,
     COALESCE(
-      NEW.raw_user_meta_data->>'full_name',
-      NEW.raw_user_meta_data->>'user_name',
-      split_part(NEW.email, '@', 1)
+      NULLIF(TRIM(NEW.raw_user_meta_data->>'display_name'), ''),
+      NULLIF(TRIM(NEW.raw_user_meta_data->>'user_name'), ''),
+      public.generate_handle()
     ),
     NEW.raw_user_meta_data->>'avatar_url'
   )
   ON CONFLICT (user_id) DO NOTHING;
   RETURN NEW;
 END; $$;
+
+REVOKE EXECUTE ON FUNCTION public.generate_handle() FROM PUBLIC, anon;
 
 -- Trigger-only: must not be reachable at /rest/v1/rpc/handle_new_user
 REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
@@ -83,9 +104,8 @@ CREATE TRIGGER on_auth_user_created
 
 INSERT INTO public.profiles (user_id, display_name, avatar_url)
 SELECT id,
-       COALESCE(raw_user_meta_data->>'full_name',
-                raw_user_meta_data->>'user_name',
-                split_part(email, '@', 1)),
+       COALESCE(NULLIF(TRIM(raw_user_meta_data->>'user_name'), ''),
+                public.generate_handle()),
        raw_user_meta_data->>'avatar_url'
 FROM auth.users
 ON CONFLICT (user_id) DO NOTHING;
