@@ -164,9 +164,9 @@
     "topic": "Snapping",
     "icon": "🧲",
     "tags": [
-      "ST_ClosestPoint",
-      "ST_X",
-      "ST_Y"
+      "ST_ShortestLine",
+      "ST_StartPoint",
+      "ST_X"
     ],
     "premium": false,
     "hasExecution": true

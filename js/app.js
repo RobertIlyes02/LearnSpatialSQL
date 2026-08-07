@@ -9,7 +9,7 @@ import { sql } from 'https://esm.sh/@codemirror/lang-sql@6.8.0';
 import { oneDark } from 'https://esm.sh/@codemirror/theme-one-dark@6.1.2';
 import { keymap } from 'https://esm.sh/@codemirror/view@6.35.3';
 import { defaultKeymap } from 'https://esm.sh/@codemirror/commands@6.7.1';
-import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/+esm';
+import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.32.0/+esm';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 import {
   CONFIGURED as SUPABASE_CONFIGURED,
@@ -71,6 +71,8 @@ const FUNCTION_DOCS = {
   ST_Buffer:        { url: `${SPATIAL}#st_buffer`,        label: 'ST_Buffer — DuckDB Spatial' },
   ST_Simplify:      { url: `${SPATIAL}#st_simplify`,      label: 'ST_Simplify — DuckDB Spatial' },
   ST_ClosestPoint:  { url: `${SPATIAL}#st_closestpoint`,  label: 'ST_ClosestPoint — DuckDB Spatial' },
+  ST_ShortestLine:  { url: `${SPATIAL}#st_shortestline`,  label: 'ST_ShortestLine — DuckDB Spatial' },
+  ST_StartPoint:    { url: `${SPATIAL}#st_startpoint`,    label: 'ST_StartPoint — DuckDB Spatial' },
   // Data quality
   ST_IsValid:       { url: `${SPATIAL}#st_isvalid`,       label: 'ST_IsValid — DuckDB Spatial' },
   ST_IsValidReason: { url: `${SPATIAL}#st_isvalidreason`, label: 'ST_IsValidReason — DuckDB Spatial' },

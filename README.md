@@ -86,6 +86,12 @@ only versions those two files, not the modules they import.
    reference solution and diffs against `expected` with the same comparison the
    app uses.
 
+> **The Python test suite is not sufficient on its own.** `tests/test_solutions.py`
+> runs against your locally installed DuckDB (currently v1.5.4), but the site runs
+> DuckDB-WASM (currently v1.4.3). Functions can exist in one and not the other —
+> `ST_ClosestPoint` passed the Python tests for weeks while being broken in the
+> browser. **Always browser-test a new problem too.**
+
 **Gotchas learned the hard way** (all encoded in existing problems):
 - The in-browser DuckDB can lag the Python release — e.g. it can't reference a
   SELECT alias in `QUALIFY` (see problem 19). Always browser-test new functions.
