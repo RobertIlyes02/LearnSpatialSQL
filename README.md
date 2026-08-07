@@ -40,7 +40,6 @@ geosql/
 │   └── {1..29}.json   # Full problem details — fetched lazily on open
 ├── tests/
 │   └── test_solutions.py  # Validates every problem's solution vs expected output
-└── vault/             # Obsidian knowledge base (topics/problems/functions notes)
 ```
 
 The list screen fetches only the small `index.json`; a problem's full description,
@@ -123,7 +122,7 @@ Split, because code and teaching material want different things:
 | What | License | Means |
 |---|---|---|
 | **Code** — `js/`, `css/`, `tools/`, `index.html`, config | [MIT](LICENSE) | Do what you like, keep the copyright notice |
-| **Content** — `problems/`, `data/`, `p/`, `vault/` | [CC BY-SA 4.0](LICENSE-CONTENT) | Credit required, and derivatives must stay open |
+| **Content** — `problems/`, `data/`, `p/` | [CC BY-SA 4.0](LICENSE-CONTENT) | Credit required, and derivatives must stay open |
 
 The ShareAlike term is the point: reuse the problems freely — including
 commercially — but a derivative set has to be published under the same license,

@@ -1,6 +1,6 @@
-# Obsidian UI state — pane layout, cursor position, recent files.
-# Rewritten constantly while the vault is open; nothing worth versioning.
-vault/.obsidian/workspace.json
+# Obsidian vault — personal working notes: launch checklist, unposted post
+# drafts, strategy. Kept locally, not published. The repo is public.
+vault/
 
 # Python
 __pycache__/

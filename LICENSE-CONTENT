@@ -10,7 +10,6 @@ The learning content of GeoSQL, specifically:
                 expected outputs and reference solutions
   data/         the generated Parquet datasets
   p/            the static problem pages built from problems/
-  vault/        the Obsidian knowledge-base notes
 
 The application source code is licensed separately under the MIT License —
 see the LICENSE file. That covers js/, css/, tools/, index.html, and the
