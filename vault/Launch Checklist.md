@@ -17,7 +17,9 @@ wired. Remaining blockers are DNS cutover and the launch posts themselves.
         Authentication → **Providers → Email** (this part *is* available on free).
   - [ ] Decide on **Pro ($25/mo)**. Bundles: no weekly pauses that silently break
         login, leaked-password protection (Pro-only), better limits.
-- [ ] **Launch posts** — r/gis + r/PostGIS first, then Show HN, DuckDB Discord, #gischat.
+- [ ] **Launch posts** — drafts ready in [[Launch Posts]]. Order (stakes ascending):
+      awesome-list PRs → DuckDB Discord → r/PostGIS → r/gis → Show HN.
+      Rewrite in your own voice first; spread them over several days.
 - [ ] Optional: **blog post** — "How I built a spatial SQL playground that runs
       entirely in the browser."
 

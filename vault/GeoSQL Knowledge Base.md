@@ -4,6 +4,7 @@ A LeetCode-style platform for learning geospatial SQL with DuckDB-WASM.
 **29 problems** · live at [geosql.dev](https://geosql.dev) · contact `support@geosql.dev`
 
 📋 **[[Launch Checklist]]** — roadmap to publish & market
+📣 **[[Launch Posts]]** — drafts for Discord, Reddit, Show HN, awesome-lists
 
 ## Topics
 
