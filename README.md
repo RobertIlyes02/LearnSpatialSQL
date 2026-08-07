@@ -115,3 +115,17 @@ python tests/test_solutions.py
 ```
 
 Requires Python with `duckdb` installed. All 29 problems must pass before shipping.
+
+## License
+
+Split, because code and teaching material want different things:
+
+| What | License | Means |
+|---|---|---|
+| **Code** — `js/`, `css/`, `tools/`, `index.html`, config | [MIT](LICENSE) | Do what you like, keep the copyright notice |
+| **Content** — `problems/`, `data/`, `p/`, `vault/` | [CC BY-SA 4.0](LICENSE-CONTENT) | Credit required, and derivatives must stay open |
+
+The ShareAlike term is the point: reuse the problems freely — including
+commercially — but a derivative set has to be published under the same license,
+so it can't be taken closed. Attribution means crediting Robert Ilyes and linking
+to https://geosql.dev.

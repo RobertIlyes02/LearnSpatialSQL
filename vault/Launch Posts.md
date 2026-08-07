@@ -36,7 +36,8 @@ Adds GeoSQL, a free set of 29 spatial SQL exercises that run client-side using
 DuckDB-WASM with the spatial extension — point-in-polygon, spatial joins, buffers,
 ST_Transform, H3 hexbinning, and queries over real Parquet datasets.
 
-No install, no signup, no server. Source is MIT: https://github.com/RobertIlyes02/LearnSpatialSQL
+No install, no signup, no server. Source is open (MIT for the code, CC BY-SA for the problems):
+https://github.com/RobertIlyes02/LearnSpatialSQL
 
 Happy to adjust the wording or move it to a different section.
 ```
@@ -126,7 +127,8 @@ Several use real Parquet datasets queried directly with read_parquet, which felt
 closer to actual work than toy tables.
 
 It's DuckDB rather than PostGIS, but the ST_ functions are OGC-standard so it
-transfers. Everything is free and stays free, and the source is MIT-licensed.
+transfers. Everything is free and stays free. The source is open — MIT for the code, CC BY-SA
+for the problem content, so any derivative set has to stay open too.
 
 Would really value feedback on whether the difficulty ramps sensibly, and what
 you'd add as problem 30.
@@ -175,7 +177,7 @@ Two things I didn't expect while building it:
   a SELECT alias inside QUALIFY, so a window-function problem needed the expression
   repeated. Worth knowing if you target WASM.
 
-Free, no signup, MIT licensed: https://geosql.dev
+Free, no signup: https://geosql.dev
 Source: https://github.com/RobertIlyes02/LearnSpatialSQL
 
 Feedback on problem difficulty and what's missing would be welcome.
