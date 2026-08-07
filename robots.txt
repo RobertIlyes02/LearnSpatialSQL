@@ -1,4 +1,11 @@
-User-agent: *
-Allow: /
+# Cloudflare injects a "Managed robots.txt" block above this one, which already
+# contains a `User-agent: *` group. Declaring a second one here produced two
+# groups matching the same crawler — legal but ambiguous, and parsers disagree on
+# how to merge them. So this file only carries the Sitemap directive, which is
+# group-independent. Absence of any Disallow means everything stays crawlable.
+#
+# To take full control instead, turn off Managed robots.txt in
+# Cloudflare → your domain → Settings (this also lifts the AI-crawler blocks),
+# then re-add an explicit `User-agent: * / Allow: /` group here.
 
 Sitemap: https://geosql.dev/sitemap.xml
